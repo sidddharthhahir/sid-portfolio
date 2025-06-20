@@ -371,7 +371,8 @@ const Index = () => {
                   </div>
                   <div className="flex items-center">
                     <Github className="text-purple-400 mr-3" size={20} />
-                    <span className="text-gray-300">github.com/siddharth-ahir</span>
+                    <span className="text-gray-300">github.com/sidddharthhahir
+ </span>
                   </div>
                 </div>
               </div>
