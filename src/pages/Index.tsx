@@ -367,7 +367,7 @@ const Index = () => {
                   </div>
                   <div className="flex items-center">
                     <Linkedin className="text-purple-400 mr-3" size={20} />
-                    <span className="text-gray-300">linkedin.com/in/siddharth-ahir</span>
+                    <span className="text-gray-300">linkedin.com/in/siddharth-ahir-798754262</span>
                   </div>
                   <div className="flex items-center">
                     <Github className="text-purple-400 mr-3" size={20} />
