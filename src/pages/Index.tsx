@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown } from 'lucide-react';
+import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star } from 'lucide-react';
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -106,46 +106,121 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Enhanced Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-gray-900"></div>
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-gray-900"></div>
+          
+          {/* Floating Elements */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-purple-400/5 rounded-full blur-2xl animate-bounce delay-500"></div>
+          
+          {/* Grid Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="h-full w-full bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+          </div>
+        </div>
+
         <div className="container mx-auto px-6 text-center relative z-10">
-          <div className="mb-8">
-            <div className="w-48 h-48 mx-auto mb-8 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 p-1">
-              <div className="w-full h-full rounded-full bg-gray-800 flex items-center justify-center">
-                <User size={80} className="text-gray-400" />
+          {/* Profile Section with Enhanced Animations */}
+          <div className="mb-8 animate-fade-in">
+            <div className="relative w-56 h-56 mx-auto mb-8 group">
+              {/* Animated Border Ring */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 animate-spin" style={{animationDuration: '3s'}}></div>
+              <div className="absolute inset-1 rounded-full bg-gray-900"></div>
+              
+              {/* Profile Picture Container */}
+              <div className="relative w-full h-full rounded-full bg-gradient-to-r from-purple-400 to-blue-400 p-2 group-hover:scale-105 transition-transform duration-300">
+                <div className="w-full h-full rounded-full bg-gray-800 flex items-center justify-center overflow-hidden">
+                  <User size={100} className="text-gray-400 group-hover:text-white transition-colors duration-300" />
+                </div>
+              </div>
+              
+              {/* Floating Icons */}
+              <div className="absolute -top-4 -right-4 bg-purple-500/20 backdrop-blur-sm rounded-full p-3 animate-bounce delay-300">
+                <Code size={20} className="text-purple-400" />
+              </div>
+              <div className="absolute -bottom-4 -left-4 bg-blue-500/20 backdrop-blur-sm rounded-full p-3 animate-bounce delay-700">
+                <Database size={20} className="text-blue-400" />
               </div>
             </div>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Hello, I'm{' '}
-            <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Siddharth Ahir
-            </span>
-          </h1>
-          <h2 className="text-2xl md:text-3xl text-gray-300 mb-6">
-            Python Developer | Django & SQL Specialist
-          </h2>
-          <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-            Dedicated Python developer specializing in Django and SQL, passionate about building efficient, scalable solutions with clean, reliable code.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button 
-              onClick={() => scrollToSection('portfolio')}
-              className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-3 text-lg"
-            >
-              View My Work
-            </Button>
-            <Button 
-              onClick={() => scrollToSection('contact')}
-              variant="outline" 
-              className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-3 text-lg"
-            >
-              Contact Me
-            </Button>
+
+          {/* Enhanced Text Content */}
+          <div className="space-y-6">
+            {/* Greeting with Sparkle Effect */}
+            <div className="flex items-center justify-center gap-2 animate-fade-in delay-200">
+              <Sparkles size={24} className="text-yellow-400 animate-pulse" />
+              <span className="text-xl text-gray-300">Hello, I'm</span>
+              <Sparkles size={24} className="text-yellow-400 animate-pulse delay-500" />
+            </div>
+
+            {/* Name with Enhanced Typography */}
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in delay-300">
+              <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[gradient_3s_ease-in-out_infinite]">
+                Siddharth Ahir
+              </span>
+            </h1>
+
+            {/* Professional Title with Typing Effect */}
+            <h2 className="text-2xl md:text-3xl text-gray-300 mb-6 animate-fade-in delay-500">
+              <span className="inline-block">Python Developer</span>
+              <span className="text-purple-400 mx-2">|</span>
+              <span className="inline-block">Django & SQL Specialist</span>
+            </h2>
+
+            {/* Description with Stagger Animation */}
+            <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in delay-700">
+              Dedicated Python developer specializing in Django and SQL, passionate about building 
+              <span className="text-purple-400 font-semibold"> efficient</span>, 
+              <span className="text-blue-400 font-semibold"> scalable solutions</span> with 
+              <span className="text-purple-400 font-semibold"> clean, reliable code</span>.
+            </p>
+
+            {/* Enhanced CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in delay-900">
+              <Button 
+                onClick={() => scrollToSection('portfolio')}
+                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 group"
+              >
+                <span className="flex items-center gap-2">
+                  View My Work
+                  <Star size={18} className="group-hover:rotate-12 transition-transform duration-300" />
+                </span>
+              </Button>
+              <Button 
+                onClick={() => scrollToSection('contact')}
+                variant="outline" 
+                className="border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/5"
+              >
+                Contact Me
+              </Button>
+            </div>
+
+            {/* Stats or Badges */}
+            <div className="flex flex-wrap justify-center gap-4 mt-8 animate-fade-in delay-1000">
+              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 px-4 py-2 text-sm hover:bg-purple-500/30 transition-colors">
+                5+ Years Experience
+              </Badge>
+              <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-4 py-2 text-sm hover:bg-blue-500/30 transition-colors">
+                Django Expert
+              </Badge>
+              <Badge className="bg-green-500/20 text-green-300 border-green-500/30 px-4 py-2 text-sm hover:bg-green-500/30 transition-colors">
+                SQL Specialist
+              </Badge>
+            </div>
           </div>
-          <div className="mt-12 animate-bounce">
-            <ArrowDown size={24} className="mx-auto text-purple-400" />
+
+          {/* Enhanced Scroll Indicator */}
+          <div className="mt-12 animate-fade-in delay-1200">
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
+              <div className="animate-bounce">
+                <ArrowDown size={24} className="text-purple-400" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
