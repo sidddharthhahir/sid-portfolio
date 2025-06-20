@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -106,14 +105,14 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Enhanced Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Enhanced Hero Section with proper spacing */}
+      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-gray-900"></div>
           
           {/* Floating Elements */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-32 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
           <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-purple-400/5 rounded-full blur-2xl animate-bounce delay-500"></div>
           
@@ -123,7 +122,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="container mx-auto px-6 text-center relative z-10">
+        <div className="container mx-auto px-6 text-center relative z-10 py-8">
           {/* Profile Section with Enhanced Animations */}
           <div className="mb-8 animate-fade-in">
             <div className="relative w-56 h-56 mx-auto mb-8 group">
