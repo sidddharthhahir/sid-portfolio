@@ -197,9 +197,7 @@ const Index = () => {
               <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-4 py-2 text-sm hover:bg-blue-500/30 transition-colors">
                 Django Expert
               </Badge>
-              <Badge className="bg-green-500/20 text-green-300 border-green-500/30 px-4 py-2 text-sm hover:bg-green-500/30 transition-colors">
-                SQL Specialist
-              </Badge>
+              
             </div>
           </div>
 
