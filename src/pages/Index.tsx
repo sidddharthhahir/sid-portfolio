@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,84 +5,88 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star } from 'lucide-react';
-
 const Index = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
-
-  const skills = [
-    { name: 'Python', level: 95 },
-    { name: 'Django', level: 90 },
-    { name: 'SQL', level: 85 },
-    { name: 'PostgreSQL', level: 80 },
-    { name: 'JavaScript', level: 75 },
-    { name: 'HTML/CSS', level: 85 },
-    { name: 'Git', level: 80 },
-    { name: 'API Integration', level: 85 }
-  ];
-
-  const services = [
-    {
-      icon: Globe,
-      title: 'Web Development',
-      description: 'Modern, responsive websites using Django and the latest web technologies.'
-    },
-    {
-      icon: Database,
-      title: 'Database Services',
-      description: 'Efficient database design, optimization, and management with PostgreSQL and MySQL.'
-    },
-    {
-      icon: Code,
-      title: 'Python Applications',
-      description: 'Custom web applications using Django framework with clean, scalable code.'
-    }
-  ];
-
-  const projects = [
-    {
-      title: 'Recipe Manager',
-      description: 'Django web application for recipe management with user authentication and image uploads.',
-      technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
-      features: ['User Authentication', 'Image Uploads', 'Advanced Filtering', 'Responsive Design']
-    },
-    {
-      title: 'Personal Task Manager',
-      description: 'Task management application with secure user data and comprehensive tracking features.',
-      technologies: ['Django', 'MySQL', 'JavaScript', 'CSS'],
-      features: ['Task Tracking', 'Due Dates', 'Completion Status', 'User Security']
-    },
-    {
-      title: 'HCI Portfolio Project',
-      description: 'Usability testing for weather website with comprehensive UX analysis and recommendations.',
-      technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
-      features: ['Test Planning', 'Execution', 'UX Recommendations', 'User Research']
-    }
-  ];
-
+  const skills = [{
+    name: 'Python',
+    level: 95
+  }, {
+    name: 'Django',
+    level: 90
+  }, {
+    name: 'SQL',
+    level: 85
+  }, {
+    name: 'PostgreSQL',
+    level: 80
+  }, {
+    name: 'JavaScript',
+    level: 75
+  }, {
+    name: 'HTML/CSS',
+    level: 85
+  }, {
+    name: 'Git',
+    level: 80
+  }, {
+    name: 'API Integration',
+    level: 85
+  }];
+  const services = [{
+    icon: Globe,
+    title: 'Web Development',
+    description: 'Modern, responsive websites using Django and the latest web technologies.'
+  }, {
+    icon: Database,
+    title: 'Database Services',
+    description: 'Efficient database design, optimization, and management with PostgreSQL and MySQL.'
+  }, {
+    icon: Code,
+    title: 'Python Applications',
+    description: 'Custom web applications using Django framework with clean, scalable code.'
+  }];
+  const projects = [{
+    title: 'Recipe Manager',
+    description: 'Django web application for recipe management with user authentication and image uploads.',
+    technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
+    features: ['User Authentication', 'Image Uploads', 'Advanced Filtering', 'Responsive Design']
+  }, {
+    title: 'Personal Task Manager',
+    description: 'Task management application with secure user data and comprehensive tracking features.',
+    technologies: ['Django', 'MySQL', 'JavaScript', 'CSS'],
+    features: ['Task Tracking', 'Due Dates', 'Completion Status', 'User Security']
+  }, {
+    title: 'HCI Portfolio Project',
+    description: 'Usability testing for weather website with comprehensive UX analysis and recommendations.',
+    technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
+    features: ['Test Planning', 'Execution', 'UX Recommendations', 'User Research']
+  }];
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     // Here you would typically handle form submission
-    setFormData({ name: '', email: '', message: '' });
+    setFormData({
+      name: '',
+      email: '',
+      message: ''
+    });
   };
-
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
-
-  return (
-    <div className="min-h-screen bg-gray-900 text-white">
+  return <div className="min-h-screen bg-gray-900 text-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800">
         <div className="container mx-auto px-6 py-4">
@@ -92,15 +95,9 @@ const Index = () => {
               Siddharth Ahir
             </div>
             <div className="hidden md:flex space-x-8">
-              {['Home', 'About', 'Skills', 'Services', 'Portfolio', 'Contact'].map((item) => (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(item.toLowerCase())}
-                  className="hover:text-purple-400 transition-colors duration-300"
-                >
+              {['Home', 'About', 'Skills', 'Services', 'Portfolio', 'Contact'].map(item => <button key={item} onClick={() => scrollToSection(item.toLowerCase())} className="hover:text-purple-400 transition-colors duration-300">
                   {item}
-                </button>
-              ))}
+                </button>)}
             </div>
           </div>
         </div>
@@ -128,17 +125,15 @@ const Index = () => {
           <div className="mb-8 animate-fade-in">
             <div className="relative w-56 h-56 mx-auto mb-8 group">
               {/* Animated Border Ring */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 animate-spin" style={{animationDuration: '3s'}}></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 animate-spin" style={{
+              animationDuration: '3s'
+            }}></div>
               <div className="absolute inset-1 rounded-full bg-gray-900"></div>
               
               {/* Profile Picture Container */}
               <div className="relative w-full h-full rounded-full bg-gradient-to-r from-purple-400 to-blue-400 p-2 group-hover:scale-105 transition-transform duration-300">
                 <div className="w-full h-full rounded-full overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/Prr7LkmV/IMG-8688.jpg" 
-                    alt="Siddharth Ahir Profile"
-                    className="w-full h-full object-cover rounded-full"
-                  />
+                  <img src="https://i.postimg.cc/Prr7LkmV/IMG-8688.jpg" alt="Siddharth Ahir Profile" className="w-full h-full object-cover rounded-full" />
                 </div>
               </div>
               
@@ -185,29 +180,20 @@ const Index = () => {
 
             {/* Enhanced CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in delay-900">
-              <Button 
-                onClick={() => scrollToSection('portfolio')}
-                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 group"
-              >
+              <Button onClick={() => scrollToSection('portfolio')} className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 group">
                 <span className="flex items-center gap-2">
                   View My Work
                   <Star size={18} className="group-hover:rotate-12 transition-transform duration-300" />
                 </span>
               </Button>
-              <Button 
-                onClick={() => scrollToSection('contact')}
-                variant="outline" 
-                className="border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/5"
-              >
+              <Button onClick={() => scrollToSection('contact')} variant="outline" className="border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/5">
                 Contact Me
               </Button>
             </div>
 
             {/* Stats or Badges */}
             <div className="flex flex-wrap justify-center gap-4 mt-8 animate-fade-in delay-1000">
-              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 px-4 py-2 text-sm hover:bg-purple-500/30 transition-colors">
-                5+ Years Experience
-              </Badge>
+              
               <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-4 py-2 text-sm hover:bg-blue-500/30 transition-colors">
                 Django Expert
               </Badge>
@@ -282,20 +268,17 @@ const Index = () => {
           </h2>
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
-              {skills.map((skill, index) => (
-                <div key={index} className="mb-6">
+              {skills.map((skill, index) => <div key={index} className="mb-6">
                   <div className="flex justify-between mb-2">
                     <span className="text-white font-semibold">{skill.name}</span>
                     <span className="text-purple-400">{skill.level}%</span>
                   </div>
                   <div className="w-full bg-gray-700 rounded-full h-3">
-                    <div 
-                      className="bg-gradient-to-r from-purple-500 to-blue-500 h-3 rounded-full transition-all duration-1000 ease-out"
-                      style={{ width: `${skill.level}%` }}
-                    ></div>
+                    <div className="bg-gradient-to-r from-purple-500 to-blue-500 h-3 rounded-full transition-all duration-1000 ease-out" style={{
+                  width: `${skill.level}%`
+                }}></div>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -308,8 +291,7 @@ const Index = () => {
             Services
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {services.map((service, index) => (
-              <Card key={index} className="bg-gray-700 border-gray-600 hover:border-purple-400 transition-all duration-300 hover:scale-105">
+            {services.map((service, index) => <Card key={index} className="bg-gray-700 border-gray-600 hover:border-purple-400 transition-all duration-300 hover:scale-105">
                 <CardHeader className="text-center">
                   <div className="mx-auto mb-4 p-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full w-fit">
                     <service.icon size={32} className="text-white" />
@@ -321,8 +303,7 @@ const Index = () => {
                     {service.description}
                   </CardDescription>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -334,8 +315,7 @@ const Index = () => {
             Portfolio
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {projects.map((project, index) => (
-              <Card key={index} className="bg-gray-700 border-gray-600 hover:border-purple-400 transition-all duration-300 hover:scale-105">
+            {projects.map((project, index) => <Card key={index} className="bg-gray-700 border-gray-600 hover:border-purple-400 transition-all duration-300 hover:scale-105">
                 <CardHeader>
                   <CardTitle className="text-white">{project.title}</CardTitle>
                   <CardDescription className="text-gray-300">
@@ -346,27 +326,22 @@ const Index = () => {
                   <div className="mb-4">
                     <h4 className="text-sm font-semibold text-purple-400 mb-2">Technologies:</h4>
                     <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => (
-                        <Badge key={techIndex} variant="secondary" className="bg-purple-900 text-purple-200">
+                      {project.technologies.map((tech, techIndex) => <Badge key={techIndex} variant="secondary" className="bg-purple-900 text-purple-200">
                           {tech}
-                        </Badge>
-                      ))}
+                        </Badge>)}
                     </div>
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold text-purple-400 mb-2">Key Features:</h4>
                     <ul className="text-sm text-gray-300 space-y-1">
-                      {project.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center">
+                      {project.features.map((feature, featureIndex) => <li key={featureIndex} className="flex items-center">
                           <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
                           {feature}
-                        </li>
-                      ))}
+                        </li>)}
                     </ul>
                   </div>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -388,7 +363,7 @@ const Index = () => {
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <Mail className="text-purple-400 mr-3" size={20} />
-                    <span className="text-gray-300">siddharth.ahir@example.com</span>
+                    <span className="text-gray-300">sidahir25820@gmail.com</span>
                   </div>
                   <div className="flex items-center">
                     <Linkedin className="text-purple-400 mr-3" size={20} />
@@ -406,36 +381,10 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input
-                      type="text"
-                      name="name"
-                      placeholder="Your Name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400"
-                      required
-                    />
-                    <Input
-                      type="email"
-                      name="email"
-                      placeholder="Your Email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400"
-                      required
-                    />
-                    <Textarea
-                      name="message"
-                      placeholder="Your Message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400 min-h-[120px]"
-                      required
-                    />
-                    <Button 
-                      type="submit"
-                      className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
-                    >
+                    <Input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" required />
+                    <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" required />
+                    <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400 min-h-[120px]" required />
+                    <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600">
                       Send Message
                     </Button>
                   </form>
@@ -454,8 +403,6 @@ const Index = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
