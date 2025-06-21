@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-
 const Index = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -16,8 +14,9 @@ const Index = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const skills = [{
     name: 'Python',
     level: 95
@@ -72,40 +71,36 @@ const Index = () => {
     technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
     features: ['Test Planning', 'Execution', 'UX Recommendations', 'User Research']
   }];
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
       // Initialize EmailJS with your public key
       emailjs.init('1XEPgOlzfPoTgaput');
-      
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        'service_5n5oy19', // Your Service ID
-        'template_ixyj8he', // Your Template ID
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_name: 'Siddharth Ahir', // Your name
-        }
-      );
 
+      // Send email using EmailJS
+      const result = await emailjs.send('service_5n5oy19',
+      // Your Service ID
+      'template_ixyj8he',
+      // Your Template ID
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: 'Siddharth Ahir' // Your name
+      });
       console.log('Email sent successfully:', result);
-      
+
       // Show success toast
       toast({
         title: "Message Sent!",
-        description: "Thank you for your message. I'll get back to you soon!",
+        description: "Thank you for your message. I'll get back to you soon!"
       });
 
       // Reset form
@@ -116,24 +111,22 @@ const Index = () => {
       });
     } catch (error) {
       console.error('Failed to send email:', error);
-      
+
       // Show error toast
       toast({
         title: "Error",
         description: "Failed to send message. Please try again later.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({
       behavior: 'smooth'
     });
   };
-
   return <div className="min-h-screen bg-gray-900 text-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800">
@@ -181,11 +174,7 @@ const Index = () => {
               {/* Profile Picture Container */}
               <div className="relative w-full h-full rounded-full bg-gradient-to-r from-purple-400 to-blue-400 p-2 group-hover:scale-105 transition-transform duration-300">
                 <div className="w-full h-full rounded-full overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/zBffmxgY/IMG-2591.jpg" 
-                    alt="Siddharth Ahir Profile" 
-                    className="w-full h-full object-cover rounded-full scale-110 object-center" 
-                  />
+                  <img src="https://i.postimg.cc/zBffmxgY/IMG-2591.jpg" alt="Siddharth Ahir Profile" className="w-full h-full object-cover rounded-full scale-110 object-center" />
                 </div>
               </div>
               
@@ -246,9 +235,7 @@ const Index = () => {
             {/* Stats or Badges */}
             <div className="flex flex-wrap justify-center gap-4 mt-8 animate-fade-in delay-1000">
               
-              <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-4 py-2 text-sm hover:bg-blue-500/30 transition-colors">
-                Django Expert
-              </Badge>
+              
               
             </div>
           </div>
@@ -431,40 +418,10 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input 
-                      type="text" 
-                      name="name" 
-                      placeholder="Your Name" 
-                      value={formData.name} 
-                      onChange={handleInputChange} 
-                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" 
-                      required 
-                      disabled={isSubmitting}
-                    />
-                    <Input 
-                      type="email" 
-                      name="email" 
-                      placeholder="Your Email" 
-                      value={formData.email} 
-                      onChange={handleInputChange} 
-                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" 
-                      required 
-                      disabled={isSubmitting}
-                    />
-                    <Textarea 
-                      name="message" 
-                      placeholder="Your Message" 
-                      value={formData.message} 
-                      onChange={handleInputChange} 
-                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400 min-h-[120px]" 
-                      required 
-                      disabled={isSubmitting}
-                    />
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
-                      disabled={isSubmitting}
-                    >
+                    <Input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" required disabled={isSubmitting} />
+                    <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" required disabled={isSubmitting} />
+                    <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400 min-h-[120px]" required disabled={isSubmitting} />
+                    <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600" disabled={isSubmitting}>
                       {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
