@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star } from 'lucide-react';
+import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
 const Index = () => {
@@ -18,31 +18,50 @@ const Index = () => {
   const {
     toast
   } = useToast();
-  const skills = [{
-    name: 'Python',
-    level: 95
-  }, {
-    name: 'Django',
-    level: 90
-  }, {
-    name: 'SQL',
-    level: 85
-  }, {
-    name: 'PostgreSQL',
-    level: 80
-  }, {
-    name: 'JavaScript',
-    level: 75
-  }, {
-    name: 'HTML/CSS',
-    level: 85
-  }, {
-    name: 'Git',
-    level: 80
-  }, {
-    name: 'API Integration',
-    level: 85
-  }];
+
+  const skills = [
+    {
+      name: 'Python',
+      icon: Code,
+      description: 'Backend Development'
+    },
+    {
+      name: 'Django',
+      icon: Server,
+      description: 'Web Framework'
+    },
+    {
+      name: 'SQL',
+      icon: Database,
+      description: 'Database Queries'
+    },
+    {
+      name: 'PostgreSQL',
+      icon: Database,
+      description: 'Database System'
+    },
+    {
+      name: 'JavaScript',
+      icon: Braces,
+      description: 'Frontend Development'
+    },
+    {
+      name: 'HTML/CSS',
+      icon: FileCode,
+      description: 'Web Markup & Styling'
+    },
+    {
+      name: 'Git',
+      icon: GitBranch,
+      description: 'Version Control'
+    },
+    {
+      name: 'API Integration',
+      icon: Layers,
+      description: 'System Integration'
+    }
+  ];
+
   const services = [{
     icon: Globe,
     title: 'Web Development',
@@ -72,6 +91,7 @@ const Index = () => {
     technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
     features: ['Test Planning', 'Execution', 'UX Recommendations', 'User Research']
   }];
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -128,6 +148,7 @@ const Index = () => {
       behavior: 'smooth'
     });
   };
+
   return <div className="min-h-screen bg-gray-900 text-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800">
@@ -298,25 +319,33 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Skills Section */}
+      {/* Skills Section with Modern Icon Design */}
       <section id="skills" className="py-20">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
             Skills & Expertise
           </h2>
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-              {skills.map((skill, index) => <div key={index} className="mb-6">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-white font-semibold">{skill.name}</span>
-                    <span className="text-purple-400">{skill.level}%</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-3">
-                    <div className="bg-gradient-to-r from-purple-500 to-blue-500 h-3 rounded-full transition-all duration-1000 ease-out" style={{
-                  width: `${skill.level}%`
-                }}></div>
-                  </div>
-                </div>)}
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8">
+              {skills.map((skill, index) => (
+                <div key={index} className="group">
+                  <Card className="bg-gray-800/50 border-gray-700 hover:border-purple-400/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10 backdrop-blur-sm">
+                    <CardContent className="p-6 text-center">
+                      <div className="mb-4 flex justify-center">
+                        <div className="p-4 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl group-hover:from-purple-500/30 group-hover:to-blue-500/30 transition-all duration-300">
+                          <skill.icon size={32} className="text-purple-400 group-hover:text-purple-300 transition-colors duration-300" />
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-purple-300 transition-colors duration-300">
+                        {skill.name}
+                      </h3>
+                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                        {skill.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
             </div>
           </div>
         </div>
