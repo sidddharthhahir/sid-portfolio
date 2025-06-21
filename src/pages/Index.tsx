@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -180,7 +181,11 @@ const Index = () => {
               {/* Profile Picture Container */}
               <div className="relative w-full h-full rounded-full bg-gradient-to-r from-purple-400 to-blue-400 p-2 group-hover:scale-105 transition-transform duration-300">
                 <div className="w-full h-full rounded-full overflow-hidden">
-                  <img src="https://i.postimg.cc/Prr7LkmV/IMG-8688.jpg" alt="Siddharth Ahir Profile" className="w-full h-full object-cover rounded-full" />
+                  <img 
+                    src="https://i.postimg.cc/zBffmxgY/IMG-2591.jpg" 
+                    alt="Siddharth Ahir Profile" 
+                    className="w-full h-full object-cover rounded-full scale-110 object-center" 
+                  />
                 </div>
               </div>
               
