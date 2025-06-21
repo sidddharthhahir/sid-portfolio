@@ -4,13 +4,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+
 const Index = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
   const skills = [{
     name: 'Python',
     level: 95
@@ -65,27 +71,68 @@ const Index = () => {
     technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
     features: ['Test Planning', 'Execution', 'UX Recommendations', 'User Research']
   }];
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Here you would typically handle form submission
-    setFormData({
-      name: '',
-      email: '',
-      message: ''
-    });
+    setIsSubmitting(true);
+
+    try {
+      // Initialize EmailJS with your public key
+      emailjs.init('1XEPgOlzfPoTgaput');
+      
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        'service_5n5oy19', // Your Service ID
+        'template_ixyj8he', // Your Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'Siddharth Ahir', // Your name
+        }
+      );
+
+      console.log('Email sent successfully:', result);
+      
+      // Show success toast
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for your message. I'll get back to you soon!",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      
+      // Show error toast
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({
       behavior: 'smooth'
     });
   };
+
   return <div className="min-h-screen bg-gray-900 text-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800">
@@ -369,8 +416,7 @@ const Index = () => {
                   </div>
                   <div className="flex items-center">
                     <Github className="text-purple-400 mr-3" size={20} />
-                    <span className="text-gray-300">github.com/sidddharthhahir
- </span>
+                    <span className="text-gray-300">github.com/sidddharthhahir</span>
                   </div>
                 </div>
               </div>
@@ -380,11 +426,41 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" required />
-                    <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" required />
-                    <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleInputChange} className="bg-gray-600 border-gray-500 text-white placeholder-gray-400 min-h-[120px]" required />
-                    <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600">
-                      Send Message
+                    <Input 
+                      type="text" 
+                      name="name" 
+                      placeholder="Your Name" 
+                      value={formData.name} 
+                      onChange={handleInputChange} 
+                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" 
+                      required 
+                      disabled={isSubmitting}
+                    />
+                    <Input 
+                      type="email" 
+                      name="email" 
+                      placeholder="Your Email" 
+                      value={formData.email} 
+                      onChange={handleInputChange} 
+                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400" 
+                      required 
+                      disabled={isSubmitting}
+                    />
+                    <Textarea 
+                      name="message" 
+                      placeholder="Your Message" 
+                      value={formData.message} 
+                      onChange={handleInputChange} 
+                      className="bg-gray-600 border-gray-500 text-white placeholder-gray-400 min-h-[120px]" 
+                      required 
+                      disabled={isSubmitting}
+                    />
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
                 </CardContent>
