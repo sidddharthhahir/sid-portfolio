@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+
 const Index = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -400,15 +401,34 @@ const Index = () => {
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <Mail className="text-purple-400 mr-3" size={20} />
-                    <span className="text-gray-300">sidahir25820@gmail.com</span>
+                    <a 
+                      href="mailto:sidahir25820@gmail.com" 
+                      className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
+                    >
+                      sidahir25820@gmail.com
+                    </a>
                   </div>
                   <div className="flex items-center">
                     <Linkedin className="text-purple-400 mr-3" size={20} />
-                    <span className="text-gray-300">linkedin.com/in/siddharth-ahir-798754262</span>
+                    <a 
+                      href="https://linkedin.com/in/siddharth-ahir-798754262" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
+                    >
+                      linkedin.com/in/siddharth-ahir-798754262
+                    </a>
                   </div>
                   <div className="flex items-center">
                     <Github className="text-purple-400 mr-3" size={20} />
-                    <span className="text-gray-300">github.com/sidddharthhahir</span>
+                    <a 
+                      href="https://github.com/sidddharthhahir" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
+                    >
+                      github.com/sidddharthhahir
+                    </a>
                   </div>
                 </div>
               </div>
