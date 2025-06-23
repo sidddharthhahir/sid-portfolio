@@ -131,6 +131,27 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Add custom animations in a style tag */}
+      <style jsx>{`
+        @keyframes float-up-down {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes float-up-down-delayed {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+        }
+        
+        .float-animation {
+          animation: float-up-down 3s ease-in-out infinite;
+        }
+        
+        .float-animation-delayed {
+          animation: float-up-down-delayed 3s ease-in-out infinite 1.5s;
+        }
+      `}</style>
+
       {/* Enhanced Animated Background Elements */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -184,10 +205,10 @@ const Index = () => {
                   />
                 </div>
               </div>
-              <div className="absolute top-4 right-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-300 shadow-xl">
+              <div className="absolute top-4 right-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl float-animation">
                 <Code size={24} className="text-cyan-400" />
               </div>
-              <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-700 shadow-xl">
+              <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl float-animation-delayed">
                 <Database size={24} className="text-purple-400" />
               </div>
             </div>
