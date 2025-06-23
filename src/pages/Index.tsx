@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -132,7 +133,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Add custom animations in a style tag */}
-      <style jsx>{`
+      <style>
+        {`
         @keyframes float-up-down {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
@@ -150,7 +152,8 @@ const Index = () => {
         .float-animation-delayed {
           animation: float-up-down-delayed 3s ease-in-out infinite 1.5s;
         }
-      `}</style>
+        `}
+      </style>
 
       {/* Enhanced Animated Background Elements */}
       <div className="fixed inset-0 -z-10">
