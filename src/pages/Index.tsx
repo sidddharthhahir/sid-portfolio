@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -208,10 +207,10 @@ const Index = () => {
                   />
                 </div>
               </div>
-              <div className="absolute top-4 right-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl float-animation">
+              <div className="absolute top-4 right-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl">
                 <Code size={24} className="text-cyan-400" />
               </div>
-              <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl float-animation-delayed">
+              <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl">
                 <Database size={24} className="text-purple-400" />
               </div>
             </div>
