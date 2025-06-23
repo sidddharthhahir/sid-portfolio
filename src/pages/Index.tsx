@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -130,19 +131,26 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
-      {/* Animated Background Elements */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Enhanced Animated Background Elements */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-200/30 to-purple-200/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-200/30 to-pink-200/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-indigo-100/20 to-blue-100/20 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        
+        {/* Floating particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-purple-400/30 rounded-full animate-ping delay-300"></div>
+          <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping delay-700"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-pink-400/30 rounded-full animate-ping delay-1000"></div>
+        </div>
       </div>
 
-      {/* Glassmorphism Navigation */}
-      <nav className="fixed top-0 w-full backdrop-blur-lg bg-white/10 border-b border-white/20 z-50 transition-all duration-300">
+      {/* Dark Glassmorphism Navigation */}
+      <nav className="fixed top-0 w-full backdrop-blur-2xl bg-black/20 border-b border-white/10 z-50 transition-all duration-500 shadow-lg">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
               Siddharth Ahir
             </div>
             <div className="hidden md:flex space-x-8">
@@ -150,7 +158,7 @@ const Index = () => {
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="text-gray-700 hover:text-indigo-600 transition-all duration-300 hover:scale-105 font-medium"
+                  className="text-gray-300 hover:text-cyan-400 transition-all duration-500 hover:scale-110 font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-cyan-400 after:to-purple-400 after:left-0 after:-bottom-1 after:transition-all after:duration-500 hover:after:w-full"
                 >
                   {item}
                 </button>
@@ -160,125 +168,125 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Enhanced Hero Section */}
+      {/* Enhanced Dark Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
-        <div className={`container mx-auto px-6 text-center transition-all duration-1000 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Profile Section with Glassmorphism */}
+        <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          {/* Enhanced Profile Section */}
           <div className="mb-8">
-            <div className="relative w-56 h-56 mx-auto mb-8 group">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 animate-spin" style={{ animationDuration: '3s' }}></div>
-              <div className="absolute inset-1 rounded-full backdrop-blur-lg bg-white/20 border border-white/30"></div>
-              <div className="relative w-full h-full rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-2 group-hover:scale-105 transition-transform duration-500">
+            <div className="relative w-64 h-64 mx-auto mb-8 group">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
+              <div className="absolute inset-2 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
+              <div className="relative w-full h-full rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700">
                 <div className="w-full h-full rounded-full overflow-hidden">
                   <img 
                     src="https://i.postimg.cc/zBffmxgY/IMG-2591.jpg" 
                     alt="Siddharth Ahir Profile" 
-                    className="w-full h-full object-cover rounded-full scale-110 object-center transition-transform duration-500 group-hover:scale-125" 
+                    className="w-full h-full object-cover rounded-full scale-110 object-center transition-all duration-700 group-hover:scale-125" 
                   />
                 </div>
               </div>
-              <div className="absolute -top-4 -right-4 backdrop-blur-lg bg-white/20 border border-white/30 rounded-full p-3 animate-bounce delay-300">
-                <Code size={20} className="text-indigo-600" />
+              <div className="absolute -top-6 -right-6 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-300 shadow-xl">
+                <Code size={24} className="text-cyan-400" />
               </div>
-              <div className="absolute -bottom-4 -left-4 backdrop-blur-lg bg-white/20 border border-white/30 rounded-full p-3 animate-bounce delay-700">
-                <Database size={20} className="text-purple-600" />
+              <div className="absolute -bottom-6 -left-6 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-700 shadow-xl">
+                <Database size={24} className="text-purple-400" />
               </div>
             </div>
           </div>
 
           {/* Enhanced Text Content */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-center gap-2">
-              <Sparkles size={24} className="text-yellow-500 animate-pulse" />
-              <span className="text-xl text-gray-600 font-medium">Hello, I'm</span>
-              <Sparkles size={24} className="text-yellow-500 animate-pulse delay-500" />
+          <div className="space-y-8">
+            <div className="flex items-center justify-center gap-3">
+              <Sparkles size={28} className="text-yellow-400 animate-pulse" />
+              <span className="text-2xl text-gray-300 font-medium">Hello, I'm</span>
+              <Sparkles size={28} className="text-yellow-400 animate-pulse delay-500" />
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="text-6xl md:text-8xl font-bold mb-8">
+              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Siddharth Ahir
               </span>
             </h1>
 
-            <h2 className="text-2xl md:text-3xl text-gray-700 mb-6 font-medium">
+            <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
               <span className="inline-block">Python Developer</span>
-              <span className="text-indigo-500 mx-2">|</span>
+              <span className="text-cyan-400 mx-3">|</span>
               <span className="inline-block">Django & SQL Specialist</span>
             </h2>
 
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
               Dedicated Python developer specializing in Django and SQL, passionate about building 
-              <span className="text-indigo-600 font-semibold"> efficient</span>, 
-              <span className="text-purple-600 font-semibold"> scalable solutions</span> with 
-              <span className="text-indigo-600 font-semibold"> clean, reliable code</span>.
+              <span className="text-cyan-400 font-semibold"> efficient</span>, 
+              <span className="text-purple-400 font-semibold"> scalable solutions</span> with 
+              <span className="text-cyan-400 font-semibold"> clean, reliable code</span>.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button 
                 onClick={() => scrollToSection('portfolio')} 
-                className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-lg border border-white/20 group"
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl border border-white/20 group"
               >
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-3">
                   View My Work
-                  <Star size={18} className="group-hover:rotate-12 transition-transform duration-300" />
+                  <Star size={20} className="group-hover:rotate-180 transition-transform duration-500" />
                 </span>
               </Button>
               <Button 
                 onClick={() => scrollToSection('contact')} 
-                className="backdrop-blur-lg bg-white/20 border border-white/30 text-indigo-600 hover:bg-white/30 px-8 py-4 text-lg rounded-full hover:scale-105 transition-all duration-300 font-medium"
+                className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl hover:shadow-purple-500/25"
               >
                 Contact Me
               </Button>
             </div>
           </div>
 
-          <div className="mt-12">
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-sm text-gray-500 animate-pulse">Scroll to explore</span>
+          <div className="mt-16">
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
               <div className="animate-bounce">
-                <ArrowDown size={24} className="text-indigo-500" />
+                <ArrowDown size={28} className="text-cyan-400" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* About Section with Glassmorphism */}
-      <section id="about" className="py-20" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1000 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      {/* Dark About Section */}
+      <section id="about" className="py-24" data-animate>
+        <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             About Me
           </h2>
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <p className="text-lg text-gray-600 leading-relaxed">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <p className="text-xl text-gray-300 leading-relaxed">
                   I am a passionate Python developer with a strong foundation in Django and SQL, dedicated to creating efficient and scalable web solutions. My approach to development emphasizes clean code, optimal performance, and user-centered design.
                 </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-xl text-gray-300 leading-relaxed">
                   With experience in full-stack development and database optimization, I enjoy tackling complex problems and transforming ideas into robust applications that make a difference.
                 </p>
               </div>
               <div>
-                <Card className="backdrop-blur-lg bg-white/20 border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105 hover:bg-black/40">
                   <CardHeader>
-                    <CardTitle className="text-indigo-600 text-xl">Education</CardTitle>
+                    <CardTitle className="text-cyan-400 text-2xl">Education</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="p-4 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20">
-                      <h4 className="font-semibold text-gray-800">Master's in Computer Science</h4>
-                      <p className="text-gray-600">International University of Applied Sciences, Berlin</p>
-                      <p className="text-sm text-indigo-600 font-medium">Currently Pursuing</p>
+                  <CardContent className="space-y-6">
+                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
+                      <h4 className="font-semibold text-gray-200 text-lg">Master's in Computer Science</h4>
+                      <p className="text-gray-300">International University of Applied Sciences, Berlin</p>
+                      <p className="text-sm text-cyan-400 font-medium">Currently Pursuing</p>
                     </div>
-                    <div className="p-4 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20">
-                      <h4 className="font-semibold text-gray-800">Bachelor in Computer Application</h4>
-                      <p className="text-gray-600">Gujarat University</p>
-                      <p className="text-sm text-indigo-600 font-medium">2022</p>
+                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
+                      <h4 className="font-semibold text-gray-200 text-lg">Bachelor in Computer Application</h4>
+                      <p className="text-gray-300">Gujarat University</p>
+                      <p className="text-sm text-cyan-400 font-medium">2022</p>
                     </div>
-                    <div className="p-4 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20">
-                      <h4 className="font-semibold text-gray-800">Software Developer Intern</h4>
-                      <p className="text-gray-600">Professional Experience</p>
-                      <p className="text-sm text-indigo-600 font-medium">2022</p>
+                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
+                      <h4 className="font-semibold text-gray-200 text-lg">Software Developer Intern</h4>
+                      <p className="text-gray-300">Professional Experience</p>
+                      <p className="text-sm text-cyan-400 font-medium">2022</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -288,27 +296,27 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Skills Section with Modern Glassmorphism */}
-      <section id="skills" className="py-20" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1000 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      {/* Enhanced Dark Skills Section */}
+      <section id="skills" className="py-24" data-animate>
+        <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Skills & Expertise
           </h2>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-10">
               {skills.map((skill, index) => (
                 <div key={index} className="group">
-                  <Card className="backdrop-blur-lg bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-500 hover:scale-110 hover:shadow-2xl">
-                    <CardContent className="p-6 text-center">
-                      <div className="mb-4 flex justify-center">
-                        <div className="p-4 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-2xl group-hover:from-indigo-500/30 group-hover:to-purple-500/30 transition-all duration-300 backdrop-blur-sm border border-white/20">
-                          <skill.icon size={32} className="text-indigo-600 group-hover:text-purple-600 transition-colors duration-300" />
+                  <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-125 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2">
+                    <CardContent className="p-8 text-center">
+                      <div className="mb-6 flex justify-center">
+                        <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/40 group-hover:to-purple-500/40 transition-all duration-500 backdrop-blur-xl border border-white/20 group-hover:scale-110">
+                          <skill.icon size={40} className="text-cyan-400 group-hover:text-purple-400 transition-all duration-500" />
                         </div>
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors duration-300">
+                      <h3 className="text-xl font-semibold text-gray-200 mb-3 group-hover:text-cyan-400 transition-all duration-500">
                         {skill.name}
                       </h3>
-                      <p className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-500">
                         {skill.description}
                       </p>
                     </CardContent>
@@ -320,23 +328,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1000 delay-700 ${visibleSections.has('services') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      {/* Dark Services Section */}
+      <section id="services" className="py-24" data-animate>
+        <div className={`container mx-auto px-6 transition-all duration-1500 delay-700 ${visibleSections.has('services') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Services
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {services.map((service, index) => (
-              <Card key={index} className="backdrop-blur-lg bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl group">
+              <Card key={index} className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/20 group transform hover:-translate-y-3">
                 <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl w-fit shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <service.icon size={32} className="text-white" />
+                  <div className="mx-auto mb-6 p-6 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-3xl w-fit shadow-2xl group-hover:shadow-cyan-500/30 transition-all duration-500 group-hover:scale-110">
+                    <service.icon size={40} className="text-white" />
                   </div>
-                  <CardTitle className="text-gray-800 group-hover:text-indigo-600 transition-colors duration-300">{service.title}</CardTitle>
+                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-gray-600 text-center leading-relaxed">
+                  <CardDescription className="text-gray-300 text-center leading-relaxed text-lg">
                     {service.description}
                   </CardDescription>
                 </CardContent>
@@ -346,38 +354,38 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-20" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1000 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      {/* Dark Portfolio Section */}
+      <section id="portfolio" className="py-24" data-animate>
+        <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Portfolio
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {projects.map((project, index) => (
-              <Card key={index} className="backdrop-blur-lg bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl group">
+              <Card key={index} className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3">
                 <CardHeader>
-                  <CardTitle className="text-gray-800 group-hover:text-indigo-600 transition-colors duration-300">{project.title}</CardTitle>
-                  <CardDescription className="text-gray-600 leading-relaxed">
+                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl">{project.title}</CardTitle>
+                  <CardDescription className="text-gray-300 leading-relaxed text-base">
                     {project.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-indigo-600 mb-2">Technologies:</h4>
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">Technologies:</h4>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech, techIndex) => (
-                        <Badge key={techIndex} className="backdrop-blur-sm bg-indigo-100/50 text-indigo-700 border border-indigo-200/50 hover:bg-indigo-200/50 transition-colors duration-300">
+                        <Badge key={techIndex} className="backdrop-blur-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/30 transition-all duration-500 hover:scale-105">
                           {tech}
                         </Badge>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-indigo-600 mb-2">Key Features:</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
+                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">Key Features:</h4>
+                    <ul className="text-sm text-gray-300 space-y-2">
                       {project.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-center">
-                          <span className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full mr-2"></span>
+                          <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mr-3"></span>
                           {feature}
                         </li>
                       ))}
@@ -390,67 +398,67 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1000 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      {/* Dark Contact Section */}
+      <section id="contact" className="py-24" data-animate>
+        <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Get In Touch
           </h2>
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-16">
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Let's Work Together</h3>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <h3 className="text-3xl font-bold mb-8 text-gray-200">Let's Work Together</h3>
+                <p className="text-gray-300 mb-10 leading-relaxed text-lg">
                   I'm always interested in new opportunities and exciting projects. 
                   Feel free to reach out if you'd like to discuss potential collaborations.
                 </p>
-                <div className="space-y-4">
-                  <div className="flex items-center p-4 rounded-lg backdrop-blur-lg bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 group">
-                    <Mail className="text-indigo-600 mr-3 group-hover:scale-110 transition-transform duration-300" size={20} />
+                <div className="space-y-6">
+                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    <Mail className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
                     <a 
                       href="mailto:sidahir25820@gmail.com" 
-                      className="text-gray-700 hover:text-indigo-600 transition-colors duration-300 font-medium"
+                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
                     >
                       sidahir25820@gmail.com
                     </a>
                   </div>
-                  <div className="flex items-center p-4 rounded-lg backdrop-blur-lg bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 group">
-                    <Linkedin className="text-indigo-600 mr-3 group-hover:scale-110 transition-transform duration-300" size={20} />
+                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    <Linkedin className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
                     <a 
                       href="https://linkedin.com/in/siddharth-ahir-798754262" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-gray-700 hover:text-indigo-600 transition-colors duration-300 font-medium"
+                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
                     >
                       linkedin.com/in/siddharth-ahir-798754262
                     </a>
                   </div>
-                  <div className="flex items-center p-4 rounded-lg backdrop-blur-lg bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 group">
-                    <Github className="text-indigo-600 mr-3 group-hover:scale-110 transition-transform duration-300" size={20} />
+                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    <Github className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
                     <a 
                       href="https://github.com/sidddharthhahir" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-gray-700 hover:text-indigo-600 transition-colors duration-300 font-medium"
+                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
                     >
                       github.com/sidddharthhahir
                     </a>
                   </div>
                 </div>
               </div>
-              <Card className="backdrop-blur-lg bg-white/20 border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500">
+              <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
                 <CardHeader>
-                  <CardTitle className="text-gray-800">Send Message</CardTitle>
+                  <CardTitle className="text-gray-200 text-2xl">Send Message</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <Input 
                       type="text" 
                       name="name" 
                       placeholder="Your Name" 
                       value={formData.name} 
                       onChange={handleInputChange} 
-                      className="backdrop-blur-sm bg-white/50 border border-white/50 text-gray-800 placeholder-gray-500 focus:bg-white/70 transition-all duration-300" 
+                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
                       required 
                       disabled={isSubmitting} 
                     />
@@ -460,7 +468,7 @@ const Index = () => {
                       placeholder="Your Email" 
                       value={formData.email} 
                       onChange={handleInputChange} 
-                      className="backdrop-blur-sm bg-white/50 border border-white/50 text-gray-800 placeholder-gray-500 focus:bg-white/70 transition-all duration-300" 
+                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
                       required 
                       disabled={isSubmitting} 
                     />
@@ -469,13 +477,13 @@ const Index = () => {
                       placeholder="Your Message" 
                       value={formData.message} 
                       onChange={handleInputChange} 
-                      className="backdrop-blur-sm bg-white/50 border border-white/50 text-gray-800 placeholder-gray-500 min-h-[120px] focus:bg-white/70 transition-all duration-300" 
+                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" 
                       required 
                       disabled={isSubmitting} 
                     />
                     <Button 
                       type="submit" 
-                      className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-medium hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl" 
+                      className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/30 py-4 text-lg" 
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -488,10 +496,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 backdrop-blur-lg bg-white/10 border-t border-white/20">
+      {/* Dark Footer */}
+      <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/20">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-600 font-medium">
+          <p className="text-gray-300 font-medium text-lg">
             © 2024 Siddharth Ahir. All rights reserved.
           </p>
         </div>
