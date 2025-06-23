@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -171,12 +170,12 @@ const Index = () => {
       {/* Enhanced Dark Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
         <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          {/* Enhanced Profile Section */}
+          {/* Enhanced Profile Section with Fixed Animation */}
           <div className="mb-8">
-            <div className="relative w-64 h-64 mx-auto mb-8 group">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
-              <div className="absolute inset-2 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
-              <div className="relative w-full h-full rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700">
+            <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
+              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
+              <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
+              <div className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700">
                 <div className="w-full h-full rounded-full overflow-hidden">
                   <img 
                     src="https://i.postimg.cc/zBffmxgY/IMG-2591.jpg" 
@@ -185,10 +184,10 @@ const Index = () => {
                   />
                 </div>
               </div>
-              <div className="absolute -top-6 -right-6 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-300 shadow-xl">
+              <div className="absolute top-4 right-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-300 shadow-xl">
                 <Code size={24} className="text-cyan-400" />
               </div>
-              <div className="absolute -bottom-6 -left-6 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-700 shadow-xl">
+              <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 animate-bounce delay-700 shadow-xl">
                 <Database size={24} className="text-purple-400" />
               </div>
             </div>
