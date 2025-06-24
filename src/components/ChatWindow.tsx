@@ -2,8 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { X, Send, MessageCircle, Key } from 'lucide-react';
+import { X, Send, Key, Bot, User } from 'lucide-react';
 import { ChatbotService, ChatMessage } from '@/services/chatbotService';
 
 interface ChatWindowProps {
@@ -91,109 +90,155 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-end p-6">
-      <Card className="w-96 h-[500px] backdrop-blur-2xl bg-black/90 border border-cyan-400/30 shadow-2xl shadow-cyan-500/20 flex flex-col">
-        <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-white/20">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full">
-              <MessageCircle size={20} className="text-white" />
-            </div>
-            <CardTitle className="text-gray-200 text-lg">Chat with Sid's AI</CardTitle>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-              className="text-cyan-400 hover:text-cyan-300 hover:bg-white/10"
-            >
-              <Key size={16} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-300 hover:bg-white/10"
-            >
-              <X size={16} />
-            </Button>
-          </div>
-        </CardHeader>
-
-        {showApiKeyInput && (
-          <div className="p-4 border-b border-white/20 bg-black/50">
-            <div className="flex gap-2">
-              <Input
-                type="password"
-                placeholder="Enter OpenAI API Key (optional)"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                className="bg-black/40 border-white/30 text-gray-200 text-sm"
-                onKeyPress={(e) => e.key === 'Enter' && handleApiKeySubmit()}
-              />
-              <Button size="sm" onClick={handleApiKeySubmit} className="bg-cyan-500 hover:bg-cyan-600">
-                Set
-              </Button>
-            </div>
-            <p className="text-xs text-gray-400 mt-2">Optional: Add your OpenAI API key for enhanced AI responses</p>
-          </div>
-        )}
-
-        <CardContent className="flex-1 p-4 overflow-hidden flex flex-col">
-          <div className="flex-1 overflow-y-auto space-y-4 mb-4">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] p-3 rounded-lg ${
-                    message.isUser
-                      ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white'
-                      : 'bg-black/40 border border-white/20 text-gray-200'
-                  }`}
-                >
-                  <p className="text-sm leading-relaxed">{message.text}</p>
-                  <span className="text-xs opacity-70 mt-1 block">
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+    <>
+      {/* Backdrop Overlay */}
+      <div 
+        className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
+        onClick={onClose}
+      />
+      
+      {/* Chat Window */}
+      <div className="fixed bottom-6 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] animate-in slide-in-from-bottom-4 duration-300">
+        <div className="bg-gray-900/95 backdrop-blur-xl border border-gray-800/50 rounded-2xl shadow-2xl overflow-hidden">
+          
+          {/* Header */}
+          <div className="bg-gradient-to-r from-purple-600/10 to-cyan-600/10 border-b border-gray-800/50 p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
+                  <Bot size={16} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="text-white font-medium text-sm">Chat with Sid's AI</h3>
+                  <p className="text-gray-400 text-xs">Ask me anything about Siddharth</p>
                 </div>
               </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-black/40 border border-white/20 text-gray-200 p-3 rounded-lg">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse delay-75"></div>
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse delay-150"></div>
+              <div className="flex gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowApiKeyInput(!showApiKeyInput)}
+                  className="w-8 h-8 p-0 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <Key size={14} />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onClose}
+                  className="w-8 h-8 p-0 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X size={14} />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* API Key Input */}
+          {showApiKeyInput && (
+            <div className="p-4 bg-gray-800/30 border-b border-gray-800/50">
+              <div className="flex gap-2">
+                <Input
+                  type="password"
+                  placeholder="Enter OpenAI API Key (optional)"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  className="bg-gray-800/50 border-gray-700 text-white text-sm placeholder-gray-400 focus:border-purple-500 transition-colors"
+                  onKeyPress={(e) => e.key === 'Enter' && handleApiKeySubmit()}
+                />
+                <Button 
+                  size="sm" 
+                  onClick={handleApiKeySubmit} 
+                  className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-medium"
+                >
+                  Set
+                </Button>
+              </div>
+              <p className="text-xs text-gray-400 mt-2">Optional: Add your OpenAI API key for enhanced AI responses</p>
+            </div>
+          )}
+
+          {/* Messages */}
+          <div className="h-96 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+            <div className="space-y-4">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex gap-3 ${message.isUser ? 'flex-row-reverse' : 'flex-row'}`}
+                >
+                  {/* Avatar */}
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${
+                    message.isUser 
+                      ? 'bg-gradient-to-r from-cyan-500 to-purple-500' 
+                      : 'bg-gray-700'
+                  }`}>
+                    {message.isUser ? (
+                      <User size={12} className="text-white" />
+                    ) : (
+                      <Bot size={12} className="text-gray-300" />
+                    )}
+                  </div>
+
+                  {/* Message Bubble */}
+                  <div className={`max-w-[80%] ${message.isUser ? 'text-right' : 'text-left'}`}>
+                    <div
+                      className={`inline-block px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                        message.isUser
+                          ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-br-md'
+                          : 'bg-gray-800/70 text-gray-100 rounded-bl-md border border-gray-700/50'
+                      }`}
+                    >
+                      <p>{message.text}</p>
+                    </div>
+                    <div className={`text-xs text-gray-500 mt-1 ${message.isUser ? 'text-right' : 'text-left'}`}>
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              ))}
+
+              {/* Loading Indicator */}
+              {isLoading && (
+                <div className="flex gap-3">
+                  <div className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <Bot size={12} className="text-gray-300" />
+                  </div>
+                  <div className="bg-gray-800/70 border border-gray-700/50 px-4 py-3 rounded-2xl rounded-bl-md">
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-75"></div>
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-150"></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="flex gap-2">
-            <Input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask about Siddharth's skills, projects..."
-              className="bg-black/40 border-white/30 text-gray-200 placeholder-gray-400"
-              disabled={isLoading}
-            />
-            <Button
-              onClick={handleSendMessage}
-              disabled={isLoading || !inputValue.trim()}
-              className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
-            >
-              <Send size={16} />
-            </Button>
+          {/* Input Area */}
+          <div className="p-4 bg-gray-800/30 border-t border-gray-800/50">
+            <div className="flex gap-3">
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask about Siddharth's skills, projects..."
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-purple-500 transition-colors rounded-xl"
+                disabled={isLoading}
+              />
+              <Button
+                onClick={handleSendMessage}
+                disabled={isLoading || !inputValue.trim()}
+                className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white rounded-xl w-10 h-10 p-0 flex-shrink-0 transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:scale-100"
+              >
+                <Send size={16} />
+              </Button>
+            </div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </>
   );
 };
 

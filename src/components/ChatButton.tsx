@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { MessageCircle } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 interface ChatButtonProps {
   onClick: () => void;
@@ -14,9 +14,13 @@ const ChatButton: React.FC<ChatButtonProps> = ({ onClick, isOpen }) => {
   return (
     <Button
       onClick={onClick}
-      className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 shadow-2xl shadow-cyan-500/30 hover:scale-110 transition-all duration-500 group"
+      className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 shadow-2xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-110 transition-all duration-500 group border-0"
     >
-      <MessageCircle size={24} className="text-white group-hover:scale-110 transition-transform duration-300" />
+      <Bot size={24} className="text-white group-hover:scale-110 transition-transform duration-300" />
+      
+      {/* Pulse Animation */}
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 animate-ping opacity-20"></div>
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/30 to-cyan-500/30 animate-pulse"></div>
     </Button>
   );
 };
