@@ -129,6 +129,15 @@ const Index = () => {
     });
   };
 
+  const handleResumeDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Sid_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Add custom animations in a style tag */}
@@ -193,7 +202,7 @@ const Index = () => {
       {/* Enhanced Dark Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
         <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          {/* Enhanced Profile Section with Fixed Animation */}
+          {/* Enhanced Profile Section with icons removed */}
           <div className="mb-8">
             <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
               <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
@@ -206,12 +215,6 @@ const Index = () => {
                     className="w-full h-full object-cover rounded-full scale-110 object-center transition-all duration-700 group-hover:scale-125" 
                   />
                 </div>
-              </div>
-              <div className="absolute top-4 right-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl">
-                <Code size={24} className="text-cyan-400" />
-              </div>
-              <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-black/40 border border-white/20 rounded-full p-4 shadow-xl">
-                <Database size={24} className="text-purple-400" />
               </div>
             </div>
           </div>
@@ -466,6 +469,15 @@ const Index = () => {
                       github.com/sidddharthhahir
                     </a>
                   </div>
+                  <button 
+                    onClick={handleResumeDownload}
+                    className="flex items-center w-full p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105"
+                  >
+                    <User className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
+                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
+                      Download Resume
+                    </span>
+                  </button>
                 </div>
               </div>
               <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
