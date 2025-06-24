@@ -76,13 +76,18 @@ export class ChatbotService {
 
   setApiKey(key: string) {
     this.apiKey = key;
+    console.log('API key set for enhanced responses');
   }
 
   async getResponse(message: string): Promise<string> {
+    console.log('Processing message:', message);
+    
     // Try OpenAI API first if key is available
     if (this.apiKey) {
       try {
-        return await this.getOpenAIResponse(message);
+        const response = await this.getOpenAIResponse(message);
+        console.log('OpenAI response:', response);
+        return response;
       } catch (error) {
         console.error('OpenAI API error:', error);
         // Fall back to rule-based responses
@@ -90,7 +95,9 @@ export class ChatbotService {
     }
     
     // Rule-based responses
-    return this.getRuleBasedResponse(message);
+    const response = this.getRuleBasedResponse(message);
+    console.log('Rule-based response:', response);
+    return response;
   }
 
   private async getOpenAIResponse(message: string): Promise<string> {
@@ -133,50 +140,80 @@ Keep responses concise (1-3 sentences), professional, and helpful. Guide visitor
 
   private getRuleBasedResponse(message: string): string {
     const lowerMessage = message.toLowerCase();
+    console.log('Analyzing message:', lowerMessage);
 
-    // Greetings
-    if (lowerMessage.match(/\b(hi|hello|hey|greetings)\b/)) {
-      return "Hello! I'm Siddharth's AI assistant. I can help you learn about his skills, projects, and background. What would you like to know?";
+    // Greetings and introductions
+    if (this.matchesAny(lowerMessage, ['hi', 'hello', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening'])) {
+      return "Hello! I'm Siddharth's AI assistant. I can help you learn about his skills, projects, education, and background. What would you like to know?";
     }
 
-    // Skills
-    if (lowerMessage.match(/\b(skill|technology|programming|language|tech)\b/)) {
-      return `Siddharth specializes in ${portfolioData.skills.slice(0, 5).join(', ')} and more. He's particularly strong in Python backend development and Django web applications. Check out the Skills section for details!`;
+    // Skills and technologies
+    if (this.matchesAny(lowerMessage, ['skill', 'technology', 'programming', 'language', 'tech', 'python', 'django', 'database', 'sql', 'javascript', 'what can you do', 'what do you know', 'expertise', 'proficient'])) {
+      return `Siddharth specializes in Python development with Django framework, SQL databases (PostgreSQL, MySQL), and web technologies like JavaScript and HTML/CSS. His core skills include: ${portfolioData.skills.slice(0, 6).join(', ')}. He's particularly strong in backend development and database design!`;
     }
 
-    // Projects
-    if (lowerMessage.match(/\b(project|work|portfolio|app|application)\b/)) {
-      const project = portfolioData.projects[0];
-      return `Siddharth has built several impressive projects, including a ${project.name} using ${project.technologies.join(', ')}. Visit the Portfolio section to see all his work!`;
+    // Projects and portfolio
+    if (this.matchesAny(lowerMessage, ['project', 'work', 'portfolio', 'app', 'application', 'built', 'created', 'developed', 'recipe', 'task manager', 'what have you built', 'show me work'])) {
+      const randomProject = portfolioData.projects[Math.floor(Math.random() * portfolioData.projects.length)];
+      return `Siddharth has built several impressive projects! For example, his ${randomProject.name}: ${randomProject.description}. It uses ${randomProject.technologies.join(', ')}. Check out the Portfolio section to see all his work and detailed case studies!`;
     }
 
-    // Education/Background
-    if (lowerMessage.match(/\b(education|study|degree|university|background)\b/)) {
-      return `Siddharth is currently pursuing a Master's in Computer Science in Berlin and holds a Bachelor's in Computer Application. He has professional experience as a Software Developer Intern.`;
+    // Education and background
+    if (this.matchesAny(lowerMessage, ['education', 'study', 'degree', 'university', 'background', 'school', 'college', 'where did you study', 'qualification', 'academic'])) {
+      return `Siddharth is currently pursuing a Master's in Computer Science at International University of Applied Sciences in Berlin, Germany. He completed his Bachelor's in Computer Application from Gujarat University in 2022. He combines academic knowledge with practical development experience.`;
     }
 
-    // Contact
-    if (lowerMessage.match(/\b(contact|email|reach|hire|work)\b/)) {
-      return `You can reach Siddharth at ${portfolioData.contact.email} or connect via LinkedIn. Check the Contact section for all ways to get in touch!`;
+    // Contact and hiring
+    if (this.matchesAny(lowerMessage, ['contact', 'email', 'reach', 'hire', 'work together', 'collaborate', 'get in touch', 'linkedin', 'github', 'how to contact'])) {
+      return `You can reach Siddharth at ${portfolioData.contact.email} for professional opportunities. Connect with him on LinkedIn or check out his GitHub for code samples. Visit the Contact section for all the ways to get in touch!`;
     }
 
-    // Experience
-    if (lowerMessage.match(/\b(experience|work|job|professional)\b/)) {
-      return "Siddharth has experience as a Software Developer Intern and specializes in Django web development with database optimization. He's passionate about creating efficient, scalable solutions.";
+    // Experience and professional background
+    if (this.matchesAny(lowerMessage, ['experience', 'job', 'professional', 'career', 'internship', 'work experience', 'how long', 'years of experience'])) {
+      return "Siddharth has hands-on experience as a Software Developer Intern and specializes in Django web development with database optimization. He's passionate about creating efficient, scalable backend solutions and has worked on multiple full-stack projects.";
     }
 
-    // Navigation help
-    if (lowerMessage.match(/\b(section|page|navigate|find|where)\b/)) {
-      return "The portfolio has sections for About Me, Skills, Services, Portfolio projects, and Contact information. You can navigate using the menu or scroll through the page!";
+    // Location and availability
+    if (this.matchesAny(lowerMessage, ['where', 'location', 'berlin', 'germany', 'available', 'remote', 'timezone'])) {
+      return "Siddharth is currently based in Berlin, Germany, where he's pursuing his Master's degree. He's available for remote work opportunities and collaborations across different time zones.";
     }
 
-    // Goodbye
-    if (lowerMessage.match(/\b(bye|goodbye|thanks|thank you)\b/)) {
-      return "Thank you for visiting Siddharth's portfolio! Feel free to reach out if you have any questions or opportunities to discuss.";
+    // Specific technologies
+    if (this.matchesAny(lowerMessage, ['django', 'python', 'postgresql', 'mysql', 'bootstrap', 'css', 'html', 'git'])) {
+      return "Yes! Siddharth has extensive experience with that technology. He uses it regularly in his projects and has built several applications leveraging its capabilities. Check out his portfolio for specific examples and implementations!";
     }
 
-    // Default response
-    return "I'd be happy to help! You can ask me about Siddharth's skills, projects, education, or how to contact him. For specific details, feel free to explore the portfolio sections or reach out directly!";
+    // Navigation and website help
+    if (this.matchesAny(lowerMessage, ['section', 'page', 'navigate', 'find', 'where', 'menu', 'how to', 'website'])) {
+      return "The portfolio has several sections: About Me (background & skills), Services (what he offers), Portfolio (projects & case studies), and Contact (ways to reach him). You can navigate using the menu or scroll through the page. What specific information are you looking for?";
+    }
+
+    // Thank you and goodbye
+    if (this.matchesAny(lowerMessage, ['bye', 'goodbye', 'thanks', 'thank you', 'appreciate', 'great', 'awesome', 'perfect'])) {
+      return "Thank you for visiting Siddharth's portfolio! Feel free to explore the different sections, check out his projects, and don't hesitate to reach out for opportunities or collaborations. Have a great day!";
+    }
+
+    // Who is questions
+    if (this.matchesAny(lowerMessage, ['who is', 'who are you', 'tell me about', 'about siddharth', 'about you'])) {
+      return "Siddharth Ahir is a Python Developer & Django Specialist currently pursuing his Master's in Computer Science in Berlin. He specializes in backend development, database design, and building scalable web applications. He's passionate about clean code and efficient solutions!";
+    }
+
+    // Default response with helpful suggestions
+    const suggestions = [
+      "his technical skills and programming languages",
+      "his projects like the Recipe Manager or Task Manager apps", 
+      "his educational background and current studies in Berlin",
+      "how to contact him for work opportunities",
+      "his experience with Django and Python development"
+    ];
+    
+    const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+    
+    return `I'd be happy to help! You can ask me about ${randomSuggestion}, or explore the portfolio sections for detailed information. For specific questions not covered here, feel free to contact Siddharth directly!`;
+  }
+
+  private matchesAny(text: string, keywords: string[]): boolean {
+    return keywords.some(keyword => text.includes(keyword));
   }
 }
 
