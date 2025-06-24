@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import ChatButton from '@/components/ChatButton';
+import ChatWindow from '@/components/ChatWindow';
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +18,7 @@ const Index = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const { toast } = useToast();
 
   // Intersection Observer for scroll animations
@@ -538,6 +541,16 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      {/* Chatbot Components */}
+      <ChatButton 
+        onClick={() => setIsChatOpen(true)} 
+        isOpen={isChatOpen}
+      />
+      <ChatWindow 
+        isOpen={isChatOpen} 
+        onClose={() => setIsChatOpen(false)}
+      />
     </div>
   );
 };
