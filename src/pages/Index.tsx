@@ -1,561 +1,542 @@
-import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import React, { useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
+import { ArrowRight, Code, Palette, Smartphone, Globe, Database, Cloud, Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
-import { useLanguage } from '@/contexts/LanguageContext';
+import DesktopNav from '@/components/DesktopNav';
+import MobileNav from '@/components/MobileNav';
 
 const Index = () => {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const { toast } = useToast();
-
-  // Intersection Observer for scroll animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections(prev => new Set([...prev, entry.target.id]));
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const sections = document.querySelectorAll('[data-animate]');
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
-
-  const skills = [
-    { name: t('skills.python.name'), icon: Code, description: t('skills.python.desc') },
-    { name: t('skills.django.name'), icon: Server, description: t('skills.django.desc') },
-    { name: t('skills.sql.name'), icon: Database, description: t('skills.sql.desc') },
-    { name: t('skills.postgresql.name'), icon: Database, description: t('skills.postgresql.desc') },
-    { name: t('skills.javascript.name'), icon: Braces, description: t('skills.javascript.desc') },
-    { name: t('skills.html.name'), icon: FileCode, description: t('skills.html.desc') },
-    { name: t('skills.git.name'), icon: GitBranch, description: t('skills.git.desc') },
-    { name: t('skills.api.name'), icon: Layers, description: t('skills.api.desc') }
-  ];
-
-  const services = [
-    {
-      icon: Globe,
-      title: t('services.web.title'),
-      description: t('services.web.desc')
-    },
-    {
-      icon: Database,
-      title: t('services.database.title'),
-      description: t('services.database.desc')
-    },
-    {
-      icon: Code,
-      title: t('services.python.title'),
-      description: t('services.python.desc')
-    }
-  ];
-
-  const projects = [
-    {
-      title: t('portfolio.recipe.title'),
-      description: t('portfolio.recipe.desc'),
-      technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
-      features: [t('portfolio.recipe.feature1'), t('portfolio.recipe.feature2'), t('portfolio.recipe.feature3'), t('portfolio.recipe.feature4')]
-    },
-    {
-      title: t('portfolio.task.title'),
-      description: t('portfolio.task.desc'),
-      technologies: ['Django', 'MySQL', 'JavaScript', 'CSS'],
-      features: [t('portfolio.task.feature1'), t('portfolio.task.feature2'), t('portfolio.task.feature3'), t('portfolio.task.feature4')]
-    },
-    {
-      title: t('portfolio.hci.title'),
-      description: t('portfolio.hci.desc'),
-      technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
-      features: [t('portfolio.hci.feature1'), t('portfolio.hci.feature2'), t('portfolio.hci.feature3'), t('portfolio.hci.feature4')]
-    }
-  ];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      emailjs.init('1XEPgOlzfPoTgaput');
-      const result = await emailjs.send('service_5n5oy19', 'template_ixyj8he', {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-        to_name: 'Siddharth Ahir'
-      });
-      console.log('Email sent successfully:', result);
-      toast({
-        title: t('contact.success.title'),
-        description: t('contact.success.desc')
-      });
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      console.error('Failed to send email:', error);
-      toast({
-        title: t('contact.error.title'),
-        description: t('contact.error.desc'),
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  
+  const heroRef = useRef<HTMLElement>(null);
+  const aboutRef = useRef<HTMLElement>(null);
+  const skillsRef = useRef<HTMLElement>(null);
+  const servicesRef = useRef<HTMLElement>(null);
+  const portfolioRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({
-      behavior: 'smooth'
-    });
-  };
-
-  const handleResumeDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'Sid_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const refs = {
+      hero: heroRef,
+      about: aboutRef,
+      skills: skillsRef,
+      services: servicesRef,
+      portfolio: portfolioRef,
+      contact: contactRef,
+    };
+    
+    const targetRef = refs[sectionId as keyof typeof refs];
+    if (targetRef?.current) {
+      const offsetTop = targetRef.current.offsetTop - 80; // Account for fixed header
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      {/* Add custom animations in a style tag */}
-      <style>
-        {`
-        @keyframes float-up-down {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes float-up-down-delayed {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-12px); }
-        }
-        
-        .float-animation {
-          animation: float-up-down 3s ease-in-out infinite;
-        }
-        
-        .float-animation-delayed {
-          animation: float-up-down-delayed 3s ease-in-out infinite 1.5s;
-        }
-        `}
-      </style>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-x-hidden">
+      {/* Navigation */}
+      <DesktopNav scrollToSection={scrollToSection} />
+      <MobileNav scrollToSection={scrollToSection} />
 
-      {/* Enhanced Animated Background Elements */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-        
-        {/* Floating particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-purple-400/30 rounded-full animate-ping delay-300"></div>
-          <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping delay-700"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-pink-400/30 rounded-full animate-ping delay-1000"></div>
-        </div>
-      </div>
-
-      {/* Dark Glassmorphism Navigation */}
-      <nav className="fixed top-0 w-full backdrop-blur-2xl bg-black/20 border-b border-white/10 z-50 transition-all duration-500 shadow-lg">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              {t('hero.name')}
-            </div>
-            <div className="hidden md:flex space-x-8 items-center">
-              {[
-                { key: 'nav.home', section: 'home' },
-                { key: 'nav.about', section: 'about' },
-                { key: 'nav.skills', section: 'skills' },
-                { key: 'nav.services', section: 'services' },
-                { key: 'nav.portfolio', section: 'portfolio' },
-                { key: 'nav.contact', section: 'contact' }
-              ].map(item => (
-                <button
-                  key={item.key}
-                  onClick={() => scrollToSection(item.section)}
-                  className="text-gray-300 hover:text-cyan-400 transition-all duration-500 hover:scale-110 font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-cyan-400 after:to-purple-400 after:left-0 after:-bottom-1 after:transition-all after:duration-500 hover:after:w-full"
-                >
-                  {t(item.key)}
-                </button>
-              ))}
-              <LanguageSwitcher />
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Enhanced Dark Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
-        <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          {/* Enhanced Profile Section with icons removed */}
-          <div className="mb-8">
-            <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
-              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
-              <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
-              <div className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700">
-                <div className="w-full h-full rounded-full overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/zBffmxgY/IMG-2591.jpg" 
-                    alt="Siddharth Ahir Profile" 
-                    className="w-full h-full object-cover rounded-full scale-110 object-center transition-all duration-700 group-hover:scale-125" 
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Enhanced Text Content */}
-          <div className="space-y-8">
-            <div className="flex items-center justify-center gap-3">
-              <Sparkles size={28} className="text-yellow-400 animate-pulse" />
-              <span className="text-2xl text-gray-300 font-medium">{t('hero.greeting')}</span>
-              <Sparkles size={28} className="text-yellow-400 animate-pulse delay-500" />
-            </div>
-
-            <h1 className="text-6xl md:text-8xl font-bold mb-8">
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                {t('hero.name')}
-              </span>
-            </h1>
-
-            <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
+      {/* Hero Section */}
+      <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center px-4 pt-20 md:pt-0">
+        <div className="container mx-auto text-center z-10 relative">
+          <div className="animate-fade-in">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
               {t('hero.title')}
-            </h2>
-
-            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              {t('hero.description')}
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+              {t('hero.subtitle')}
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Button 
-                onClick={() => scrollToSection('portfolio')} 
-                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl border border-white/20 group"
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button
+                onClick={() => scrollToSection('portfolio')}
+                className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full text-white font-semibold text-lg transition-all duration-500 hover:scale-110 hover:shadow-2xl hover:shadow-cyan-500/25"
               >
-                <span className="flex items-center gap-3">
-                  {t('hero.viewWork')}
-                  <Star size={20} className="group-hover:rotate-180 transition-transform duration-500" />
+                <span className="relative z-10">{t('hero.cta.portfolio')}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-full font-semibold text-lg hover:bg-cyan-400 hover:text-black transition-all duration-500 hover:scale-110"
+              >
+                {t('hero.cta.contact')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-cyan-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/10 to-pink-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section ref={aboutRef} id="about" className="py-20 px-4">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
+              {t('about.title')}
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              {t('about.description')}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <h3 className="text-2xl font-semibold text-cyan-400 mb-4">{t('about.passion.title')}</h3>
+              <p className="text-gray-300 leading-relaxed">
+                {t('about.passion.description')}
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-600/20 rounded-full text-cyan-400 border border-cyan-400/30">
+                  {t('about.traits.creative')}
                 </span>
-              </Button>
-              <Button 
-                onClick={() => scrollToSection('contact')} 
-                className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl hover:shadow-purple-500/25"
-              >
-                {t('hero.contactMe')}
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-16">
-            <div className="flex flex-col items-center gap-3">
-              <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
-              <div className="animate-bounce">
-                <ArrowDown size={28} className="text-cyan-400" />
+                <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-full text-purple-400 border border-purple-400/30">
+                  {t('about.traits.innovative')}
+                </span>
+                <span className="px-4 py-2 bg-gradient-to-r from-pink-500/20 to-cyan-600/20 rounded-full text-pink-400 border border-pink-400/30">
+                  {t('about.traits.dedicated')}
+                </span>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </motion.div>
 
-      {/* Dark About Section */}
-      <section id="about" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('about.title')}
-          </h2>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
-                <p className="text-xl text-gray-300 leading-relaxed">
-                  {t('about.description1')}
-                </p>
-                <p className="text-xl text-gray-300 leading-relaxed">
-                  {t('about.description2')}
-                </p>
-              </div>
-              <div>
-                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105 hover:bg-black/40">
-                  <CardHeader>
-                    <CardTitle className="text-cyan-400 text-2xl">{t('about.education')}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.masters')}</h4>
-                      <p className="text-gray-300">{t('about.mastersSchool')}</p>
-                      <p className="text-sm text-cyan-400 font-medium">{t('about.mastersStatus')}</p>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative z-10 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
+                <h3 className="text-2xl font-semibold text-purple-400 mb-6">{t('about.experience.title')}</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full flex items-center justify-center">
+                      <Code size={24} />
                     </div>
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.bachelors')}</h4>
-                      <p className="text-gray-300">{t('about.bachelorsSchool')}</p>
-                      <p className="text-sm text-cyan-400 font-medium">{t('about.bachelorsYear')}</p>
+                    <div>
+                      <h4 className="font-semibold text-white">{t('about.experience.years')}</h4>
+                      <p className="text-gray-400">{t('about.experience.coding')}</p>
                     </div>
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.internship')}</h4>
-                      <p className="text-gray-300">{t('about.internshipType')}</p>
-                      <p className="text-sm text-cyan-400 font-medium">{t('about.internshipYear')}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Dark Skills Section */}
-      <section id="skills" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('skills.title')}
-          </h2>
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-10">
-              {skills.map((skill, index) => (
-                <div key={index} className="group">
-                  <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-125 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2">
-                    <CardContent className="p-8 text-center">
-                      <div className="mb-6 flex justify-center">
-                        <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/40 group-hover:to-purple-500/40 transition-all duration-500 backdrop-blur-xl border border-white/20 group-hover:scale-110">
-                          <skill.icon size={40} className="text-cyan-400 group-hover:text-purple-400 transition-all duration-500" />
-                        </div>
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-200 mb-3 group-hover:text-cyan-400 transition-all duration-500">
-                        {skill.name}
-                      </h3>
-                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-500">
-                        {skill.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Dark Services Section */}
-      <section id="services" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-700 ${visibleSections.has('services') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('services.title')}
-          </h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
-            {services.map((service, index) => (
-              <Card key={index} className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/20 group transform hover:-translate-y-3">
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-6 p-6 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-3xl w-fit shadow-2xl group-hover:shadow-cyan-500/30 transition-all duration-500 group-hover:scale-110">
-                    <service.icon size={40} className="text-white" />
                   </div>
-                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-300 text-center leading-relaxed text-lg">
-                    {service.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center">
+                      <Palette size={24} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">{t('about.experience.projects')}</h4>
+                      <p className="text-gray-400">{t('about.experience.completed')}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-purple-600/20 rounded-2xl blur-xl"></div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section ref={skillsRef} id="skills" className="py-20 px-4 bg-gradient-to-r from-gray-900/50 to-black/50">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+              {t('skills.title')}
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              {t('skills.description')}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <Code size={32} />,
+                title: t('skills.frontend.title'),
+                skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Vue.js'],
+                gradient: 'from-cyan-500 to-blue-600'
+              },
+              {
+                icon: <Database size={32} />,
+                title: t('skills.backend.title'),
+                skills: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'Express'],
+                gradient: 'from-purple-500 to-indigo-600'
+              },
+              {
+                icon: <Smartphone size={32} />,
+                title: t('skills.mobile.title'),
+                skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo'],
+                gradient: 'from-pink-500 to-rose-600'
+              },
+              {
+                icon: <Cloud size={32} />,
+                title: t('skills.cloud.title'),
+                skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform'],
+                gradient: 'from-green-500 to-emerald-600'
+              },
+              {
+                icon: <Palette size={32} />,
+                title: t('skills.design.title'),
+                skills: ['Figma', 'Adobe XD', 'Photoshop', 'Illustrator', 'Sketch'],
+                gradient: 'from-orange-500 to-red-600'
+              },
+              {
+                icon: <Globe size={32} />,
+                title: t('skills.other.title'),
+                skills: ['Git', 'GraphQL', 'REST APIs', 'Testing', 'Agile'],
+                gradient: 'from-teal-500 to-cyan-600'
+              }
+            ].map((skill, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group relative"
+              >
+                <div className="relative z-10 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105">
+                  <div className={`w-16 h-16 bg-gradient-to-r ${skill.gradient} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500`}>
+                    {skill.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-4">{skill.title}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {skill.skills.map((item, skillIndex) => (
+                      <span
+                        key={skillIndex}
+                        className="px-3 py-1 bg-white/10 rounded-full text-sm text-gray-300 hover:bg-white/20 transition-colors duration-300"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className={`absolute inset-0 bg-gradient-to-r ${skill.gradient} opacity-0 group-hover:opacity-20 rounded-2xl blur-xl transition-opacity duration-500`}></div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Dark Portfolio Section */}
-      <section id="portfolio" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('portfolio.title')}
-          </h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
-            {projects.map((project, index) => (
-              <Card key={index} className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3">
-                <CardHeader>
-                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl">{project.title}</CardTitle>
-                  <CardDescription className="text-gray-300 leading-relaxed text-base">
-                    {project.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.technologies')}</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => (
-                        <Badge key={techIndex} className="backdrop-blur-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/30 transition-all duration-500 hover:scale-105">
+      {/* Services Section */}
+      <section ref={servicesRef} id="services" className="py-20 px-4">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">
+              {t('services.title')}
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              {t('services.description')}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <Globe size={40} />,
+                title: t('services.web.title'),
+                description: t('services.web.description'),
+                features: [t('services.web.responsive'), t('services.web.performance'), t('services.web.seo')],
+                gradient: 'from-blue-500 to-cyan-600'
+              },
+              {
+                icon: <Smartphone size={40} />,
+                title: t('services.mobile.title'),
+                description: t('services.mobile.description'),
+                features: [t('services.mobile.crossPlatform'), t('services.mobile.native'), t('services.mobile.ui')],
+                gradient: 'from-purple-500 to-pink-600'
+              },
+              {
+                icon: <Palette size={40} />,
+                title: t('services.design.title'),
+                description: t('services.design.description'),
+                features: [t('services.design.userCentric'), t('services.design.modern'), t('services.design.branding')],
+                gradient: 'from-pink-500 to-rose-600'
+              }
+            ].map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className="group relative"
+              >
+                <div className="relative z-10 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105 h-full">
+                  <div className={`w-20 h-20 bg-gradient-to-r ${service.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
+                    {service.icon}
+                  </div>
+                  <h3 className="text-2xl font-semibold text-white mb-4">{service.title}</h3>
+                  <p className="text-gray-300 mb-6 leading-relaxed">{service.description}</p>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center gap-3 text-gray-300">
+                        <div className={`w-2 h-2 bg-gradient-to-r ${service.gradient} rounded-full`}></div>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className={`absolute inset-0 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-20 rounded-2xl blur-xl transition-opacity duration-500`}></div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section ref={portfolioRef} id="portfolio" className="py-20 px-4 bg-gradient-to-r from-gray-900/50 to-black/50">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-orange-600 bg-clip-text text-transparent">
+              {t('portfolio.title')}
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              {t('portfolio.description')}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: t('portfolio.projects.ecommerce.title'),
+                description: t('portfolio.projects.ecommerce.description'),
+                image: '/placeholder-project-1.jpg',
+                tech: ['React', 'Node.js', 'MongoDB'],
+                gradient: 'from-blue-500 to-purple-600'
+              },
+              {
+                title: t('portfolio.projects.dashboard.title'),
+                description: t('portfolio.projects.dashboard.description'),
+                image: '/placeholder-project-2.jpg',
+                tech: ['Vue.js', 'Python', 'PostgreSQL'],
+                gradient: 'from-green-500 to-teal-600'
+              },
+              {
+                title: t('portfolio.projects.mobile.title'),
+                description: t('portfolio.projects.mobile.description'),
+                image: '/placeholder-project-3.jpg',
+                tech: ['React Native', 'Firebase'],
+                gradient: 'from-pink-500 to-rose-600'
+              }
+            ].map((project, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className="group relative overflow-hidden rounded-2xl"
+              >
+                <div className="relative z-10 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105 h-full">
+                  <div className={`h-48 bg-gradient-to-r ${project.gradient} relative overflow-hidden`}>
+                    <div className="absolute inset-0 bg-black/20"></div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.map((tech, techIndex) => (
+                        <span
+                          key={techIndex}
+                          className="px-3 py-1 bg-white/10 rounded-full text-sm text-gray-300"
+                        >
                           {tech}
-                        </Badge>
+                        </span>
                       ))}
                     </div>
+                    <button className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300 group">
+                      {t('portfolio.viewProject')}
+                      <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    </button>
+                  </div>
+                </div>
+                <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}></div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section ref={contactRef} id="contact" className="py-20 px-4">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-400 to-pink-600 bg-clip-text text-transparent">
+              {t('contact.title')}
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              {t('contact.description')}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="space-y-8"
+            >
+              <h3 className="text-2xl font-semibold text-white mb-6">{t('contact.getInTouch')}</h3>
+              
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <Mail size={24} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.features')}</h4>
-                    <ul className="text-sm text-gray-300 space-y-2">
-                      {project.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center">
-                          <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mr-3"></span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                    <h4 className="font-semibold text-white">{t('contact.email')}</h4>
+                    <p className="text-gray-400">siddharth@example.com</p>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Dark Contact Section */}
-      <section id="contact" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('contact.title')}
-          </h2>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-16">
-              <div>
-                <h3 className="text-3xl font-bold mb-8 text-gray-200">{t('contact.subtitle')}</h3>
-                <p className="text-gray-300 mb-10 leading-relaxed text-lg">
-                  {t('contact.description')}
-                </p>
-                <div className="space-y-6">
-                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
-                    <Mail className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <a 
-                      href="mailto:sidahir25820@gmail.com" 
-                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
-                    >
-                      sidahir25820@gmail.com
-                    </a>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center">
+                    <Phone size={24} />
                   </div>
-                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
-                    <Linkedin className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <a 
-                      href="https://linkedin.com/in/siddharth-ahir-798754262" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
-                    >
-                      linkedin.com/in/siddharth-ahir-798754262
-                    </a>
+                  <div>
+                    <h4 className="font-semibold text-white">{t('contact.phone')}</h4>
+                    <p className="text-gray-400">+1 (555) 123-4567</p>
                   </div>
-                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
-                    <Github className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <a 
-                      href="https://github.com/sidddharthhahir" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
-                    >
-                      github.com/sidddharthhahir
-                    </a>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-600 rounded-full flex items-center justify-center">
+                    <MapPin size={24} />
                   </div>
-                  <button 
-                    onClick={handleResumeDownload}
-                    className="flex items-center w-full p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105"
-                  >
-                    <User className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      {t('contact.resume')}
-                    </span>
-                  </button>
+                  <div>
+                    <h4 className="font-semibold text-white">{t('contact.location')}</h4>
+                    <p className="text-gray-400">San Francisco, CA</p>
+                  </div>
                 </div>
               </div>
-              <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
-                <CardHeader>
-                  <CardTitle className="text-gray-200 text-2xl">{t('contact.form.title')}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <Input 
-                      type="text" 
-                      name="name" 
-                      placeholder={t('contact.form.name')} 
-                      value={formData.name} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
-                      required 
-                      disabled={isSubmitting} 
+
+              <div className="pt-8">
+                <h4 className="text-lg font-semibold text-white mb-4">{t('contact.followMe')}</h4>
+                <div className="flex gap-4">
+                  <a href="#" className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                    <Github size={24} />
+                  </a>
+                  <a href="#" className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                    <Linkedin size={24} />
+                  </a>
+                  <a href="#" className="w-12 h-12 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                    <Twitter size={24} />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative z-10 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
+                <form className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      {t('contact.form.name')}
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors duration-300"
+                      placeholder={t('contact.form.namePlaceholder')}
                     />
-                    <Input 
-                      type="email" 
-                      name="email" 
-                      placeholder={t('contact.form.email')} 
-                      value={formData.email} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
-                      required 
-                      disabled={isSubmitting} 
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      {t('contact.form.email')}
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors duration-300"
+                      placeholder={t('contact.form.emailPlaceholder')}
                     />
-                    <Textarea 
-                      name="message" 
-                      placeholder={t('contact.form.message')} 
-                      value={formData.message} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" 
-                      required 
-                      disabled={isSubmitting} 
-                    />
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/30 py-4 text-lg" 
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      {t('contact.form.message')}
+                    </label>
+                    <textarea
+                      rows={5}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors duration-300 resize-none"
+                      placeholder={t('contact.form.messagePlaceholder')}
+                    ></textarea>
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white font-semibold hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25"
+                  >
+                    {t('contact.form.send')}
+                  </button>
+                </form>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-purple-600/20 rounded-2xl blur-xl"></div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Dark Footer */}
-      <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/20">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-300 font-medium text-lg">
-            {t('footer.copyright')}
-          </p>
-        </div>
-      </footer>
+      {/* Chat Button - positioned to avoid conflicts with mobile nav */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <ChatButton />
+      </div>
 
-      {/* Chatbot Components */}
-      <ChatButton 
-        onClick={() => setIsChatOpen(true)} 
-        isOpen={isChatOpen}
-      />
-      <ChatWindow 
-        isOpen={isChatOpen} 
-        onClose={() => setIsChatOpen(false)}
-      />
+      <ChatWindow />
     </div>
   );
 };
