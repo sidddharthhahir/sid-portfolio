@@ -9,8 +9,11 @@ import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -41,52 +44,52 @@ const Index = () => {
   }, []);
 
   const skills = [
-    { name: 'Python', icon: Code, description: 'Backend Development' },
-    { name: 'Django', icon: Server, description: 'Web Framework' },
-    { name: 'SQL', icon: Database, description: 'Database Queries' },
-    { name: 'PostgreSQL', icon: Database, description: 'Database System' },
-    { name: 'JavaScript', icon: Braces, description: 'Frontend Development' },
-    { name: 'HTML/CSS', icon: FileCode, description: 'Web Markup & Styling' },
-    { name: 'Git', icon: GitBranch, description: 'Version Control' },
-    { name: 'API Integration', icon: Layers, description: 'System Integration' }
+    { name: t('skills.python.name'), icon: Code, description: t('skills.python.desc') },
+    { name: t('skills.django.name'), icon: Server, description: t('skills.django.desc') },
+    { name: t('skills.sql.name'), icon: Database, description: t('skills.sql.desc') },
+    { name: t('skills.postgresql.name'), icon: Database, description: t('skills.postgresql.desc') },
+    { name: t('skills.javascript.name'), icon: Braces, description: t('skills.javascript.desc') },
+    { name: t('skills.html.name'), icon: FileCode, description: t('skills.html.desc') },
+    { name: t('skills.git.name'), icon: GitBranch, description: t('skills.git.desc') },
+    { name: t('skills.api.name'), icon: Layers, description: t('skills.api.desc') }
   ];
 
   const services = [
     {
       icon: Globe,
-      title: 'Web Development',
-      description: 'Modern, responsive websites using Django and the latest web technologies.'
+      title: t('services.web.title'),
+      description: t('services.web.desc')
     },
     {
       icon: Database,
-      title: 'Database Services',
-      description: 'Efficient database design, optimization, and management with PostgreSQL and MySQL.'
+      title: t('services.database.title'),
+      description: t('services.database.desc')
     },
     {
       icon: Code,
-      title: 'Python Applications',
-      description: 'Custom web applications using Django framework with clean, scalable code.'
+      title: t('services.python.title'),
+      description: t('services.python.desc')
     }
   ];
 
   const projects = [
     {
-      title: 'Recipe Manager',
-      description: 'Django web application for recipe management with user authentication and image uploads.',
+      title: t('portfolio.recipe.title'),
+      description: t('portfolio.recipe.desc'),
       technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
-      features: ['User Authentication', 'Image Uploads', 'Advanced Filtering', 'Responsive Design']
+      features: [t('portfolio.recipe.feature1'), t('portfolio.recipe.feature2'), t('portfolio.recipe.feature3'), t('portfolio.recipe.feature4')]
     },
     {
-      title: 'Personal Task Manager',
-      description: 'Task management application with secure user data and comprehensive tracking features.',
+      title: t('portfolio.task.title'),
+      description: t('portfolio.task.desc'),
       technologies: ['Django', 'MySQL', 'JavaScript', 'CSS'],
-      features: ['Task Tracking', 'Due Dates', 'Completion Status', 'User Security']
+      features: [t('portfolio.task.feature1'), t('portfolio.task.feature2'), t('portfolio.task.feature3'), t('portfolio.task.feature4')]
     },
     {
-      title: 'HCI Portfolio Project',
-      description: 'Usability testing for weather website with comprehensive UX analysis and recommendations.',
+      title: t('portfolio.hci.title'),
+      description: t('portfolio.hci.desc'),
       technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
-      features: ['Test Planning', 'Execution', 'UX Recommendations', 'User Research']
+      features: [t('portfolio.hci.feature1'), t('portfolio.hci.feature2'), t('portfolio.hci.feature3'), t('portfolio.hci.feature4')]
     }
   ];
 
@@ -110,15 +113,15 @@ const Index = () => {
       });
       console.log('Email sent successfully:', result);
       toast({
-        title: "Message Sent!",
-        description: "Thank you for your message. I'll get back to you soon!"
+        title: t('contact.success.title'),
+        description: t('contact.success.desc')
       });
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       console.error('Failed to send email:', error);
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again later.",
+        title: t('contact.error.title'),
+        description: t('contact.error.desc'),
         variant: "destructive"
       });
     } finally {
@@ -185,18 +188,26 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              Siddharth Ahir
+              {t('hero.name')}
             </div>
-            <div className="hidden md:flex space-x-8">
-              {['Home', 'About', 'Skills', 'Services', 'Portfolio', 'Contact'].map(item => (
+            <div className="hidden md:flex space-x-8 items-center">
+              {[
+                { key: 'nav.home', section: 'home' },
+                { key: 'nav.about', section: 'about' },
+                { key: 'nav.skills', section: 'skills' },
+                { key: 'nav.services', section: 'services' },
+                { key: 'nav.portfolio', section: 'portfolio' },
+                { key: 'nav.contact', section: 'contact' }
+              ].map(item => (
                 <button
-                  key={item}
-                  onClick={() => scrollToSection(item.toLowerCase())}
+                  key={item.key}
+                  onClick={() => scrollToSection(item.section)}
                   className="text-gray-300 hover:text-cyan-400 transition-all duration-500 hover:scale-110 font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-cyan-400 after:to-purple-400 after:left-0 after:-bottom-1 after:transition-all after:duration-500 hover:after:w-full"
                 >
-                  {item}
+                  {t(item.key)}
                 </button>
               ))}
+              <LanguageSwitcher />
             </div>
           </div>
         </div>
@@ -226,27 +237,22 @@ const Index = () => {
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
               <Sparkles size={28} className="text-yellow-400 animate-pulse" />
-              <span className="text-2xl text-gray-300 font-medium">Hello, I'm</span>
+              <span className="text-2xl text-gray-300 font-medium">{t('hero.greeting')}</span>
               <Sparkles size={28} className="text-yellow-400 animate-pulse delay-500" />
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold mb-8">
               <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Siddharth Ahir
+                {t('hero.name')}
               </span>
             </h1>
 
             <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
-              <span className="inline-block">Python Developer</span>
-              <span className="text-cyan-400 mx-3">|</span>
-              <span className="inline-block">Django & SQL Specialist</span>
+              {t('hero.title')}
             </h2>
 
             <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Dedicated Python developer specializing in Django and SQL, passionate about building 
-              <span className="text-cyan-400 font-semibold"> efficient</span>, 
-              <span className="text-purple-400 font-semibold"> scalable solutions</span> with 
-              <span className="text-cyan-400 font-semibold"> clean, reliable code</span>.
+              {t('hero.description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -255,7 +261,7 @@ const Index = () => {
                 className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl border border-white/20 group"
               >
                 <span className="flex items-center gap-3">
-                  View My Work
+                  {t('hero.viewWork')}
                   <Star size={20} className="group-hover:rotate-180 transition-transform duration-500" />
                 </span>
               </Button>
@@ -263,14 +269,14 @@ const Index = () => {
                 onClick={() => scrollToSection('contact')} 
                 className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl hover:shadow-purple-500/25"
               >
-                Contact Me
+                {t('hero.contactMe')}
               </Button>
             </div>
           </div>
 
           <div className="mt-16">
             <div className="flex flex-col items-center gap-3">
-              <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
+              <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
               <div className="animate-bounce">
                 <ArrowDown size={28} className="text-cyan-400" />
               </div>
@@ -283,38 +289,38 @@ const Index = () => {
       <section id="about" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            About Me
+            {t('about.title')}
           </h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
                 <p className="text-xl text-gray-300 leading-relaxed">
-                  I am a passionate Python developer with a strong foundation in Django and SQL, dedicated to creating efficient and scalable web solutions. My approach to development emphasizes clean code, optimal performance, and user-centered design.
+                  {t('about.description1')}
                 </p>
                 <p className="text-xl text-gray-300 leading-relaxed">
-                  With experience in full-stack development and database optimization, I enjoy tackling complex problems and transforming ideas into robust applications that make a difference.
+                  {t('about.description2')}
                 </p>
               </div>
               <div>
-                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105 hover:bg-black/40">
+                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105 hover:bg-black/40">
                   <CardHeader>
-                    <CardTitle className="text-cyan-400 text-2xl">Education</CardTitle>
+                    <CardTitle className="text-cyan-400 text-2xl">{t('about.education')}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">Master's in Computer Science</h4>
-                      <p className="text-gray-300">International University of Applied Sciences, Berlin</p>
-                      <p className="text-sm text-cyan-400 font-medium">Currently Pursuing</p>
+                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.masters')}</h4>
+                      <p className="text-gray-300">{t('about.mastersSchool')}</p>
+                      <p className="text-sm text-cyan-400 font-medium">{t('about.mastersStatus')}</p>
                     </div>
                     <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">Bachelor in Computer Application</h4>
-                      <p className="text-gray-300">Gujarat University</p>
-                      <p className="text-sm text-cyan-400 font-medium">2022</p>
+                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.bachelors')}</h4>
+                      <p className="text-gray-300">{t('about.bachelorsSchool')}</p>
+                      <p className="text-sm text-cyan-400 font-medium">{t('about.bachelorsYear')}</p>
                     </div>
                     <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">Software Developer Intern</h4>
-                      <p className="text-gray-300">Professional Experience</p>
-                      <p className="text-sm text-cyan-400 font-medium">2022</p>
+                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.internship')}</h4>
+                      <p className="text-gray-300">{t('about.internshipType')}</p>
+                      <p className="text-sm text-cyan-400 font-medium">{t('about.internshipYear')}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -328,7 +334,7 @@ const Index = () => {
       <section id="skills" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Skills & Expertise
+            {t('skills.title')}
           </h2>
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-10">
@@ -360,7 +366,7 @@ const Index = () => {
       <section id="services" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-700 ${visibleSections.has('services') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Services
+            {t('services.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {services.map((service, index) => (
@@ -386,7 +392,7 @@ const Index = () => {
       <section id="portfolio" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Portfolio
+            {t('portfolio.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {projects.map((project, index) => (
@@ -399,7 +405,7 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">Technologies:</h4>
+                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.technologies')}</h4>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech, techIndex) => (
                         <Badge key={techIndex} className="backdrop-blur-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/30 transition-all duration-500 hover:scale-105">
@@ -409,7 +415,7 @@ const Index = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">Key Features:</h4>
+                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.features')}</h4>
                     <ul className="text-sm text-gray-300 space-y-2">
                       {project.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-center">
@@ -430,15 +436,14 @@ const Index = () => {
       <section id="contact" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Get In Touch
+            {t('contact.title')}
           </h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16">
               <div>
-                <h3 className="text-3xl font-bold mb-8 text-gray-200">Let's Work Together</h3>
+                <h3 className="text-3xl font-bold mb-8 text-gray-200">{t('contact.subtitle')}</h3>
                 <p className="text-gray-300 mb-10 leading-relaxed text-lg">
-                  I'm always interested in new opportunities and exciting projects. 
-                  Feel free to reach out if you'd like to discuss potential collaborations.
+                  {t('contact.description')}
                 </p>
                 <div className="space-y-6">
                   <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
@@ -478,21 +483,21 @@ const Index = () => {
                   >
                     <User className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
                     <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      Download Resume
+                      {t('contact.resume')}
                     </span>
                   </button>
                 </div>
               </div>
               <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
                 <CardHeader>
-                  <CardTitle className="text-gray-200 text-2xl">Send Message</CardTitle>
+                  <CardTitle className="text-gray-200 text-2xl">{t('contact.form.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <Input 
                       type="text" 
                       name="name" 
-                      placeholder="Your Name" 
+                      placeholder={t('contact.form.name')} 
                       value={formData.name} 
                       onChange={handleInputChange} 
                       className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
@@ -502,7 +507,7 @@ const Index = () => {
                     <Input 
                       type="email" 
                       name="email" 
-                      placeholder="Your Email" 
+                      placeholder={t('contact.form.email')} 
                       value={formData.email} 
                       onChange={handleInputChange} 
                       className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
@@ -511,7 +516,7 @@ const Index = () => {
                     />
                     <Textarea 
                       name="message" 
-                      placeholder="Your Message" 
+                      placeholder={t('contact.form.message')} 
                       value={formData.message} 
                       onChange={handleInputChange} 
                       className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" 
@@ -523,7 +528,7 @@ const Index = () => {
                       className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/30 py-4 text-lg" 
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
                     </Button>
                   </form>
                 </CardContent>
@@ -537,7 +542,7 @@ const Index = () => {
       <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/20">
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-300 font-medium text-lg">
-            © 2024 Siddharth Ahir. All rights reserved.
+            {t('footer.copyright')}
           </p>
         </div>
       </footer>
