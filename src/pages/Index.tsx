@@ -1,5 +1,4 @@
-
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { ArrowRight, Code, Palette, Smartphone, Globe, Database, Cloud, Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
@@ -10,7 +9,6 @@ import MobileNav from '@/components/MobileNav';
 
 const Index = () => {
   const { t } = useLanguage();
-  const [isChatOpen, setIsChatOpen] = useState(false);
   
   const heroRef = useRef<HTMLElement>(null);
   const aboutRef = useRef<HTMLElement>(null);
@@ -535,10 +533,10 @@ const Index = () => {
 
       {/* Chat Button - positioned to avoid conflicts with mobile nav */}
       <div className="fixed bottom-6 right-6 z-40">
-        <ChatButton onClick={() => setIsChatOpen(true)} isOpen={isChatOpen} />
+        <ChatButton />
       </div>
 
-      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      <ChatWindow />
     </div>
   );
 };
