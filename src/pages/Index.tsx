@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+
+import React, { useRef, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { ArrowRight, Code, Palette, Smartphone, Globe, Database, Cloud, Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
@@ -9,6 +10,7 @@ import MobileNav from '@/components/MobileNav';
 
 const Index = () => {
   const { t } = useLanguage();
+  const [isChatOpen, setIsChatOpen] = useState(false);
   
   const heroRef = useRef<HTMLElement>(null);
   const aboutRef = useRef<HTMLElement>(null);
@@ -48,24 +50,24 @@ const Index = () => {
         <div className="container mx-auto text-center z-10 relative">
           <div className="animate-fade-in">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
-              {t('hero.title')}
+              Python Developer | Django & SQL Specialist
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-              {t('hero.subtitle')}
+              Full-stack developer passionate about creating innovative web solutions and scalable applications
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
                 onClick={() => scrollToSection('portfolio')}
                 className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full text-white font-semibold text-lg transition-all duration-500 hover:scale-110 hover:shadow-2xl hover:shadow-cyan-500/25"
               >
-                <span className="relative z-10">{t('hero.cta.portfolio')}</span>
+                <span className="relative z-10">View My Work</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
                 className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-full font-semibold text-lg hover:bg-cyan-400 hover:text-black transition-all duration-500 hover:scale-110"
               >
-                {t('hero.cta.contact')}
+                Get In Touch
               </button>
             </div>
           </div>
@@ -89,10 +91,10 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
-              {t('about.title')}
+              About Me
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              {t('about.description')}
+              I'm a passionate developer with expertise in Python, Django, and modern web technologies. I love creating efficient, scalable solutions.
             </p>
           </motion.div>
 
@@ -104,19 +106,19 @@ const Index = () => {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <h3 className="text-2xl font-semibold text-cyan-400 mb-4">{t('about.passion.title')}</h3>
+              <h3 className="text-2xl font-semibold text-cyan-400 mb-4">My Passion</h3>
               <p className="text-gray-300 leading-relaxed">
-                {t('about.passion.description')}
+                I'm passionate about creating innovative solutions that make a difference. With a strong foundation in backend development and database management, I enjoy tackling complex challenges and building robust applications.
               </p>
               <div className="flex flex-wrap gap-4">
                 <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-600/20 rounded-full text-cyan-400 border border-cyan-400/30">
-                  {t('about.traits.creative')}
+                  Creative
                 </span>
                 <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-full text-purple-400 border border-purple-400/30">
-                  {t('about.traits.innovative')}
+                  Innovative
                 </span>
                 <span className="px-4 py-2 bg-gradient-to-r from-pink-500/20 to-cyan-600/20 rounded-full text-pink-400 border border-pink-400/30">
-                  {t('about.traits.dedicated')}
+                  Dedicated
                 </span>
               </div>
             </motion.div>
@@ -129,15 +131,15 @@ const Index = () => {
               className="relative"
             >
               <div className="relative z-10 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
-                <h3 className="text-2xl font-semibold text-purple-400 mb-6">{t('about.experience.title')}</h3>
+                <h3 className="text-2xl font-semibold text-purple-400 mb-6">Experience</h3>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full flex items-center justify-center">
                       <Code size={24} />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">{t('about.experience.years')}</h4>
-                      <p className="text-gray-400">{t('about.experience.coding')}</p>
+                      <h4 className="font-semibold text-white">3+ Years</h4>
+                      <p className="text-gray-400">Coding Experience</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -145,8 +147,8 @@ const Index = () => {
                       <Palette size={24} />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">{t('about.experience.projects')}</h4>
-                      <p className="text-gray-400">{t('about.experience.completed')}</p>
+                      <h4 className="font-semibold text-white">50+ Projects</h4>
+                      <p className="text-gray-400">Successfully Completed</p>
                     </div>
                   </div>
                 </div>
@@ -168,10 +170,10 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-              {t('skills.title')}
+              Skills & Expertise
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {t('skills.description')}
+              A comprehensive overview of my technical skills and areas of expertise
             </p>
           </motion.div>
 
@@ -179,37 +181,37 @@ const Index = () => {
             {[
               {
                 icon: <Code size={32} />,
-                title: t('skills.frontend.title'),
+                title: 'Frontend Development',
                 skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Vue.js'],
                 gradient: 'from-cyan-500 to-blue-600'
               },
               {
                 icon: <Database size={32} />,
-                title: t('skills.backend.title'),
+                title: 'Backend Development',
                 skills: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'Express'],
                 gradient: 'from-purple-500 to-indigo-600'
               },
               {
                 icon: <Smartphone size={32} />,
-                title: t('skills.mobile.title'),
+                title: 'Mobile Development',
                 skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo'],
                 gradient: 'from-pink-500 to-rose-600'
               },
               {
                 icon: <Cloud size={32} />,
-                title: t('skills.cloud.title'),
+                title: 'Cloud & DevOps',
                 skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform'],
                 gradient: 'from-green-500 to-emerald-600'
               },
               {
                 icon: <Palette size={32} />,
-                title: t('skills.design.title'),
+                title: 'Design & UI/UX',
                 skills: ['Figma', 'Adobe XD', 'Photoshop', 'Illustrator', 'Sketch'],
                 gradient: 'from-orange-500 to-red-600'
               },
               {
                 icon: <Globe size={32} />,
-                title: t('skills.other.title'),
+                title: 'Other Technologies',
                 skills: ['Git', 'GraphQL', 'REST APIs', 'Testing', 'Agile'],
                 gradient: 'from-teal-500 to-cyan-600'
               }
@@ -256,10 +258,10 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">
-              {t('services.title')}
+              Services
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {t('services.description')}
+              Comprehensive development services tailored to your needs
             </p>
           </motion.div>
 
@@ -267,23 +269,23 @@ const Index = () => {
             {[
               {
                 icon: <Globe size={40} />,
-                title: t('services.web.title'),
-                description: t('services.web.description'),
-                features: [t('services.web.responsive'), t('services.web.performance'), t('services.web.seo')],
+                title: 'Web Development',
+                description: 'Full-stack web applications using modern technologies and best practices',
+                features: ['Responsive Design', 'Performance Optimization', 'SEO Friendly'],
                 gradient: 'from-blue-500 to-cyan-600'
               },
               {
                 icon: <Smartphone size={40} />,
-                title: t('services.mobile.title'),
-                description: t('services.mobile.description'),
-                features: [t('services.mobile.crossPlatform'), t('services.mobile.native'), t('services.mobile.ui')],
+                title: 'Mobile Development',
+                description: 'Cross-platform mobile applications for iOS and Android',
+                features: ['Cross-Platform', 'Native Performance', 'Modern UI/UX'],
                 gradient: 'from-purple-500 to-pink-600'
               },
               {
                 icon: <Palette size={40} />,
-                title: t('services.design.title'),
-                description: t('services.design.description'),
-                features: [t('services.design.userCentric'), t('services.design.modern'), t('services.design.branding')],
+                title: 'UI/UX Design',
+                description: 'User-centered design solutions that enhance user experience',
+                features: ['User-Centric Design', 'Modern Aesthetics', 'Brand Identity'],
                 gradient: 'from-pink-500 to-rose-600'
               }
             ].map((service, index) => (
@@ -328,32 +330,32 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-orange-600 bg-clip-text text-transparent">
-              {t('portfolio.title')}
+              My Portfolio
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {t('portfolio.description')}
+              A showcase of my recent projects and development work
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                title: t('portfolio.projects.ecommerce.title'),
-                description: t('portfolio.projects.ecommerce.description'),
+                title: 'E-Commerce Platform',
+                description: 'A full-featured online shopping platform with payment integration',
                 image: '/placeholder-project-1.jpg',
                 tech: ['React', 'Node.js', 'MongoDB'],
                 gradient: 'from-blue-500 to-purple-600'
               },
               {
-                title: t('portfolio.projects.dashboard.title'),
-                description: t('portfolio.projects.dashboard.description'),
+                title: 'Analytics Dashboard',
+                description: 'Real-time data visualization and analytics platform',
                 image: '/placeholder-project-2.jpg',
                 tech: ['Vue.js', 'Python', 'PostgreSQL'],
                 gradient: 'from-green-500 to-teal-600'
               },
               {
-                title: t('portfolio.projects.mobile.title'),
-                description: t('portfolio.projects.mobile.description'),
+                title: 'Mobile Task Manager',
+                description: 'Cross-platform mobile app for task and project management',
                 image: '/placeholder-project-3.jpg',
                 tech: ['React Native', 'Firebase'],
                 gradient: 'from-pink-500 to-rose-600'
@@ -387,7 +389,7 @@ const Index = () => {
                       ))}
                     </div>
                     <button className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300 group">
-                      {t('portfolio.viewProject')}
+                      View Project
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
                     </button>
                   </div>
@@ -410,10 +412,10 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-400 to-pink-600 bg-clip-text text-transparent">
-              {t('contact.title')}
+              Get In Touch
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {t('contact.description')}
+              Ready to start your next project? Let's discuss how we can work together
             </p>
           </motion.div>
 
@@ -425,7 +427,7 @@ const Index = () => {
               viewport={{ once: true }}
               className="space-y-8"
             >
-              <h3 className="text-2xl font-semibold text-white mb-6">{t('contact.getInTouch')}</h3>
+              <h3 className="text-2xl font-semibold text-white mb-6">Let's Connect</h3>
               
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
@@ -433,7 +435,7 @@ const Index = () => {
                     <Mail size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white">{t('contact.email')}</h4>
+                    <h4 className="font-semibold text-white">Email</h4>
                     <p className="text-gray-400">siddharth@example.com</p>
                   </div>
                 </div>
@@ -443,7 +445,7 @@ const Index = () => {
                     <Phone size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white">{t('contact.phone')}</h4>
+                    <h4 className="font-semibold text-white">Phone</h4>
                     <p className="text-gray-400">+1 (555) 123-4567</p>
                   </div>
                 </div>
@@ -453,14 +455,14 @@ const Index = () => {
                     <MapPin size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white">{t('contact.location')}</h4>
+                    <h4 className="font-semibold text-white">Location</h4>
                     <p className="text-gray-400">San Francisco, CA</p>
                   </div>
                 </div>
               </div>
 
               <div className="pt-8">
-                <h4 className="text-lg font-semibold text-white mb-4">{t('contact.followMe')}</h4>
+                <h4 className="text-lg font-semibold text-white mb-4">Follow Me</h4>
                 <div className="flex gap-4">
                   <a href="#" className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
                     <Github size={24} />
@@ -486,34 +488,34 @@ const Index = () => {
                 <form className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {t('contact.form.name')}
+                      Your Name
                     </label>
                     <input
                       type="text"
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors duration-300"
-                      placeholder={t('contact.form.namePlaceholder')}
+                      placeholder="Enter your name"
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {t('contact.form.email')}
+                      Email Address
                     </label>
                     <input
                       type="email"
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors duration-300"
-                      placeholder={t('contact.form.emailPlaceholder')}
+                      placeholder="Enter your email"
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {t('contact.form.message')}
+                      Message
                     </label>
                     <textarea
                       rows={5}
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors duration-300 resize-none"
-                      placeholder={t('contact.form.messagePlaceholder')}
+                      placeholder="Tell me about your project"
                     ></textarea>
                   </div>
                   
@@ -521,7 +523,7 @@ const Index = () => {
                     type="submit"
                     className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white font-semibold hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25"
                   >
-                    {t('contact.form.send')}
+                    Send Message
                   </button>
                 </form>
               </div>
@@ -533,10 +535,10 @@ const Index = () => {
 
       {/* Chat Button - positioned to avoid conflicts with mobile nav */}
       <div className="fixed bottom-6 right-6 z-40">
-        <ChatButton />
+        <ChatButton onClick={() => setIsChatOpen(true)} isOpen={isChatOpen} />
       </div>
 
-      <ChatWindow />
+      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
   );
 };
