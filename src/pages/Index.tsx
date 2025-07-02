@@ -136,7 +136,18 @@ const Index = () => {
   };
 
   const handleResumeDownload = () => {
-    window.open('https://drive.google.com/file/d/1cHdySudiH8OXflg96Y6srBCyFYg3iZwu/view?usp=sharing', '_blank');
+    // Create a temporary link element to trigger download
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Siddharth_Ahir_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast({
+      title: "Resume Downloaded",
+      description: "Your resume has been downloaded successfully!"
+    });
   };
 
   return (
@@ -211,7 +222,7 @@ const Index = () => {
       {/* Enhanced Dark Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
         <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          {/* Enhanced Profile Section with new image */}
+          {/* Enhanced Profile Section with fixed image positioning */}
           <div className="mb-8">
             <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
               <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
@@ -221,7 +232,8 @@ const Index = () => {
                   <img 
                     src="https://i.postimg.cc/jdKRxWhL/IMG-1242.jpg" 
                     alt="Siddharth Ahir Profile" 
-                    className="w-full h-full object-cover rounded-full scale-110 object-center transition-all duration-700 group-hover:scale-125 filter brightness-110 contrast-110" 
+                    className="w-full h-full object-cover rounded-full object-center transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
+                    style={{ objectPosition: 'center 30%' }}
                   />
                 </div>
               </div>
