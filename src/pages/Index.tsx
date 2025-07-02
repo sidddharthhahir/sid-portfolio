@@ -44,52 +44,52 @@ const Index = () => {
   }, []);
 
   const skills = [
-    { name: t('skills.python.name'), icon: Code, description: t('skills.python.desc') },
-    { name: t('skills.django.name'), icon: Server, description: t('skills.django.desc') },
-    { name: t('skills.sql.name'), icon: Database, description: t('skills.sql.desc') },
-    { name: t('skills.postgresql.name'), icon: Database, description: t('skills.postgresql.desc') },
-    { name: t('skills.javascript.name'), icon: Braces, description: t('skills.javascript.desc') },
-    { name: t('skills.html.name'), icon: FileCode, description: t('skills.html.desc') },
-    { name: t('skills.git.name'), icon: GitBranch, description: t('skills.git.desc') },
-    { name: t('skills.api.name'), icon: Layers, description: t('skills.api.desc') }
+    { name: 'Python', icon: Code, description: 'Advanced programming with Django, Flask frameworks' },
+    { name: 'Django', icon: Server, description: 'Full-stack web development and REST APIs' },
+    { name: 'SQL', icon: Database, description: 'Database design, optimization, and complex queries' },
+    { name: 'PostgreSQL', icon: Database, description: 'Advanced database management and performance tuning' },
+    { name: 'JavaScript', icon: Braces, description: 'Modern ES6+, DOM manipulation, and async programming' },
+    { name: 'HTML/CSS', icon: FileCode, description: 'Semantic markup, responsive design, and animations' },
+    { name: 'Git', icon: GitBranch, description: 'Version control, branching strategies, and collaboration' },
+    { name: 'REST APIs', icon: Layers, description: 'API design, integration, and testing' }
   ];
 
   const services = [
     {
       icon: Globe,
-      title: t('services.web.title'),
-      description: t('services.web.desc')
+      title: 'Web Development',
+      description: 'Creating responsive, user-friendly websites and web applications using modern technologies and best practices.'
     },
     {
       icon: Database,
-      title: t('services.database.title'),
-      description: t('services.database.desc')
+      title: 'Database Management',
+      description: 'Designing and optimizing databases, ensuring data integrity, and implementing efficient query strategies.'
     },
     {
       icon: Code,
-      title: t('services.python.title'),
-      description: t('services.python.desc')
+      title: 'Python Development',
+      description: 'Building robust applications, automation scripts, and data processing solutions using Python and its frameworks.'
     }
   ];
 
   const projects = [
     {
-      title: t('portfolio.recipe.title'),
-      description: t('portfolio.recipe.desc'),
+      title: 'Recipe Management System',
+      description: 'A comprehensive web application for managing and sharing recipes with advanced search and categorization features.',
       technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
-      features: [t('portfolio.recipe.feature1'), t('portfolio.recipe.feature2'), t('portfolio.recipe.feature3'), t('portfolio.recipe.feature4')]
+      features: ['User authentication and profiles', 'Recipe CRUD operations with image upload', 'Advanced search and filtering system', 'Social features for sharing and rating recipes']
     },
     {
-      title: t('portfolio.task.title'),
-      description: t('portfolio.task.desc'),
+      title: 'Task Management Dashboard',
+      description: 'An intuitive task management system with real-time updates and collaborative features for team productivity.',
       technologies: ['Django', 'MySQL', 'JavaScript', 'CSS'],
-      features: [t('portfolio.task.feature1'), t('portfolio.task.feature2'), t('portfolio.task.feature3'), t('portfolio.task.feature4')]
+      features: ['Real-time task updates and notifications', 'Team collaboration and assignment features', 'Progress tracking with visual analytics', 'Responsive design for all devices']
     },
     {
-      title: t('portfolio.hci.title'),
-      description: t('portfolio.hci.desc'),
+      title: 'HCI Research Project',
+      description: 'Comprehensive user experience research and analysis project focusing on improving digital interface usability.',
       technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
-      features: [t('portfolio.hci.feature1'), t('portfolio.hci.feature2'), t('portfolio.hci.feature3'), t('portfolio.hci.feature4')]
+      features: ['User behavior analysis and insights', 'Usability testing and evaluation', 'Interface design recommendations', 'Comprehensive research documentation']
     }
   ];
 
@@ -136,12 +136,7 @@ const Index = () => {
   };
 
   const handleResumeDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'Sid_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    window.open('https://drive.google.com/file/d/1cHdySudiH8OXflg96Y6srBCyFYg3iZwu/view?usp=sharing', '_blank');
   };
 
   return (
@@ -216,17 +211,17 @@ const Index = () => {
       {/* Enhanced Dark Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
         <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          {/* Enhanced Profile Section with icons removed */}
+          {/* Enhanced Profile Section with new image */}
           <div className="mb-8">
             <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
               <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
               <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
-              <div className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700">
-                <div className="w-full h-full rounded-full overflow-hidden">
+              <div className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl">
+                <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                   <img 
-                    src="https://i.postimg.cc/zBffmxgY/IMG-2591.jpg" 
+                    src="https://i.postimg.cc/jdKRxWhL/IMG-1242.jpg" 
                     alt="Siddharth Ahir Profile" 
-                    className="w-full h-full object-cover rounded-full scale-110 object-center transition-all duration-700 group-hover:scale-125" 
+                    className="w-full h-full object-cover rounded-full scale-110 object-center transition-all duration-700 group-hover:scale-125 filter brightness-110 contrast-110" 
                   />
                 </div>
               </div>
@@ -237,22 +232,23 @@ const Index = () => {
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
               <Sparkles size={28} className="text-yellow-400 animate-pulse" />
-              <span className="text-2xl text-gray-300 font-medium">{t('hero.greeting')}</span>
+              <span className="text-2xl text-gray-300 font-medium">Hello, I'm</span>
               <Sparkles size={28} className="text-yellow-400 animate-pulse delay-500" />
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold mb-8">
               <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                {t('hero.name')}
+                Siddharth Ahir
               </span>
             </h1>
 
             <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
-              {t('hero.title')}
+              Python Developer & Database Expert
             </h2>
 
             <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              {t('hero.description')}
+              Passionate about creating efficient web applications and robust database solutions. 
+              Currently pursuing Master's in Computer Science with expertise in Python, Django, and modern web technologies.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -261,7 +257,7 @@ const Index = () => {
                 className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl border border-white/20 group"
               >
                 <span className="flex items-center gap-3">
-                  {t('hero.viewWork')}
+                  View My Work
                   <Star size={20} className="group-hover:rotate-180 transition-transform duration-500" />
                 </span>
               </Button>
@@ -269,14 +265,14 @@ const Index = () => {
                 onClick={() => scrollToSection('contact')} 
                 className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl hover:shadow-purple-500/25"
               >
-                {t('hero.contactMe')}
+                Contact Me
               </Button>
             </div>
           </div>
 
           <div className="mt-16">
             <div className="flex flex-col items-center gap-3">
-              <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
+              <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
               <div className="animate-bounce">
                 <ArrowDown size={28} className="text-cyan-400" />
               </div>
@@ -436,14 +432,15 @@ const Index = () => {
       <section id="contact" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('contact.title')}
+            Get In Touch
           </h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16">
               <div>
-                <h3 className="text-3xl font-bold mb-8 text-gray-200">{t('contact.subtitle')}</h3>
+                <h3 className="text-3xl font-bold mb-8 text-gray-200">Let's Work Together</h3>
                 <p className="text-gray-300 mb-10 leading-relaxed text-lg">
-                  {t('contact.description')}
+                  I'm always interested in new opportunities and collaborations. 
+                  Feel free to reach out if you'd like to discuss a project or just say hello!
                 </p>
                 <div className="space-y-6">
                   <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
@@ -483,21 +480,21 @@ const Index = () => {
                   >
                     <User className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
                     <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      {t('contact.resume')}
+                      Download Resume
                     </span>
                   </button>
                 </div>
               </div>
               <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
                 <CardHeader>
-                  <CardTitle className="text-gray-200 text-2xl">{t('contact.form.title')}</CardTitle>
+                  <CardTitle className="text-gray-200 text-2xl">Send Message</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <Input 
                       type="text" 
                       name="name" 
-                      placeholder={t('contact.form.name')} 
+                      placeholder="Your Name" 
                       value={formData.name} 
                       onChange={handleInputChange} 
                       className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
@@ -507,7 +504,7 @@ const Index = () => {
                     <Input 
                       type="email" 
                       name="email" 
-                      placeholder={t('contact.form.email')} 
+                      placeholder="Your Email" 
                       value={formData.email} 
                       onChange={handleInputChange} 
                       className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
@@ -516,7 +513,7 @@ const Index = () => {
                     />
                     <Textarea 
                       name="message" 
-                      placeholder={t('contact.form.message')} 
+                      placeholder="Your Message" 
                       value={formData.message} 
                       onChange={handleInputChange} 
                       className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" 
@@ -528,7 +525,7 @@ const Index = () => {
                       className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/30 py-4 text-lg" 
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
                 </CardContent>
