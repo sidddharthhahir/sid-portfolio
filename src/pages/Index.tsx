@@ -136,18 +136,31 @@ const Index = () => {
   };
 
   const handleResumeDownload = () => {
-    // Create a temporary link element to trigger download
-    const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'Siddharth_Ahir_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    toast({
-      title: "Resume Downloaded",
-      description: "Your resume has been downloaded successfully!"
-    });
+    try {
+      // Create a temporary link element to trigger download
+      const link = document.createElement('a');
+      link.href = '/siddharth ahir resume.pdf';
+      link.download = 'Siddharth Ahir Resume.pdf';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast({
+        title: "Resume Downloaded",
+        description: "Your resume has been downloaded successfully!"
+      });
+    } catch (error) {
+      console.error('Download failed:', error);
+      toast({
+        title: "Download Error",
+        description: "Failed to download resume. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
