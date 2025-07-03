@@ -139,8 +139,8 @@ const Index = () => {
     try {
       // Create a temporary link element to trigger download
       const link = document.createElement('a');
-      link.href = '/siddharth ahir resume.pdf';
-      link.download = 'Siddharth Ahir Resume.pdf';
+      link.href = '/siddharth-ahir-resume.pdf';
+      link.download = 'siddharth-ahir-resume.pdf';
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       
