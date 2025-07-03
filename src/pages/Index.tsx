@@ -9,7 +9,7 @@ import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Navigation from '@/components/Navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -202,35 +202,8 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Dark Glassmorphism Navigation */}
-      <nav className="fixed top-0 w-full backdrop-blur-2xl bg-black/20 border-b border-white/10 z-50 transition-all duration-500 shadow-lg">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              {t('hero.name')}
-            </div>
-            <div className="hidden md:flex space-x-8 items-center">
-              {[
-                { key: 'nav.home', section: 'home' },
-                { key: 'nav.about', section: 'about' },
-                { key: 'nav.skills', section: 'skills' },
-                { key: 'nav.services', section: 'services' },
-                { key: 'nav.portfolio', section: 'portfolio' },
-                { key: 'nav.contact', section: 'contact' }
-              ].map(item => (
-                <button
-                  key={item.key}
-                  onClick={() => scrollToSection(item.section)}
-                  className="text-gray-300 hover:text-cyan-400 transition-all duration-500 hover:scale-110 font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-cyan-400 after:to-purple-400 after:left-0 after:-bottom-1 after:transition-all after:duration-500 hover:after:w-full"
-                >
-                  {t(item.key)}
-                </button>
-              ))}
-              <LanguageSwitcher />
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Responsive Navigation */}
+      <Navigation scrollToSection={scrollToSection} />
 
       {/* Enhanced Dark Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
