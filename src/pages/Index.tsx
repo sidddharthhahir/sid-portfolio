@@ -11,6 +11,7 @@ import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
+import ConfettiEasterEgg from '@/components/ConfettiEasterEgg';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -23,6 +24,8 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
   const { toast } = useToast();
 
   // Intersection Observer for scroll animations
@@ -136,6 +139,21 @@ const Index = () => {
     });
   };
 
+  const handleProfileClick = () => {
+    setClickCount(prev => {
+      const newCount = prev + 1;
+      if (newCount === 3) {
+        setShowConfetti(true);
+        return 0; // Reset counter
+      }
+      return newCount;
+    });
+  };
+
+  const handleConfettiComplete = () => {
+    setShowConfetti(false);
+  };
+
   const handleResumeDownload = () => {
     try {
       // Create a temporary link element to trigger download
@@ -214,7 +232,10 @@ const Index = () => {
             <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
               <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
               <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
-              <div className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl">
+              <div 
+                className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer"
+                onClick={handleProfileClick}
+              >
                 <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                   <img 
                     src="https://i.postimg.cc/jdKRxWhL/IMG-1242.jpg" 
@@ -554,6 +575,12 @@ const Index = () => {
       <ChatWindow 
         isOpen={isChatOpen} 
         onClose={() => setIsChatOpen(false)}
+      />
+
+      {/* Easter Egg Confetti */}
+      <ConfettiEasterEgg 
+        isActive={showConfetti} 
+        onComplete={handleConfettiComplete} 
       />
     </div>
   );
