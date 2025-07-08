@@ -12,6 +12,7 @@ import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import ConfettiEasterEgg from '@/components/ConfettiEasterEgg';
+import InteractiveResume from '@/components/InteractiveResume';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -403,6 +404,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Interactive Resume Section */}
+      <InteractiveResume />
 
       {/* Dark Portfolio Section */}
       <section id="portfolio" className="py-24" data-animate>
