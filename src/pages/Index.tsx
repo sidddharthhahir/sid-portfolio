@@ -11,6 +11,7 @@ import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
+import CustomCursor from '@/components/CustomCursor';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -542,6 +543,9 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      {/* Custom Cursor */}
+      <CustomCursor />
 
       {/* Visitor Greeting */}
       <VisitorGreeting />
