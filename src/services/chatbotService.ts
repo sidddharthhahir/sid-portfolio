@@ -143,38 +143,52 @@ export class ChatbotService {
   }
 
   private async getOpenAIResponse(message: string): Promise<string> {
-    const systemPrompt = `You are Siddharth Ahir's personal AI assistant on his portfolio website. You provide precise, contextual answers about Siddharth based on visitor questions.
+    const systemPrompt = `You are Siddharth Ahir's personal AI assistant on his portfolio website. Greet visitors warmly and help them explore Siddharth's work and background.
 
 PERSONAL INFORMATION:
 - Full Name: Siddharth Ahir
-- Date of Birth: 25 August 2002
+- Date of Birth: 25 August 2002 (22 years old)
 - Role: Python Developer & Django Specialist
+- Current Location: Berlin, Germany (pursuing Master's degree)
 - Best Friends: Bhavsar, Mihir, Harsh, Bansri, Pranav, Dhruv
 - Email: sidahir25820@gmail.com
 - LinkedIn: linkedin.com/in/siddharth-ahir-798754262
 - GitHub: github.com/sidddharthhahir
 
-EDUCATION:
-- Master's in Computer Science (Currently Pursuing) - International University of Applied Sciences, Berlin
-- Bachelor in Computer Application (Completed 2022) - Gujarat University
+EDUCATION & BACKGROUND:
+- Master's in Computer Science (Currently Pursuing) - International University of Applied Sciences, Berlin, Germany
+- Bachelor in Computer Application (Completed 2022) - Gujarat University, India
+- Passionate about web development, database optimization, and creating efficient solutions
+- Enjoys working on challenging projects that solve real-world problems
 
-SKILLS: ${portfolioData.skills.join(', ')}
+TECHNICAL SKILLS: ${portfolioData.skills.join(', ')}
 
-PROJECTS:
+PROJECTS & ACHIEVEMENTS:
 ${portfolioData.projects.map(p => `- ${p.name}: ${p.description} (Technologies: ${p.technologies.join(', ')})`).join('\n')}
 
-INSTRUCTIONS:
-1. Answer ONLY what is specifically asked. Don't provide extra information unless requested.
-2. If asked about bachelor's degree, mention only bachelor's details, not master's.
-3. If asked about specific skills, focus on those skills mentioned.
-4. If asked about best friends, respond exactly: "Bhavsar, Mihir, Harsh, Bansri, Pranav, Dhruv"
-5. If asked about age or birth date, use "25 August 2002"
-6. Maintain conversation context for follow-up questions.
-7. For ambiguous questions, ask for clarification.
-8. Keep responses concise (1-3 sentences) unless detailed explanation is requested.
-9. Be conversational and helpful.
+PERSONALITY & INTERESTS:
+- Dedicated and passionate about technology
+- Enjoys learning new programming languages and frameworks
+- Believes in creating user-friendly and efficient solutions
+- Team player who values collaboration and friendship
+- Currently expanding skills through international education in Berlin
 
-Remember: You represent Siddharth professionally, so maintain a friendly but professional tone.`;
+PRIVACY & PERSONAL BOUNDARIES:
+- If asked about girlfriend, ex-girlfriend, or romantic relationships: "Sorry, I prefer to keep my personal relationships private."
+- If asked about family details beyond education: "I keep my family information private, but I'm happy to share about my professional journey."
+- For sensitive personal questions: Redirect to professional topics politely
+
+INSTRUCTIONS:
+1. Greet visitors warmly and offer to help them explore Siddharth's work
+2. When asked for "more details about Siddharth," provide a comprehensive summary including background, education, skills, achievements, and interests
+3. Handle personal/private questions gracefully while maintaining professionalism
+4. Be conversational, natural, and context-aware
+5. Maintain conversation context for follow-up questions
+6. Ask clarifying questions when needed
+7. Be enthusiastic about Siddharth's technical achievements and projects
+8. Always be friendly, professional, and respectful
+
+Remember: You represent Siddharth professionally while being personable and helpful to visitors.`;
 
     // Add message to conversation history
     this.conversationHistory.push({ role: 'user', content: message });
@@ -220,16 +234,34 @@ Remember: You represent Siddharth professionally, so maintain a friendly but pro
     const lowerMessage = message.toLowerCase().trim();
     console.log('Analyzing message:', lowerMessage);
 
+    // Personal relationship questions
+    if (this.containsAny(lowerMessage, ['girlfriend', 'ex-girlfriend', 'dating', 'relationship', 'romantic', 'partner'])) {
+      console.log('Matched: personal relationships');
+      return "Sorry, I prefer to keep my personal relationships private. I'm happy to share about my professional journey and technical skills instead!";
+    }
+
+    // Comprehensive details about Siddharth
+    if (this.containsAny(lowerMessage, ['more details', 'tell me about', 'who is siddharth', 'about siddharth', 'comprehensive', 'summary'])) {
+      console.log('Matched: comprehensive details');
+      return `Siddharth Ahir is a 22-year-old Python Developer and Django Specialist currently pursuing his Master's in Computer Science at International University of Applied Sciences in Berlin, Germany. He completed his Bachelor's in Computer Application from Gujarat University in 2022. 
+
+His technical expertise includes Python, Django, SQL, PostgreSQL, JavaScript, HTML/CSS, Git, and API development. He's passionate about creating efficient web applications and robust database solutions.
+
+Notable projects include a Recipe Management System with user authentication and image uploads, and a Task Management Dashboard with real-time updates. He also contributed to HCI research focusing on improving digital interface usability.
+
+Siddharth values collaboration and friendship, with close friends including Bhavsar, Mihir, Harsh, Bansri, Pranav, and Dhruv. He's dedicated to learning new technologies and solving real-world problems through code.`;
+    }
+
     // Date of birth / age questions
     if (this.containsAny(lowerMessage, ['birthday', 'birth date', 'date of birth', 'when was', 'born', 'age', 'how old'])) {
       console.log('Matched: birthday/age');
-      return "Siddharth was born on 25 August 2002.";
+      return "Siddharth was born on 25 August 2002, making him 22 years old.";
     }
 
     // Best friends question
     if (this.containsAny(lowerMessage, ['best friend', 'friends', 'who is siddharth\'s best friend', 'closest friend'])) {
       console.log('Matched: best friends');
-      return "Siddharth's best friends are: Bhavsar, Mihir, Harsh, Bansri, Pranav, Dhruv.";
+      return "Siddharth's best friends are: Bhavsar, Mihir, Harsh, Bansri, Pranav, and Dhruv. He values friendship and collaboration highly.";
     }
 
     // Specific education questions
@@ -238,15 +270,15 @@ Remember: You represent Siddharth professionally, so maintain a friendly but pro
       return "Siddharth completed his Bachelor in Computer Application from Gujarat University in 2022.";
     }
 
-    if (this.containsAny(lowerMessage, ['master', "master's", 'current study', 'currently studying'])) {
+    if (this.containsAny(lowerMessage, ['master', "master's", 'current study', 'currently studying', 'berlin'])) {
       console.log('Matched: master degree');
-      return "Siddharth is currently pursuing his Master's in Computer Science at International University of Applied Sciences in Berlin, Germany.";
+      return "Siddharth is currently pursuing his Master's in Computer Science at International University of Applied Sciences in Berlin, Germany. This international experience is expanding his technical knowledge and global perspective.";
     }
 
     // Greetings
     if (this.containsAny(lowerMessage, ['hi', 'hello', 'hey', 'greetings'])) {
       console.log('Matched: greetings');
-      return "Hello! I'm Siddharth's AI assistant. I can answer specific questions about his background, skills, projects, and personal information. What would you like to know?";
+      return "Hello! Welcome to Siddharth's portfolio! I'm his AI assistant and I'm here to help you explore his work and background. Feel free to ask me about his projects, skills, education, or any other questions you might have!";
     }
 
     // Skills and technologies
@@ -257,10 +289,10 @@ Remember: You represent Siddharth professionally, so maintain a friendly but pro
       );
       
       if (requestedSkills.length > 0) {
-        return `Yes, Siddharth is skilled in ${requestedSkills.join(', ')}. ${requestedSkills.includes('Python') ? 'He specializes in Python development with Django framework.' : ''}`;
+        return `Yes, Siddharth is skilled in ${requestedSkills.join(', ')}. ${requestedSkills.includes('Python') ? 'He specializes in Python development with Django framework and has experience building full-stack web applications.' : ''}`;
       }
       
-      return `Siddharth's key skills include: ${portfolioData.skills.slice(0, 6).join(', ')}. He specializes in Python and Django development.`;
+      return `Siddharth's technical skills include: ${portfolioData.skills.slice(0, 6).join(', ')}, and more. He specializes in Python and Django development, with strong database management and API integration abilities.`;
     }
 
     // Projects
@@ -268,30 +300,30 @@ Remember: You represent Siddharth professionally, so maintain a friendly but pro
       console.log('Matched: projects');
       if (lowerMessage.includes('recipe')) {
         const project = portfolioData.projects.find(p => p.name.toLowerCase().includes('recipe'));
-        return `${project?.name}: ${project?.description} Built with ${project?.technologies.join(', ')}.`;
+        return `${project?.name}: ${project?.description} Built with ${project?.technologies.join(', ')}. This project showcases his ability to create user-friendly applications with advanced features.`;
       }
       if (lowerMessage.includes('task')) {
         const project = portfolioData.projects.find(p => p.name.toLowerCase().includes('task'));
-        return `${project?.name}: ${project?.description} Built with ${project?.technologies.join(', ')}.`;
+        return `${project?.name}: ${project?.description} Built with ${project?.technologies.join(', ')}. This demonstrates his skills in real-time applications and team collaboration features.`;
       }
-      return "Siddharth has built several projects including a Recipe Manager and Personal Task Manager. Which specific project would you like to know about?";
+      return "Siddharth has built several impressive projects including a Recipe Management System with user authentication, a Task Management Dashboard with real-time updates, and contributed to HCI research. Which specific project interests you most?";
     }
 
     // Contact information
     if (this.containsAny(lowerMessage, ['contact', 'email', 'reach', 'linkedin', 'github'])) {
       console.log('Matched: contact');
-      return `You can reach Siddharth at ${portfolioData.contact.email}. Find him on LinkedIn or check his GitHub for code samples.`;
+      return `You can reach Siddharth at ${portfolioData.contact.email}. Connect with him on LinkedIn for professional networking or check his GitHub to see his code and contributions!`;
     }
 
-    // Location
-    if (this.containsAny(lowerMessage, ['where', 'location', 'berlin', 'germany'])) {
+    // Location and background
+    if (this.containsAny(lowerMessage, ['where', 'location', 'berlin', 'germany', 'india', 'gujarat'])) {
       console.log('Matched: location');
-      return "Siddharth is currently based in Berlin, Germany, where he's pursuing his Master's degree.";
+      return "Siddharth is currently based in Berlin, Germany, where he's pursuing his Master's degree. He originally completed his Bachelor's degree in Gujarat, India. This international experience gives him a diverse perspective on technology and collaboration.";
     }
 
-    // Default with clarification
+    // Default with helpful suggestions
     console.log('No specific match found');
-    return "I can help you learn about Siddharth's background, education, skills, projects, or personal information. Could you be more specific about what you'd like to know?";
+    return "I'm here to help you learn about Siddharth! You can ask me about his technical skills, educational background, projects he's built, his time in Berlin, or any other questions about his professional journey. What interests you most?";
   }
 
   private containsAny(text: string, keywords: string[]): boolean {

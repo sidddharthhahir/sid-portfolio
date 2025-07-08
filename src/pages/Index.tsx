@@ -10,6 +10,7 @@ import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
+import VisitorGreeting from '@/components/VisitorGreeting';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -541,6 +542,9 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      {/* Visitor Greeting */}
+      <VisitorGreeting />
 
       {/* Chatbot Components */}
       <ChatButton 
