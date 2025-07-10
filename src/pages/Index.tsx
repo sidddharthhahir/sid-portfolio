@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Code, Code2, Database, Globe, Server, Braces } from 'lucide-react';
 import SkillModal from '@/components/SkillModal';
@@ -163,27 +164,29 @@ const IndexPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold text-center mb-8">My Skills</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {skills.map((skill, index) => (
-          <div
-            key={index}
-            className="bg-white/5 backdrop-blur-sm rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer border border-white/10"
-            onClick={() => openModal(skill)}
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl">
-                {React.createElement(skill.icon, { size: 24, className: "text-cyan-400" })}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <div className="container mx-auto py-12 px-4">
+        <h1 className="text-4xl font-bold text-center mb-12 text-white">My Skills</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {skills.map((skill, index) => (
+            <div
+              key={index}
+              className="bg-white/10 backdrop-blur-sm rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border border-white/20 hover:border-cyan-400/50 group"
+              onClick={() => openModal(skill)}
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-gradient-to-r from-cyan-500/30 to-purple-500/30 rounded-2xl group-hover:from-cyan-400/40 group-hover:to-purple-400/40 transition-all duration-300">
+                  {React.createElement(skill.icon, { size: 28, className: "text-cyan-400" })}
+                </div>
+                <h2 className="text-2xl font-semibold text-white group-hover:text-cyan-400 transition-colors duration-300">{skill.name}</h2>
               </div>
-              <h2 className="text-xl font-semibold text-gray-200">{skill.name}</h2>
+              <p className="text-gray-300 leading-relaxed">{skill.description}</p>
             </div>
-            <p className="text-gray-300 mt-2">{skill.description}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <SkillModal isOpen={isModalOpen} onClose={closeModal} skill={selectedSkill} />
+        <SkillModal isOpen={isModalOpen} onClose={closeModal} skill={selectedSkill} />
+      </div>
     </div>
   );
 };
