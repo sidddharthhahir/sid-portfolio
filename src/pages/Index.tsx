@@ -5,13 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers } from 'lucide-react';
+import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import ConfettiEasterEgg from '@/components/ConfettiEasterEgg';
+import SkillModal from '@/components/SkillModal';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -26,6 +27,8 @@ const Index = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState<any>(null);
+  const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const { toast } = useToast();
 
   // Intersection Observer for scroll animations
@@ -48,14 +51,85 @@ const Index = () => {
   }, []);
 
   const skills = [
-    { name: 'Python', icon: Code, description: 'Advanced programming with Django, Flask frameworks' },
-    { name: 'Django', icon: Server, description: 'Full-stack web development and REST APIs' },
-    { name: 'SQL', icon: Database, description: 'Database design, optimization, and complex queries' },
-    { name: 'PostgreSQL', icon: Database, description: 'Advanced database management and performance tuning' },
-    { name: 'JavaScript', icon: Braces, description: 'Modern ES6+, DOM manipulation, and async programming' },
-    { name: 'HTML/CSS', icon: FileCode, description: 'Semantic markup, responsive design, and animations' },
-    { name: 'Git', icon: GitBranch, description: 'Version control, branching strategies, and collaboration' },
-    { name: 'REST APIs', icon: Layers, description: 'API design, integration, and testing' }
+    { 
+      name: 'Python', 
+      icon: Code, 
+      description: 'Advanced programming with Django, Flask frameworks',
+      detailedDescription: 'I leverage Python to build robust backend applications, automation scripts, and data processing solutions. My expertise spans web development with Django and Flask, API development, and database integration.',
+      keyProjects: [
+        { name: 'Recipe Management System', url: 'https://github.com/sidddharthhahir/recipe-manager' },
+        { name: 'Task Management Dashboard', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
+      ]
+    },
+    { 
+      name: 'Django', 
+      icon: Server, 
+      description: 'Full-stack web development and REST APIs',
+      detailedDescription: 'I use Django to develop comprehensive web applications with robust backend architecture, user authentication, and RESTful API services, focusing on scalable and maintainable code.',
+      keyProjects: [
+        { name: 'Recipe Management System', url: 'https://github.com/sidddharthhahir/recipe-manager' },
+        { name: 'Task Management Dashboard', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
+      ]
+    },
+    { 
+      name: 'SQL', 
+      icon: Database, 
+      description: 'Database design, optimization, and complex queries',
+      detailedDescription: 'Proficient in designing efficient database schemas, writing complex queries, and optimizing database performance for web applications with focus on data integrity and scalability.',
+      keyProjects: [
+        { name: 'Recipe Management System' },
+        { name: 'Task Management Dashboard' }
+      ]
+    },
+    { 
+      name: 'PostgreSQL', 
+      icon: Database, 
+      description: 'Advanced database management and performance tuning',
+      detailedDescription: 'I utilize PostgreSQL for robust data storage solutions, implementing advanced features like indexing, stored procedures, and performance optimization for high-traffic applications.',
+      keyProjects: [
+        { name: 'Recipe Management System', url: 'https://github.com/sidddharthhahir/recipe-manager' }
+      ]
+    },
+    { 
+      name: 'JavaScript', 
+      icon: Braces, 
+      description: 'Modern ES6+, DOM manipulation, and async programming',
+      detailedDescription: 'I create dynamic and interactive web experiences using modern JavaScript, focusing on clean code practices, async programming, and seamless user interface interactions.',
+      keyProjects: [
+        { name: 'Task Management Dashboard', url: 'https://github.com/sidddharthhahir/personal-task-manager' },
+        { name: 'Portfolio Website' }
+      ]
+    },
+    { 
+      name: 'HTML/CSS', 
+      icon: FileCode, 
+      description: 'Semantic markup, responsive design, and animations',
+      detailedDescription: 'Proficient in crafting well-structured and visually appealing web layouts using semantic HTML and modern CSS techniques for responsive design and engaging user experiences.',
+      keyProjects: [
+        { name: 'Recipe Management System' },
+        { name: 'Task Management Dashboard' },
+        { name: 'Portfolio Website' }
+      ]
+    },
+    { 
+      name: 'Git', 
+      icon: GitBranch, 
+      description: 'Version control, branching strategies, and collaboration',
+      detailedDescription: 'I use Git for comprehensive version control, implementing effective branching strategies and collaborative development workflows to maintain clean and organized codebases.',
+      keyProjects: [
+        { name: 'All Projects' }
+      ]
+    },
+    { 
+      name: 'REST APIs', 
+      icon: Layers, 
+      description: 'API design, integration, and testing',
+      detailedDescription: 'I design and implement RESTful APIs with proper authentication, error handling, and documentation, ensuring seamless integration between frontend and backend systems.',
+      keyProjects: [
+        { name: 'Recipe Management System' },
+        { name: 'Task Management Dashboard' }
+      ]
+    }
   ];
 
   const services = [
@@ -81,13 +155,15 @@ const Index = () => {
       title: 'Recipe Management System',
       description: 'A comprehensive web application for managing and sharing recipes with advanced search and categorization features.',
       technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
-      features: ['User authentication and profiles', 'Recipe CRUD operations with image upload', 'Advanced search and filtering system', 'Social features for sharing and rating recipes']
+      features: ['User authentication and profiles', 'Recipe CRUD operations with image upload', 'Advanced search and filtering system', 'Social features for sharing and rating recipes'],
+      githubUrl: 'https://github.com/sidddharthhahir/recipe-manager'
     },
     {
       title: 'Task Management Dashboard',
       description: 'An intuitive task management system with real-time updates and collaborative features for team productivity.',
       technologies: ['Django', 'MySQL', 'JavaScript', 'CSS'],
-      features: ['Real-time task updates and notifications', 'Team collaboration and assignment features', 'Progress tracking with visual analytics', 'Responsive design for all devices']
+      features: ['Real-time task updates and notifications', 'Team collaboration and assignment features', 'Progress tracking with visual analytics', 'Responsive design for all devices'],
+      githubUrl: 'https://github.com/sidddharthhahir/personal-task-manager'
     },
     {
       title: 'HCI Research Project',
@@ -179,6 +255,17 @@ const Index = () => {
         description: "Failed to download resume. Please try again.",
         variant: "destructive"
       });
+    }
+  };
+
+  const handleSkillClick = (skill: any) => {
+    setSelectedSkill(skill);
+    setIsSkillModalOpen(true);
+  };
+
+  const handleProjectClick = (githubUrl?: string) => {
+    if (githubUrl) {
+      window.open(githubUrl, '_blank');
     }
   };
 
@@ -356,7 +443,10 @@ const Index = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-10">
               {skills.map((skill, index) => (
                 <div key={index} className="group">
-                  <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-125 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2">
+                  <Card 
+                    className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-125 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2 cursor-pointer hover:border-cyan-400/50"
+                    onClick={() => handleSkillClick(skill)}
+                  >
                     <CardContent className="p-8 text-center">
                       <div className="mb-6 flex justify-center">
                         <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/40 group-hover:to-purple-500/40 transition-all duration-500 backdrop-blur-xl border border-white/20 group-hover:scale-110">
@@ -369,6 +459,9 @@ const Index = () => {
                       <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-500">
                         {skill.description}
                       </p>
+                      <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="text-xs text-cyan-400 font-medium">Click for details</span>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -404,7 +497,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Dark Portfolio Section */}
+      {/* Enhanced Dark Portfolio Section */}
       <section id="portfolio" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
@@ -412,12 +505,31 @@ const Index = () => {
           </h2>
           <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {projects.map((project, index) => (
-              <Card key={index} className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3">
+              <Card 
+                key={index} 
+                className={`backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3 ${project.githubUrl ? 'cursor-pointer hover:border-purple-400/50' : ''}`}
+                onClick={() => handleProjectClick(project.githubUrl)}
+              >
                 <CardHeader>
-                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl">{project.title}</CardTitle>
+                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl flex items-center justify-between">
+                    {project.title}
+                    {project.githubUrl && (
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <ExternalLink size={20} className="text-purple-400" />
+                      </div>
+                    )}
+                  </CardTitle>
                   <CardDescription className="text-gray-300 leading-relaxed text-base">
                     {project.description}
                   </CardDescription>
+                  {project.githubUrl && (
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <Badge className="bg-purple-500/20 text-purple-300 border border-purple-400/30 text-xs">
+                        <Github size={12} className="mr-1" />
+                        View Code
+                      </Badge>
+                    </div>
+                  )}
                 </CardHeader>
                 <CardContent>
                   <div className="mb-6">
@@ -581,6 +693,13 @@ const Index = () => {
       <ConfettiEasterEgg 
         isActive={showConfetti} 
         onComplete={handleConfettiComplete} 
+      />
+
+      {/* Skill Modal */}
+      <SkillModal 
+        isOpen={isSkillModalOpen}
+        onClose={() => setIsSkillModalOpen(false)}
+        skill={selectedSkill}
       />
     </div>
   );
