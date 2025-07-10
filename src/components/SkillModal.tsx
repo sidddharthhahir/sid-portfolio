@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { X, ExternalLink } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -27,12 +27,9 @@ const SkillModal = ({ isOpen, onClose, skill }: SkillModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent 
-        className="backdrop-blur-2xl bg-black/90 border border-white/20 text-gray-200 max-w-md mx-auto relative"
-        aria-describedby="skill-modal-description"
-      >
+      <DialogContent className="backdrop-blur-2xl bg-black/90 border border-white/20 text-gray-200 max-w-md mx-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 text-2xl pr-8">
+          <DialogTitle className="flex items-center gap-3 text-2xl text-gray-200">
             <div className="p-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl">
               <IconComponent size={32} className="text-cyan-400" />
             </div>
@@ -40,9 +37,12 @@ const SkillModal = ({ isOpen, onClose, skill }: SkillModalProps) => {
               {skill.name}
             </span>
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Detailed information about {skill.name} skill including description and related projects
+          </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-6" id="skill-modal-description">
+        <div className="space-y-6">
           <div>
             <h4 className="text-lg font-semibold text-cyan-400 mb-3">About This Skill</h4>
             <p className="text-gray-300 leading-relaxed">
@@ -72,16 +72,6 @@ const SkillModal = ({ isOpen, onClose, skill }: SkillModalProps) => {
             </div>
           </div>
         </div>
-
-        <Button
-          onClick={onClose}
-          variant="ghost"
-          size="icon"
-          className="absolute right-4 top-4 text-gray-400 hover:text-white hover:bg-white/10 hover:scale-110 transition-all duration-200 z-10"
-          aria-label="Close modal"
-        >
-          <X size={20} />
-        </Button>
       </DialogContent>
     </Dialog>
   );
