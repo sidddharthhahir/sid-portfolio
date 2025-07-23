@@ -152,6 +152,20 @@ const Index = () => {
 
   const projects = [
     {
+      title: 'Personal Finance Management Web Application',
+      description: 'A comprehensive web application for managing personal finances with secure user authentication, expense tracking, and financial data visualization.',
+      technologies: ['Django', 'Bootstrap', 'JavaScript', 'Chart.js', 'EmailJS'],
+      features: [
+        'Secure user registration and login with email verification',
+        'Add and manage expenses and income with dynamic visualization',
+        'Export financial reports in PDF, Excel, and CSV formats',
+        'User currency preference settings for personalized experience',
+        'Django RESTful APIs with JSON and EmailJS integration',
+        'Responsive design with Bootstrap for intuitive user interface'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/MoneyBook.git'
+    },
+    {
       title: 'Recipe Management System',
       description: 'A comprehensive web application for managing and sharing recipes with advanced search and categorization features.',
       technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
@@ -350,7 +364,7 @@ const Index = () => {
             </h1>
 
             <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
-              Python Developer & Database Expert
+              Full-Stack Developer & Database Expert
             </h2>
 
             <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
@@ -503,11 +517,11 @@ const Index = () => {
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             {t('portfolio.title')}
           </h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
             {projects.map((project, index) => (
               <Card 
                 key={index} 
-                className={`backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3 ${project.githubUrl ? 'cursor-pointer hover:border-purple-400/50' : ''}`}
+                className={`backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3 ${project.githubUrl ? 'cursor-pointer hover:border-purple-400/50' : ''}`}
                 onClick={() => handleProjectClick(project.githubUrl)}
               >
                 <CardHeader>
@@ -546,8 +560,8 @@ const Index = () => {
                     <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.features')}</h4>
                     <ul className="text-sm text-gray-300 space-y-2">
                       {project.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center">
-                          <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mr-3"></span>
+                        <li key={featureIndex} className="flex items-start">
+                          <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
                           {feature}
                         </li>
                       ))}
