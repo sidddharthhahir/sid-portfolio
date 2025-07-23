@@ -14,6 +14,7 @@ import VisitorGreeting from '@/components/VisitorGreeting';
 import ConfettiEasterEgg from '@/components/ConfettiEasterEgg';
 import SkillModal from '@/components/SkillModal';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { RESUME_CONFIG } from '@/config/resume';
 
 const Index = () => {
   const { t } = useLanguage();
@@ -246,27 +247,29 @@ const Index = () => {
 
   const handleResumeDownload = () => {
     try {
-      // Create a temporary link element to trigger download
-      const link = document.createElement('a');
-      link.href = '/siddharth-ahir-resume.pdf';
-      link.download = 'siddharth-ahir-resume.pdf';
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
+      // Convert Google Drive view link to direct download link
+      let downloadUrl = RESUME_CONFIG.url;
       
-      // Append to body, click, and remove
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // If it's a Google Drive link, convert to direct download format
+      if (downloadUrl.includes('drive.google.com')) {
+        const fileId = downloadUrl.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
+        if (fileId) {
+          downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        }
+      }
+      
+      // Open the resume in a new tab
+      window.open(downloadUrl, '_blank', 'noopener,noreferrer');
       
       toast({
-        title: "Resume Downloaded",
-        description: "Your resume has been downloaded successfully!"
+        title: "Resume Opened",
+        description: `${RESUME_CONFIG.fileName} has been opened in a new tab!`
       });
     } catch (error) {
-      console.error('Download failed:', error);
+      console.error('Failed to open resume:', error);
       toast({
         title: "Download Error",
-        description: "Failed to download resume. Please try again.",
+        description: "Failed to open resume. Please try again.",
         variant: "destructive"
       });
     }
