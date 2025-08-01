@@ -483,30 +483,30 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Enhanced Dark Skills Section - Fixed Grid Layout */}
+      {/* Enhanced Dark Skills Section - Fixed Grid Layout with Subtle Hover */}
       <section id="skills" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Academic Projects
+            Technical Skills
           </h2>
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
               {skills.map((skill, index) => (
                 <div key={index} className="w-full max-w-xs">
                   <Card 
-                    className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-125 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2 cursor-pointer hover:border-cyan-400/50 h-full"
+                    className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/10 transform hover:-translate-y-1 cursor-pointer hover:border-cyan-400/30 h-full group"
                     onClick={() => handleSkillClick(skill)}
                   >
                     <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
                       <div className="mb-6 flex justify-center">
-                        <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/40 group-hover:to-purple-500/40 transition-all duration-500 backdrop-blur-xl border border-white/20 group-hover:scale-110">
-                          <skill.icon size={40} className="text-cyan-400 group-hover:text-purple-400 transition-all duration-500" />
+                        <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/30 group-hover:to-purple-500/30 transition-all duration-300 backdrop-blur-xl border border-white/20 group-hover:scale-105">
+                          <skill.icon size={40} className="text-cyan-400 group-hover:text-purple-400 transition-all duration-300" />
                         </div>
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-200 mb-3 group-hover:text-cyan-400 transition-all duration-500">
+                      <h3 className="text-xl font-semibold text-gray-200 mb-3 group-hover:text-cyan-400 transition-all duration-300">
                         {skill.name}
                       </h3>
-                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-500 text-center">
+                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-300 text-center">
                         {skill.description}
                       </p>
                       <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -547,11 +547,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Enhanced Dark Portfolio Section */}
+      {/* Enhanced Dark Portfolio Section - Now Academic Projects */}
       <section id="portfolio" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('portfolio.title')}
+            Academic Projects
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
             {projects.map((project, index) => (
@@ -610,7 +610,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Updated Dark Contact Section */}
+      {/* Updated Dark Contact Section with Proper Email Link */}
       <section id="contact" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
@@ -625,37 +625,37 @@ const Index = () => {
                   Feel free to reach out if you'd like to discuss a project or just say hello!
                 </p>
                 <div className="space-y-6">
-                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                  <a 
+                    href="mailto:sidahir25820@gmail.com"
+                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
+                  >
                     <Mail className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <a 
-                      href="mailto:sidahir25820@gmail.com" 
-                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
-                    >
+                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
                       Email
-                    </a>
-                  </div>
-                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    </span>
+                  </a>
+                  <a 
+                    href="https://linkedin.com/in/siddharth-ahir-798754262" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
+                  >
                     <Linkedin className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <a 
-                      href="https://linkedin.com/in/siddharth-ahir-798754262" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
-                    >
+                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
                       LinkedIn
-                    </a>
-                  </div>
-                  <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    </span>
+                  </a>
+                  <a 
+                    href="https://github.com/sidddharthhahir" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
+                  >
                     <Github className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <a 
-                      href="https://github.com/sidddharthhahir" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
-                    >
+                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
                       GitHub
-                    </a>
-                  </div>
+                    </span>
+                  </a>
                   <button 
                     onClick={handleResumeDownload}
                     className="flex items-center w-full p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105"
