@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink } from 'lucide-react';
+import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Edit, Save, X } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
@@ -30,7 +30,15 @@ const Index = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+  const [editingSections, setEditingSections] = useState<Set<string>>(new Set());
   const { toast } = useToast();
+
+  // Editable content state
+  const [content, setContent] = useState({
+    professionalSummary: "Results-driven Software Engineer with hands-on experience building and optimizing web applications using Python, Django, JavaScript, React, and SQL. Skilled in both backend and frontend development, with a strong foundation in designing scalable systems and creating responsive user interfaces. Demonstrated ability to learn new technologies quickly, solve complex problems, and deliver high-quality solutions through personal and academic projects. Committed to writing maintainable code and contributing effectively to collaborative teams.",
+    heroTitle: "Full-Stack Developer & Database Expert",
+    heroDescription: "Passionate about creating efficient web applications and robust database solutions. Currently pursuing Master's in Computer Science with expertise in Python, Django, and modern web technologies."
+  });
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -58,8 +66,20 @@ const Index = () => {
       description: 'Advanced programming with Django, Flask frameworks',
       detailedDescription: 'I leverage Python to build robust backend applications, automation scripts, and data processing solutions. My expertise spans web development with Django and Flask, API development, and database integration.',
       keyProjects: [
-        { name: 'Recipe Management System', url: 'https://github.com/sidddharthhahir/recipe-manager' },
-        { name: 'Task Management Dashboard', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
+        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
+        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' },
+        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
+      ]
+    },
+    { 
+      name: 'JavaScript', 
+      icon: Braces, 
+      description: 'Modern ES6+, React, Node.js development',
+      detailedDescription: 'Proficient in modern JavaScript (ES6+), React for frontend development, and Node.js for backend services. I create dynamic and interactive web experiences with clean code practices and async programming.',
+      keyProjects: [
+        { name: 'Portfolio Website' },
+        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
+        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
       ]
     },
     { 
@@ -68,8 +88,18 @@ const Index = () => {
       description: 'Full-stack web development and REST APIs',
       detailedDescription: 'I use Django to develop comprehensive web applications with robust backend architecture, user authentication, and RESTful API services, focusing on scalable and maintainable code.',
       keyProjects: [
-        { name: 'Recipe Management System', url: 'https://github.com/sidddharthhahir/recipe-manager' },
-        { name: 'Task Management Dashboard', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
+        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
+        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' },
+        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
+      ]
+    },
+    { 
+      name: 'React', 
+      icon: Layers, 
+      description: 'Modern frontend development with hooks and TypeScript',
+      detailedDescription: 'Expert in building dynamic user interfaces with React, utilizing hooks, context, and TypeScript for type-safe development. I create responsive and accessible web applications.',
+      keyProjects: [
+        { name: 'Portfolio Website' }
       ]
     },
     { 
@@ -78,8 +108,9 @@ const Index = () => {
       description: 'Database design, optimization, and complex queries',
       detailedDescription: 'Proficient in designing efficient database schemas, writing complex queries, and optimizing database performance for web applications with focus on data integrity and scalability.',
       keyProjects: [
-        { name: 'Recipe Management System' },
-        { name: 'Task Management Dashboard' }
+        { name: 'Personal Finance Management Web Application' },
+        { name: 'Recipe Manager' },
+        { name: 'Personal Task Manager' }
       ]
     },
     { 
@@ -88,28 +119,7 @@ const Index = () => {
       description: 'Advanced database management and performance tuning',
       detailedDescription: 'I utilize PostgreSQL for robust data storage solutions, implementing advanced features like indexing, stored procedures, and performance optimization for high-traffic applications.',
       keyProjects: [
-        { name: 'Recipe Management System', url: 'https://github.com/sidddharthhahir/recipe-manager' }
-      ]
-    },
-    { 
-      name: 'JavaScript', 
-      icon: Braces, 
-      description: 'Modern ES6+, DOM manipulation, and async programming',
-      detailedDescription: 'I create dynamic and interactive web experiences using modern JavaScript, focusing on clean code practices, async programming, and seamless user interface interactions.',
-      keyProjects: [
-        { name: 'Task Management Dashboard', url: 'https://github.com/sidddharthhahir/personal-task-manager' },
-        { name: 'Portfolio Website' }
-      ]
-    },
-    { 
-      name: 'HTML/CSS', 
-      icon: FileCode, 
-      description: 'Semantic markup, responsive design, and animations',
-      detailedDescription: 'Proficient in crafting well-structured and visually appealing web layouts using semantic HTML and modern CSS techniques for responsive design and engaging user experiences.',
-      keyProjects: [
-        { name: 'Recipe Management System' },
-        { name: 'Task Management Dashboard' },
-        { name: 'Portfolio Website' }
+        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' }
       ]
     },
     { 
@@ -127,8 +137,9 @@ const Index = () => {
       description: 'API design, integration, and testing',
       detailedDescription: 'I design and implement RESTful APIs with proper authentication, error handling, and documentation, ensuring seamless integration between frontend and backend systems.',
       keyProjects: [
-        { name: 'Recipe Management System' },
-        { name: 'Task Management Dashboard' }
+        { name: 'Personal Finance Management Web Application' },
+        { name: 'Recipe Manager' },
+        { name: 'Personal Task Manager' }
       ]
     }
   ];
@@ -146,8 +157,8 @@ const Index = () => {
     },
     {
       icon: Code,
-      title: 'Python Development',
-      description: 'Building robust applications, automation scripts, and data processing solutions using Python and its frameworks.'
+      title: 'Full-Stack Development',
+      description: 'Building complete applications from frontend to backend, ensuring seamless integration and optimal performance.'
     }
   ];
 
@@ -164,27 +175,52 @@ const Index = () => {
         'Django RESTful APIs with JSON and EmailJS integration',
         'Responsive design with Bootstrap for intuitive user interface'
       ],
-      githubUrl: 'https://github.com/sidddharthhahir/MoneyBook.git'
+      githubUrl: 'https://github.com/sidddharthhahir/MoneyBook.git',
+      timeline: 'June 2025 – July 2025'
     },
     {
-      title: 'Recipe Management System',
-      description: 'A comprehensive web application for managing and sharing recipes with advanced search and categorization features.',
-      technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap'],
-      features: ['User authentication and profiles', 'Recipe CRUD operations with image upload', 'Advanced search and filtering system', 'Social features for sharing and rating recipes'],
-      githubUrl: 'https://github.com/sidddharthhahir/recipe-manager'
+      title: 'Recipe Manager',
+      description: 'A comprehensive recipe management platform with authentication, image upload, advanced search capabilities, and optimized database performance.',
+      technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap', 'HTML5', 'CSS3'],
+      features: [
+        'User authentication and profile management',
+        'Recipe CRUD operations with image upload functionality', 
+        'Advanced search and filtering system with optimized queries',
+        'RESTful API design with PostgreSQL schema optimization',
+        '35% faster data retrieval through optimized database schemas',
+        'Social features for sharing and rating recipes'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/recipe-manager',
+      timeline: 'April 2025 – May 2025'
     },
     {
-      title: 'Task Management Dashboard',
-      description: 'An intuitive task management system with real-time updates and collaborative features for team productivity.',
-      technologies: ['Django', 'MySQL', 'JavaScript', 'CSS'],
-      features: ['Real-time task updates and notifications', 'Team collaboration and assignment features', 'Progress tracking with visual analytics', 'Responsive design for all devices'],
-      githubUrl: 'https://github.com/sidddharthhahir/personal-task-manager'
+      title: 'Personal Task Manager',
+      description: 'An intuitive task management system with real-time updates, user authentication, and motivational features for enhanced productivity.',
+      technologies: ['Django', 'MySQL', 'JavaScript', 'AJAX', 'HTML5', 'CSS3'],
+      features: [
+        'User registration and secure login system',
+        'Task management with due dates and priority levels',
+        'Motivational quotes integration for user engagement',
+        'Real-time AJAX updates for seamless user experience',
+        'Statistics dashboard with progress tracking',
+        'Responsive design for all devices'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/personal-task-manager',
+      timeline: 'Feb 2025 – March 2025'
     },
     {
-      title: 'HCI Research Project',
-      description: 'Comprehensive user experience research and analysis project focusing on improving digital interface usability.',
-      technologies: ['UX Research', 'Testing', 'Analysis', 'Documentation'],
-      features: ['User behavior analysis and insights', 'Usability testing and evaluation', 'Interface design recommendations', 'Comprehensive research documentation']
+      title: 'Portfolio Website',
+      description: 'A modern, interactive portfolio website built with React and TypeScript, featuring AI integration and multi-language support.',
+      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'shadcn-ui', 'AI Integration'],
+      features: [
+        'Interactive AI chatbot for visitor engagement',
+        'Multi-language support for international accessibility',
+        'Responsive design with modern UI components',
+        'Real-time analytics and visitor tracking',
+        '500+ unique visitors achieved in the first month',
+        'SEO optimized with fast loading performance'
+      ],
+      timeline: 'Ongoing'
     }
   ];
 
@@ -286,6 +322,37 @@ const Index = () => {
     }
   };
 
+  const toggleEditSection = (sectionId: string) => {
+    setEditingSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleContentChange = (sectionId: string, value: string) => {
+    setContent(prev => ({
+      ...prev,
+      [sectionId]: value
+    }));
+  };
+
+  const saveSection = (sectionId: string) => {
+    setEditingSections(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(sectionId);
+      return newSet;
+    });
+    toast({
+      title: "Content Updated",
+      description: "Your changes have been saved successfully!"
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Add custom animations in a style tag */}
@@ -366,14 +433,90 @@ const Index = () => {
               </span>
             </h1>
 
-            <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
-              Full-Stack Developer & Database Expert
-            </h2>
+            <div className="relative">
+              <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
+                {editingSections.has('heroTitle') ? (
+                  <div className="flex items-center gap-2 justify-center">
+                    <Input
+                      value={content.heroTitle}
+                      onChange={(e) => handleContentChange('heroTitle', e.target.value)}
+                      className="bg-black/40 border-cyan-400/50 text-gray-200 text-center text-2xl"
+                    />
+                    <Button
+                      size="sm"
+                      onClick={() => saveSection('heroTitle')}
+                      className="bg-green-600 hover:bg-green-700"
+                    >
+                      <Save size={16} />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => toggleEditSection('heroTitle')}
+                      className="text-gray-400 hover:text-gray-200"
+                    >
+                      <X size={16} />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 justify-center group">
+                    {content.heroTitle}
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => toggleEditSection('heroTitle')}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity text-cyan-400 hover:text-cyan-300"
+                    >
+                      <Edit size={16} />
+                    </Button>
+                  </div>
+                )}
+              </h2>
+            </div>
 
-            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Passionate about creating efficient web applications and robust database solutions. 
-              Currently pursuing Master's in Computer Science with expertise in Python, Django, and modern web technologies.
-            </p>
+            <div className="relative">
+              {editingSections.has('heroDescription') ? (
+                <div className="flex flex-col items-center gap-4">
+                  <Textarea
+                    value={content.heroDescription}
+                    onChange={(e) => handleContentChange('heroDescription', e.target.value)}
+                    className="bg-black/40 border-cyan-400/50 text-gray-200 text-center text-lg max-w-3xl mx-auto"
+                    rows={3}
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => saveSection('heroDescription')}
+                      className="bg-green-600 hover:bg-green-700"
+                    >
+                      <Save size={16} />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => toggleEditSection('heroDescription')}
+                      className="text-gray-400 hover:text-gray-200"
+                    >
+                      <X size={16} />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="group">
+                  <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+                    {content.heroDescription}
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => toggleEditSection('heroDescription')}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity text-cyan-400 hover:text-cyan-300 absolute -top-2 right-0"
+                  >
+                    <Edit size={16} />
+                  </Button>
+                </div>
+              )}
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button 
@@ -405,42 +548,79 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Dark About Section */}
+      {/* Enhanced Dark About Section */}
       <section id="about" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('about.title')}
-          </h2>
+          <div className="flex items-center justify-center gap-4 mb-16">
+            <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              {t('about.title')}
+            </h2>
+          </div>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
-                <p className="text-xl text-gray-300 leading-relaxed">
-                  {t('about.description1')}
-                </p>
-                <p className="text-xl text-gray-300 leading-relaxed">
-                  {t('about.description2')}
-                </p>
+                <div className="relative group">
+                  <h3 className="text-2xl font-bold mb-6 text-cyan-400">Professional Summary</h3>
+                  {editingSections.has('professionalSummary') ? (
+                    <div className="space-y-4">
+                      <Textarea
+                        value={content.professionalSummary}
+                        onChange={(e) => handleContentChange('professionalSummary', e.target.value)}
+                        className="bg-black/40 border-cyan-400/50 text-gray-200 min-h-[200px]"
+                        rows={8}
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => saveSection('professionalSummary')}
+                          className="bg-green-600 hover:bg-green-700"
+                        >
+                          <Save size={16} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => toggleEditSection('professionalSummary')}
+                          className="text-gray-400 hover:text-gray-200"
+                        >
+                          <X size={16} />
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-xl text-gray-300 leading-relaxed">
+                        {content.professionalSummary}
+                      </p>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => toggleEditSection('professionalSummary')}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-cyan-400 hover:text-cyan-300 absolute top-0 right-0"
+                      >
+                        <Edit size={16} />
+                      </Button>
+                    </>
+                  )}
+                </div>
               </div>
               <div>
-                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105 hover:bg-black/40">
+                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105">
                   <CardHeader>
-                    <CardTitle className="text-cyan-400 text-2xl">{t('about.education')}</CardTitle>
+                    <CardTitle className="text-cyan-400 text-2xl">Education</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.masters')}</h4>
-                      <p className="text-gray-300">{t('about.mastersSchool')}</p>
-                      <p className="text-sm text-cyan-400 font-medium">{t('about.mastersStatus')}</p>
+                      <h4 className="font-semibold text-gray-200 text-lg">MSc Computer Science</h4>
+                      <p className="text-gray-300">International University of Applied Sciences</p>
+                      <p className="text-gray-300">Berlin, Germany</p>
+                      <p className="text-sm text-cyan-400 font-medium">Sept 2023 – Present</p>
                     </div>
                     <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.bachelors')}</h4>
-                      <p className="text-gray-300">{t('about.bachelorsSchool')}</p>
-                      <p className="text-sm text-cyan-400 font-medium">{t('about.bachelorsYear')}</p>
-                    </div>
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">{t('about.internship')}</h4>
-                      <p className="text-gray-300">{t('about.internshipType')}</p>
-                      <p className="text-sm text-cyan-400 font-medium">{t('about.internshipYear')}</p>
+                      <h4 className="font-semibold text-gray-200 text-lg">Bachelor of Computer Application</h4>
+                      <p className="text-gray-300">Gujarat University</p>
+                      <p className="text-gray-300">Ahmedabad, India</p>
+                      <p className="text-sm text-cyan-400 font-medium">July 2019 – April 2022</p>
                     </div>
                   </CardContent>
                 </Card>
