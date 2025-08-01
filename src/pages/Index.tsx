@@ -4,14 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
-import ConfettiEasterEgg from '@/components/ConfettiEasterEgg';
+import MemoryGame from '@/components/MemoryGame';
 import SkillModal from '@/components/SkillModal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RESUME_CONFIG } from '@/config/resume';
@@ -27,7 +27,7 @@ const Index = () => {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [clickCount, setClickCount] = useState(0);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [showMemoryGame, setShowMemoryGame] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const { toast } = useToast();
@@ -269,15 +269,15 @@ const Index = () => {
     setClickCount(prev => {
       const newCount = prev + 1;
       if (newCount === 3) {
-        setShowConfetti(true);
+        setShowMemoryGame(true);
         return 0; // Reset counter
       }
       return newCount;
     });
   };
 
-  const handleConfettiComplete = () => {
-    setShowConfetti(false);
+  const handleMemoryGameComplete = () => {
+    setShowMemoryGame(false);
   };
 
   const handleResumeDownload = () => {
@@ -739,10 +739,10 @@ const Index = () => {
         onClose={() => setIsChatOpen(false)}
       />
 
-      {/* Easter Egg Confetti */}
-      <ConfettiEasterEgg 
-        isActive={showConfetti} 
-        onComplete={handleConfettiComplete} 
+      {/* Memory Game Easter Egg */}
+      <MemoryGame 
+        isActive={showMemoryGame} 
+        onComplete={handleMemoryGameComplete} 
       />
 
       {/* Skill Modal */}
