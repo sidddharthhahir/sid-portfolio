@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Edit, Save, X } from 'lucide-react';
+import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
@@ -30,15 +30,14 @@ const Index = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
-  const [editingSections, setEditingSections] = useState<Set<string>>(new Set());
   const { toast } = useToast();
 
-  // Editable content state
-  const [content, setContent] = useState({
+  // Static content - no editing functionality for public users
+  const content = {
     professionalSummary: "Results-driven Software Engineer with hands-on experience building and optimizing web applications using Python, Django, JavaScript, React, and SQL. Skilled in both backend and frontend development, with a strong foundation in designing scalable systems and creating responsive user interfaces. Demonstrated ability to learn new technologies quickly, solve complex problems, and deliver high-quality solutions through personal and academic projects. Committed to writing maintainable code and contributing effectively to collaborative teams.",
     heroTitle: "Full-Stack Developer & Database Expert",
     heroDescription: "Passionate about creating efficient web applications and robust database solutions. Currently pursuing Master's in Computer Science with expertise in Python, Django, and modern web technologies."
-  });
+  };
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -322,37 +321,6 @@ const Index = () => {
     }
   };
 
-  const toggleEditSection = (sectionId: string) => {
-    setEditingSections(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(sectionId)) {
-        newSet.delete(sectionId);
-      } else {
-        newSet.add(sectionId);
-      }
-      return newSet;
-    });
-  };
-
-  const handleContentChange = (sectionId: string, value: string) => {
-    setContent(prev => ({
-      ...prev,
-      [sectionId]: value
-    }));
-  };
-
-  const saveSection = (sectionId: string) => {
-    setEditingSections(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(sectionId);
-      return newSet;
-    });
-    toast({
-      title: "Content Updated",
-      description: "Your changes have been saved successfully!"
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Add custom animations in a style tag */}
@@ -433,90 +401,13 @@ const Index = () => {
               </span>
             </h1>
 
-            <div className="relative">
-              <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
-                {editingSections.has('heroTitle') ? (
-                  <div className="flex items-center gap-2 justify-center">
-                    <Input
-                      value={content.heroTitle}
-                      onChange={(e) => handleContentChange('heroTitle', e.target.value)}
-                      className="bg-black/40 border-cyan-400/50 text-gray-200 text-center text-2xl"
-                    />
-                    <Button
-                      size="sm"
-                      onClick={() => saveSection('heroTitle')}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      <Save size={16} />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => toggleEditSection('heroTitle')}
-                      className="text-gray-400 hover:text-gray-200"
-                    >
-                      <X size={16} />
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2 justify-center group">
-                    {content.heroTitle}
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => toggleEditSection('heroTitle')}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-cyan-400 hover:text-cyan-300"
-                    >
-                      <Edit size={16} />
-                    </Button>
-                  </div>
-                )}
-              </h2>
-            </div>
+            <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
+              {content.heroTitle}
+            </h2>
 
-            <div className="relative">
-              {editingSections.has('heroDescription') ? (
-                <div className="flex flex-col items-center gap-4">
-                  <Textarea
-                    value={content.heroDescription}
-                    onChange={(e) => handleContentChange('heroDescription', e.target.value)}
-                    className="bg-black/40 border-cyan-400/50 text-gray-200 text-center text-lg max-w-3xl mx-auto"
-                    rows={3}
-                  />
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => saveSection('heroDescription')}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      <Save size={16} />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => toggleEditSection('heroDescription')}
-                      className="text-gray-400 hover:text-gray-200"
-                    >
-                      <X size={16} />
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className="group">
-                  <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-                    {content.heroDescription}
-                  </p>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => toggleEditSection('heroDescription')}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-cyan-400 hover:text-cyan-300 absolute -top-2 right-0"
-                  >
-                    <Edit size={16} />
-                  </Button>
-                </div>
-              )}
-            </div>
+            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+              {content.heroDescription}
+            </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button 
@@ -559,49 +450,11 @@ const Index = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
-                <div className="relative group">
+                <div>
                   <h3 className="text-2xl font-bold mb-6 text-cyan-400">Professional Summary</h3>
-                  {editingSections.has('professionalSummary') ? (
-                    <div className="space-y-4">
-                      <Textarea
-                        value={content.professionalSummary}
-                        onChange={(e) => handleContentChange('professionalSummary', e.target.value)}
-                        className="bg-black/40 border-cyan-400/50 text-gray-200 min-h-[200px]"
-                        rows={8}
-                      />
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={() => saveSection('professionalSummary')}
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          <Save size={16} />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => toggleEditSection('professionalSummary')}
-                          className="text-gray-400 hover:text-gray-200"
-                        >
-                          <X size={16} />
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <p className="text-xl text-gray-300 leading-relaxed">
-                        {content.professionalSummary}
-                      </p>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => toggleEditSection('professionalSummary')}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-cyan-400 hover:text-cyan-300 absolute top-0 right-0"
-                      >
-                        <Edit size={16} />
-                      </Button>
-                    </>
-                  )}
+                  <p className="text-xl text-gray-300 leading-relaxed">
+                    {content.professionalSummary}
+                  </p>
                 </div>
               </div>
               <div>
@@ -630,21 +483,21 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Enhanced Dark Skills Section */}
+      {/* Enhanced Dark Skills Section - Fixed Grid Layout */}
       <section id="skills" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             {t('skills.title')}
           </h2>
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
               {skills.map((skill, index) => (
-                <div key={index} className="group">
+                <div key={index} className="w-full max-w-xs">
                   <Card 
-                    className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-125 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2 cursor-pointer hover:border-cyan-400/50"
+                    className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-125 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2 cursor-pointer hover:border-cyan-400/50 h-full"
                     onClick={() => handleSkillClick(skill)}
                   >
-                    <CardContent className="p-8 text-center">
+                    <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
                       <div className="mb-6 flex justify-center">
                         <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/40 group-hover:to-purple-500/40 transition-all duration-500 backdrop-blur-xl border border-white/20 group-hover:scale-110">
                           <skill.icon size={40} className="text-cyan-400 group-hover:text-purple-400 transition-all duration-500" />
@@ -653,7 +506,7 @@ const Index = () => {
                       <h3 className="text-xl font-semibold text-gray-200 mb-3 group-hover:text-cyan-400 transition-all duration-500">
                         {skill.name}
                       </h3>
-                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-500">
+                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-500 text-center">
                         {skill.description}
                       </p>
                       <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -757,7 +610,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Dark Contact Section */}
+      {/* Updated Dark Contact Section */}
       <section id="contact" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
@@ -778,7 +631,7 @@ const Index = () => {
                       href="mailto:sidahir25820@gmail.com" 
                       className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
                     >
-                      sidahir25820@gmail.com
+                      Email
                     </a>
                   </div>
                   <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
@@ -789,7 +642,7 @@ const Index = () => {
                       rel="noopener noreferrer"
                       className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
                     >
-                      linkedin.com/in/siddharth-ahir-798754262
+                      LinkedIn
                     </a>
                   </div>
                   <div className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
@@ -800,7 +653,7 @@ const Index = () => {
                       rel="noopener noreferrer"
                       className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg"
                     >
-                      github.com/sidddharthhahir
+                      GitHub
                     </a>
                   </div>
                   <button 
