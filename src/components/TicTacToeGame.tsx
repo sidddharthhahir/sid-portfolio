@@ -1,9 +1,11 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { X, RotateCcw, Brain, User } from 'lucide-react';
 import { VibrationManager } from '@/utils/vibrationUtils';
+import { SidPersonality, SidMessage } from '@/utils/sidPersonality';
+import SidAvatar from '@/components/SidAvatar';
+import ConfettiCelebration from '@/components/ConfettiCelebration';
 
 interface TicTacToeGameProps {
   isActive: boolean;
@@ -18,7 +20,8 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
   const [currentPlayer, setCurrentPlayer] = useState<'user' | 'ai'>('user');
   const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
   const [isAiThinking, setIsAiThinking] = useState(false);
-  const [gameMessage, setGameMessage] = useState('Your turn!');
+  const [sidMessage, setSidMessage] = useState<SidMessage | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
   
   const gameRef = useRef<HTMLDivElement>(null);
 
@@ -97,7 +100,7 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
     return bestMove;
   };
 
-  // Handle user move
+  // Handle user move with Sid's personality
   const handleCellClick = (index: number) => {
     if (board[index] !== null || currentPlayer !== 'user' || gameStatus !== 'playing') {
       return;
@@ -107,6 +110,14 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
     newBoard[index] = 'X';
     setBoard(newBoard);
 
+    // Evaluate the user's move and show Sid's reaction
+    const moveQuality = SidPersonality.evaluateMove(board, index, 'X');
+    if (moveQuality === 'strong') {
+      setSidMessage(SidPersonality.getRandomMessage('strongMove'));
+    } else if (moveQuality === 'weak') {
+      setSidMessage(SidPersonality.getRandomMessage('weakMove'));
+    }
+
     // Vibrate on user move
     const cellElement = document.querySelector(`[data-cell-index="${index}"]`) as HTMLElement;
     VibrationManager.cardFlip(cellElement);
@@ -114,24 +125,25 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
     const winner = checkWinner(newBoard);
     if (winner === 'X') {
       setGameStatus('won');
-      setGameMessage('You win! 🎉');
+      setSidMessage(SidPersonality.getRandomMessage('userWin'));
+      setShowCelebration(true);
       VibrationManager.gameComplete(gameRef.current || undefined);
       return;
     }
 
     if (isBoardFull(newBoard)) {
       setGameStatus('draw');
-      setGameMessage("It's a draw! 🤝");
+      setSidMessage(SidPersonality.getRandomMessage('draw'));
       VibrationManager.incorrectMatch();
       return;
     }
 
     setCurrentPlayer('ai');
-    setGameMessage('Sid is thinking...');
     setIsAiThinking(true);
+    setSidMessage(SidPersonality.getRandomMessage('thinking'));
   };
 
-  // AI move effect
+  // AI move effect with enhanced personality
   useEffect(() => {
     if (currentPlayer === 'ai' && gameStatus === 'playing') {
       const timer = setTimeout(() => {
@@ -147,19 +159,19 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
           const winner = checkWinner(newBoard);
           if (winner === 'O') {
             setGameStatus('lost');
-            setGameMessage('Sid wins! 🤖');
+            setSidMessage(SidPersonality.getRandomMessage('sidWin'));
             VibrationManager.incorrectMatch();
           } else if (isBoardFull(newBoard)) {
             setGameStatus('draw');
-            setGameMessage("It's a draw! 🤝");
+            setSidMessage(SidPersonality.getRandomMessage('draw'));
             VibrationManager.incorrectMatch();
           } else {
             setCurrentPlayer('user');
-            setGameMessage('Your turn!');
+            setSidMessage(null); // Clear message for user turn
           }
         }
         setIsAiThinking(false);
-      }, 1000); // AI thinking delay
+      }, 1500); // Longer delay for dramatic effect
 
       return () => clearTimeout(timer);
     }
@@ -169,8 +181,9 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
     setBoard(Array(9).fill(null));
     setCurrentPlayer('user');
     setGameStatus('playing');
-    setGameMessage('Your turn!');
     setIsAiThinking(false);
+    setSidMessage(SidPersonality.getRandomMessage('gameStart'));
+    setShowCelebration(false);
   };
 
   useEffect(() => {
@@ -182,135 +195,153 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
   if (!isActive) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div 
-        ref={gameRef}
-        className="backdrop-blur-2xl bg-black/90 border border-white/20 rounded-3xl p-8 max-w-lg w-full animate-scale-in"
-        style={{
-          animation: 'fadeInSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-        }}
-      >
-        <style>
-          {`
-            @keyframes fadeInSlideUp {
-              0% {
-                opacity: 0;
-                transform: translateY(60px) scale(0.9);
+    <>
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+        <div 
+          ref={gameRef}
+          className="backdrop-blur-2xl bg-black/90 border border-white/20 rounded-3xl p-8 max-w-lg w-full animate-scale-in"
+          style={{
+            animation: 'fadeInSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+          }}
+        >
+          <style>
+            {`
+              @keyframes fadeInSlideUp {
+                0% {
+                  opacity: 0;
+                  transform: translateY(60px) scale(0.9);
+                }
+                100% {
+                  opacity: 1;
+                  transform: translateY(0) scale(1);
+                }
               }
-              100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
+              
+              @keyframes cellPop {
+                0% { transform: scale(0); }
+                70% { transform: scale(1.1); }
+                100% { transform: scale(1); }
               }
-            }
-            
-            @keyframes cellPop {
-              0% { transform: scale(0); }
-              70% { transform: scale(1.1); }
-              100% { transform: scale(1); }
-            }
-            
-            @keyframes winningGlow {
-              0% { box-shadow: 0 0 0 rgba(34, 197, 94, 0); }
-              50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
-              100% { box-shadow: 0 0 0 rgba(34, 197, 94, 0); }
-            }
-            
-            .cell-pop {
-              animation: cellPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            }
-            
-            .winning-glow {
-              animation: winningGlow 2s ease-out infinite;
-            }
-          `}
-        </style>
+              
+              @keyframes winningGlow {
+                0% { box-shadow: 0 0 0 rgba(34, 197, 94, 0); }
+                50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+                100% { box-shadow: 0 0 0 rgba(34, 197, 94, 0); }
+              }
+              
+              .cell-pop {
+                animation: cellPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+              }
+              
+              .winning-glow {
+                animation: winningGlow 2s ease-out infinite;
+              }
+            `}
+          </style>
 
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent">
-              Tic-Tac-Toe vs Sid
-            </h3>
-            <p className="text-gray-300 text-sm mt-1">Beat the AI if you can!</p>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent">
+                Tic-Tac-Toe vs Sid
+              </h3>
+              <p className="text-gray-300 text-sm mt-1">Beat the AI if you can!</p>
+            </div>
+            <Button
+              onClick={onComplete}
+              className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 p-2"
+              size="sm"
+            >
+              <X size={20} />
+            </Button>
           </div>
-          <Button
-            onClick={onComplete}
-            className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 p-2"
-            size="sm"
-          >
-            <X size={20} />
-          </Button>
-        </div>
 
-        <div className="mb-6 text-center">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="flex items-center gap-2 text-cyan-400">
-              <User size={20} />
-              <span className="font-semibold">You: X</span>
+          <div className="mb-6 text-center">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="flex items-center gap-2 text-cyan-400">
+                <User size={20} />
+                <span className="font-semibold">You: X</span>
+              </div>
+              <div className="w-px h-6 bg-white/20"></div>
+              <div className="flex items-center gap-2 text-purple-400">
+                <Brain size={20} />
+                <span className="font-semibold">Sid: O</span>
+              </div>
             </div>
-            <div className="w-px h-6 bg-white/20"></div>
-            <div className="flex items-center gap-2 text-purple-400">
-              <Brain size={20} />
-              <span className="font-semibold">Sid: O</span>
+            
+            {/* Sid's personality display */}
+            <div className="mb-4 flex justify-center">
+              <SidAvatar 
+                message={sidMessage} 
+                isThinking={isAiThinking}
+                className="max-w-full"
+              />
+            </div>
+            
+            <div className={`text-lg font-semibold transition-all duration-300 ${
+              gameStatus === 'won' ? 'text-green-400' :
+              gameStatus === 'lost' ? 'text-red-400' :
+              gameStatus === 'draw' ? 'text-yellow-400' :
+              isAiThinking ? 'text-purple-400' : 'text-cyan-400'
+            }`}>
+              {gameStatus === 'playing' && !isAiThinking && !sidMessage && 'Your turn!'}
+              {gameStatus === 'won' && 'You win! 🎉'}
+              {gameStatus === 'lost' && 'Sid wins! 🤖'}
+              {gameStatus === 'draw' && "It's a draw! 🤝"}
             </div>
           </div>
-          
-          <div className={`text-lg font-semibold transition-all duration-300 ${
-            gameStatus === 'won' ? 'text-green-400' :
-            gameStatus === 'lost' ? 'text-red-400' :
-            gameStatus === 'draw' ? 'text-yellow-400' :
-            isAiThinking ? 'text-purple-400' : 'text-cyan-400'
-          }`}>
-            {gameMessage}
-            {isAiThinking && (
-              <span className="inline-block animate-pulse ml-1">🤔</span>
+
+          <div className="grid grid-cols-3 gap-2 mb-6 max-w-xs mx-auto">
+            {board.map((cell, index) => (
+              <Card
+                key={index}
+                data-cell-index={index}
+                className={`aspect-square cursor-pointer transition-all duration-300 border-2 ${
+                  cell === null 
+                    ? 'bg-black/50 border-white/20 hover:border-purple-400/50 hover:bg-white/10' 
+                    : cell === 'X'
+                    ? 'bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-400/50'
+                    : 'bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-400/50'
+                } ${gameStatus === 'won' && cell === 'X' ? 'winning-glow' : ''}`}
+                onClick={() => handleCellClick(index)}
+              >
+                <CardContent className="p-0 h-full flex items-center justify-center">
+                  <div className={`text-4xl font-bold transition-all duration-300 ${
+                    cell === 'X' ? 'text-cyan-400' : cell === 'O' ? 'text-purple-400' : ''
+                  } ${cell ? 'cell-pop' : ''}`}>
+                    {cell || ''}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="flex gap-3 justify-center">
+            <Button
+              onClick={resetGame}
+              className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20"
+            >
+              <RotateCcw size={16} className="mr-2" />
+              Restart Game
+            </Button>
+            {gameStatus !== 'playing' && (
+              <Button
+                onClick={onComplete}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+              >
+                Close Game
+              </Button>
             )}
           </div>
         </div>
-
-        <div className="grid grid-cols-3 gap-2 mb-6 max-w-xs mx-auto">
-          {board.map((cell, index) => (
-            <Card
-              key={index}
-              data-cell-index={index}
-              className={`aspect-square cursor-pointer transition-all duration-300 border-2 ${
-                cell === null 
-                  ? 'bg-black/50 border-white/20 hover:border-purple-400/50 hover:bg-white/10' 
-                  : cell === 'X'
-                  ? 'bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-400/50'
-                  : 'bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-400/50'
-              } ${gameStatus === 'won' && cell === 'X' ? 'winning-glow' : ''}`}
-              onClick={() => handleCellClick(index)}
-            >
-              <CardContent className="p-0 h-full flex items-center justify-center">
-                <div className={`text-4xl font-bold transition-all duration-300 ${
-                  cell === 'X' ? 'text-cyan-400' : cell === 'O' ? 'text-purple-400' : ''
-                } ${cell ? 'cell-pop' : ''}`}>
-                  {cell || ''}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="flex gap-3 justify-center">
-          <Button
-            onClick={resetGame}
-            className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20"
-          >
-            <RotateCcw size={16} className="mr-2" />
-            Restart Game
-          </Button>
-          {gameStatus !== 'playing' && (
-            <Button
-              onClick={onComplete}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-            >
-              Close Game
-            </Button>
-          )}
-        </div>
       </div>
-    </div>
+
+      {/* Confetti celebration */}
+      <ConfettiCelebration 
+        isActive={showCelebration}
+        onComplete={() => setShowCelebration(false)}
+        intensity="high"
+      />
+    </>
   );
 };
 
