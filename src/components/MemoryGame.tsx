@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -132,7 +131,7 @@ const MemoryGame = ({ isActive, onComplete }: MemoryGameProps) => {
       };
 
       const records = GameStatsManager.saveGameStats(gameStats);
-      setNewRecords(records);
+      setNewRecords({ moves: records.isNewMoveRecord, time: records.isNewTimeRecord });
       setCompletionMessage(GameStatsManager.getCompletionMessage(moves, finalTime));
       setBestStats(GameStatsManager.getBestStats());
       

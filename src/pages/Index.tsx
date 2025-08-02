@@ -12,6 +12,8 @@ import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
+import TicTacToeGame from '@/components/TicTacToeGame';
+import GameSelector from '@/components/GameSelector';
 import SkillModal from '@/components/SkillModal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RESUME_CONFIG } from '@/config/resume';
@@ -28,7 +30,12 @@ const Index = () => {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [clickCount, setClickCount] = useState(0);
+  
+  // Game states
+  const [showGameSelector, setShowGameSelector] = useState(false);
   const [showMemoryGame, setShowMemoryGame] = useState(false);
+  const [showTicTacToe, setShowTicTacToe] = useState(false);
+  
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const { toast } = useToast();
@@ -278,15 +285,34 @@ const Index = () => {
       } else if (newCount === 3) {
         // Game reveal vibration
         VibrationManager.gameReveal(profileElement);
-        setShowMemoryGame(true);
+        setShowGameSelector(true);
         return 0; // Reset counter
       }
       return newCount;
     });
   };
 
+  // Game handlers
+  const handleGameSelectorClose = () => {
+    setShowGameSelector(false);
+  };
+
+  const handleSelectMemoryGame = () => {
+    setShowGameSelector(false);
+    setShowMemoryGame(true);
+  };
+
+  const handleSelectTicTacToe = () => {
+    setShowGameSelector(false);
+    setShowTicTacToe(true);
+  };
+
   const handleMemoryGameComplete = () => {
     setShowMemoryGame(false);
+  };
+
+  const handleTicTacToeComplete = () => {
+    setShowTicTacToe(false);
   };
 
   const handleResumeDownload = () => {
@@ -749,10 +775,22 @@ const Index = () => {
         onClose={() => setIsChatOpen(false)}
       />
 
-      {/* Memory Game Easter Egg */}
+      {/* Game Components */}
+      <GameSelector
+        isOpen={showGameSelector}
+        onClose={handleGameSelectorClose}
+        onSelectMemoryGame={handleSelectMemoryGame}
+        onSelectTicTacToe={handleSelectTicTacToe}
+      />
+
       <MemoryGame 
         isActive={showMemoryGame} 
         onComplete={handleMemoryGameComplete} 
+      />
+
+      <TicTacToeGame 
+        isActive={showTicTacToe} 
+        onComplete={handleTicTacToeComplete} 
       />
 
       {/* Skill Modal */}
