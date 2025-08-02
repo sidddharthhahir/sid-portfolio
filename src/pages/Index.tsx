@@ -15,7 +15,6 @@ import MemoryGame from '@/components/MemoryGame';
 import SkillModal from '@/components/SkillModal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RESUME_CONFIG } from '@/config/resume';
-import { vibrate } from '@/utils/vibrationUtils';
 
 const Index = () => {
   const { t } = useLanguage();
@@ -267,16 +266,14 @@ const Index = () => {
   };
 
   const handleProfileClick = () => {
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
-    
-    if (newCount === 3) {
-      vibrate.gameReveal();
-      setShowMemoryGame(true);
-      setClickCount(0); // Reset counter
-    } else {
-      vibrate.profileClick();
-    }
+    setClickCount(prev => {
+      const newCount = prev + 1;
+      if (newCount === 3) {
+        setShowMemoryGame(true);
+        return 0; // Reset counter
+      }
+      return newCount;
+    });
   };
 
   const handleMemoryGameComplete = () => {
