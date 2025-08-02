@@ -15,6 +15,7 @@ import MemoryGame from '@/components/MemoryGame';
 import SkillModal from '@/components/SkillModal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RESUME_CONFIG } from '@/config/resume';
+import { VibrationManager } from '@/utils/vibrationUtils';
 
 const Index = () => {
   const { t } = useLanguage();
@@ -266,9 +267,17 @@ const Index = () => {
   };
 
   const handleProfileClick = () => {
+    const profileElement = document.querySelector('[data-profile-image]') as HTMLElement;
+    
     setClickCount(prev => {
       const newCount = prev + 1;
-      if (newCount === 3) {
+      
+      if (newCount < 3) {
+        // Regular click vibration
+        VibrationManager.profileClick(profileElement);
+      } else if (newCount === 3) {
+        // Game reveal vibration
+        VibrationManager.gameReveal(profileElement);
         setShowMemoryGame(true);
         return 0; // Reset counter
       }
@@ -372,6 +381,7 @@ const Index = () => {
               <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
               <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
               <div 
+                data-profile-image
                 className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer"
                 onClick={handleProfileClick}
               >
