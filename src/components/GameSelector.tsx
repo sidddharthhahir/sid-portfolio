@@ -1,22 +1,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { X, Brain, Grid3X3 } from 'lucide-react';
+import { X, Brain, Grid3X3, Zap } from 'lucide-react';
 
 interface GameSelectorProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectMemoryGame: () => void;
   onSelectTicTacToe: () => void;
+  onSelectEndlessRunner: () => void;
 }
 
-const GameSelector = ({ isOpen, onClose, onSelectMemoryGame, onSelectTicTacToe }: GameSelectorProps) => {
+const GameSelector = ({ isOpen, onClose, onSelectMemoryGame, onSelectTicTacToe, onSelectEndlessRunner }: GameSelectorProps) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
       <div 
-        className="backdrop-blur-2xl bg-black/90 border border-white/20 rounded-3xl p-8 max-w-md w-full animate-scale-in"
+        className="backdrop-blur-2xl bg-black/90 border border-white/20 rounded-3xl p-8 max-w-lg w-full animate-scale-in"
         style={{
           animation: 'fadeInSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
         }}
@@ -68,9 +69,9 @@ const GameSelector = ({ isOpen, onClose, onSelectMemoryGame, onSelectTicTacToe }
           >
             <CardHeader className="text-center pb-3">
               <div className="mx-auto mb-3 p-4 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full w-fit group-hover:from-cyan-500/30 group-hover:to-purple-500/30 transition-all duration-300">
-                <Brain size={32} className="text-cyan-400 group-hover:text-purple-400 transition-colors duration-300" />
+                <Brain size={28} className="text-cyan-400 group-hover:text-purple-400 transition-colors duration-300" />
               </div>
-              <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-colors duration-300">
+              <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-colors duration-300 text-lg">
                 Memory Challenge
               </CardTitle>
             </CardHeader>
@@ -87,15 +88,34 @@ const GameSelector = ({ isOpen, onClose, onSelectMemoryGame, onSelectTicTacToe }
           >
             <CardHeader className="text-center pb-3">
               <div className="mx-auto mb-3 p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full w-fit group-hover:from-purple-500/30 group-hover:to-pink-500/30 transition-all duration-300">
-                <Grid3X3 size={32} className="text-purple-400 group-hover:text-pink-400 transition-colors duration-300" />
+                <Grid3X3 size={28} className="text-purple-400 group-hover:text-pink-400 transition-colors duration-300" />
               </div>
-              <CardTitle className="text-gray-200 group-hover:text-purple-400 transition-colors duration-300">
+              <CardTitle className="text-gray-200 group-hover:text-purple-400 transition-colors duration-300 text-lg">
                 Tic-Tac-Toe vs Sid
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center pt-0">
               <p className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300 text-sm">
                 Challenge the AI "Sid" in a classic game of Tic-Tac-Toe. Can you beat him?
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card 
+            className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-300 cursor-pointer hover-glow group"
+            onClick={onSelectEndlessRunner}
+          >
+            <CardHeader className="text-center pb-3">
+              <div className="mx-auto mb-3 p-4 bg-gradient-to-r from-pink-500/20 to-yellow-500/20 rounded-full w-fit group-hover:from-pink-500/30 group-hover:to-yellow-500/30 transition-all duration-300">
+                <Zap size={28} className="text-pink-400 group-hover:text-yellow-400 transition-colors duration-300" />
+              </div>
+              <CardTitle className="text-gray-200 group-hover:text-pink-400 transition-colors duration-300 text-lg">
+                Endless Runner
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-center pt-0">
+              <p className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300 text-sm">
+                Jump over obstacles and see how far you can run! Beat your high score.
               </p>
             </CardContent>
           </Card>

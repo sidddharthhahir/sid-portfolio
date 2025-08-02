@@ -13,6 +13,7 @@ import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
+import EndlessRunnerGame from '@/components/EndlessRunnerGame';
 import GameSelector from '@/components/GameSelector';
 import SkillModal from '@/components/SkillModal';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -35,6 +36,7 @@ const Index = () => {
   const [showGameSelector, setShowGameSelector] = useState(false);
   const [showMemoryGame, setShowMemoryGame] = useState(false);
   const [showTicTacToe, setShowTicTacToe] = useState(false);
+  const [showEndlessRunner, setShowEndlessRunner] = useState(false);
   
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
@@ -307,12 +309,21 @@ const Index = () => {
     setShowTicTacToe(true);
   };
 
+  const handleSelectEndlessRunner = () => {
+    setShowGameSelector(false);
+    setShowEndlessRunner(true);
+  };
+
   const handleMemoryGameComplete = () => {
     setShowMemoryGame(false);
   };
 
   const handleTicTacToeComplete = () => {
     setShowTicTacToe(false);
+  };
+
+  const handleEndlessRunnerComplete = () => {
+    setShowEndlessRunner(false);
   };
 
   const handleResumeDownload = () => {
@@ -781,6 +792,7 @@ const Index = () => {
         onClose={handleGameSelectorClose}
         onSelectMemoryGame={handleSelectMemoryGame}
         onSelectTicTacToe={handleSelectTicTacToe}
+        onSelectEndlessRunner={handleSelectEndlessRunner}
       />
 
       <MemoryGame 
@@ -791,6 +803,11 @@ const Index = () => {
       <TicTacToeGame 
         isActive={showTicTacToe} 
         onComplete={handleTicTacToeComplete} 
+      />
+
+      <EndlessRunnerGame 
+        isActive={showEndlessRunner} 
+        onComplete={handleEndlessRunnerComplete} 
       />
 
       {/* Skill Modal */}
