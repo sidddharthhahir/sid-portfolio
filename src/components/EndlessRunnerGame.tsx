@@ -282,11 +282,19 @@ const EndlessRunnerGame = ({ isActive, onComplete }: EndlessRunnerGameProps) => 
     initializeGame();
   };
 
+  const handleConfettiComplete = () => {
+    setShowConfetti(false);
+  };
+
   if (!isActive) return null;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      {showConfetti && <ConfettiCelebration />}
+      <ConfettiCelebration 
+        isActive={showConfetti} 
+        onComplete={handleConfettiComplete}
+        intensity="high"
+      />
       
       <Card className="backdrop-blur-2xl bg-black/90 border border-white/20 max-w-4xl w-full">
         <CardHeader className="flex flex-row items-center justify-between">
