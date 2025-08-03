@@ -1,654 +1,368 @@
-import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-import ChatButton from '@/components/ChatButton';
-import ChatWindow from '@/components/ChatWindow';
-import Navigation from '@/components/Navigation';
-import VisitorGreeting from '@/components/VisitorGreeting';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Download, 
+  Github, 
+  Linkedin, 
+  ExternalLink,
+  Calendar,
+  Award,
+  Users,
+  Code,
+  Database,
+  Server,
+  Smartphone,
+  Globe,
+  Settings
+} from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import GameSelector from '@/components/GameSelector';
+import TripleClickHint from '@/components/TripleClickHint';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
 import EndlessRunnerGame from '@/components/EndlessRunnerGame';
-import GameSelector from '@/components/GameSelector';
 import SkillModal from '@/components/SkillModal';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { RESUME_CONFIG } from '@/config/resume';
+import ConfettiCelebration from '@/components/ConfettiCelebration';
 import { VibrationManager } from '@/utils/vibrationUtils';
 
 const Index = () => {
-  const { t } = useLanguage();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
-  
-  // Game states
-  const [showGameSelector, setShowGameSelector] = useState(false);
-  const [showMemoryGame, setShowMemoryGame] = useState(false);
-  const [showTicTacToe, setShowTicTacToe] = useState(false);
-  const [showEndlessRunner, setShowEndlessRunner] = useState(false);
-  
+  const [isGameSelectorOpen, setIsGameSelectorOpen] = useState(false);
+  const [activeGame, setActiveGame] = useState<string | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
-  const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const [showHint, setShowHint] = useState(false);
+  const [isHintDismissed, setIsHintDismissed] = useState(false);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
-  // Static content - no editing functionality for public users
-  const content = {
-    professionalSummary: "Results-driven Software Engineer with hands-on experience building and optimizing web applications using Python, Django, JavaScript, React, and SQL. Skilled in both backend and frontend development, with a strong foundation in designing scalable systems and creating responsive user interfaces. Demonstrated ability to learn new technologies quickly, solve complex problems, and deliver high-quality solutions through personal and academic projects. Committed to writing maintainable code and contributing effectively to collaborative teams.",
-    heroTitle: "Full-Stack Developer & Database Expert",
-    heroDescription: "Passionate about creating efficient web applications and robust database solutions. Currently pursuing Master's in Computer Science with expertise in Python, Django, and modern web technologies."
-  };
-
-  // Intersection Observer for scroll animations
+  // Check if user has discovered the triple-click feature
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections(prev => new Set([...prev, entry.target.id]));
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const sections = document.querySelectorAll('[data-animate]');
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
+    const hasDiscovered = localStorage.getItem('triple-click-discovered');
+    if (!hasDiscovered) {
+      setShowHint(true);
+    }
   }, []);
 
-  const skills = [
-    { 
-      name: 'Python', 
-      icon: Code, 
-      description: 'Advanced programming with Django, Flask frameworks',
-      detailedDescription: 'I leverage Python to build robust backend applications, automation scripts, and data processing solutions. My expertise spans web development with Django and Flask, API development, and database integration.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
-        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' },
-        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
-      ]
-    },
-    { 
-      name: 'JavaScript', 
-      icon: Braces, 
-      description: 'Modern ES6+, React, Node.js development',
-      detailedDescription: 'Proficient in modern JavaScript (ES6+), React for frontend development, and Node.js for backend services. I create dynamic and interactive web experiences with clean code practices and async programming.',
-      keyProjects: [
-        { name: 'Portfolio Website' },
-        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
-        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
-      ]
-    },
-    { 
-      name: 'Django', 
-      icon: Server, 
-      description: 'Full-stack web development and REST APIs',
-      detailedDescription: 'I use Django to develop comprehensive web applications with robust backend architecture, user authentication, and RESTful API services, focusing on scalable and maintainable code.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
-        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' },
-        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
-      ]
-    },
-    { 
-      name: 'React', 
-      icon: Layers, 
-      description: 'Modern frontend development with hooks and TypeScript',
-      detailedDescription: 'Expert in building dynamic user interfaces with React, utilizing hooks, context, and TypeScript for type-safe development. I create responsive and accessible web applications.',
-      keyProjects: [
-        { name: 'Portfolio Website' }
-      ]
-    },
-    { 
-      name: 'SQL', 
-      icon: Database, 
-      description: 'Database design, optimization, and complex queries',
-      detailedDescription: 'Proficient in designing efficient database schemas, writing complex queries, and optimizing database performance for web applications with focus on data integrity and scalability.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application' },
-        { name: 'Recipe Manager' },
-        { name: 'Personal Task Manager' }
-      ]
-    },
-    { 
-      name: 'PostgreSQL', 
-      icon: Database, 
-      description: 'Advanced database management and performance tuning',
-      detailedDescription: 'I utilize PostgreSQL for robust data storage solutions, implementing advanced features like indexing, stored procedures, and performance optimization for high-traffic applications.',
-      keyProjects: [
-        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' }
-      ]
-    },
-    { 
-      name: 'Git', 
-      icon: GitBranch, 
-      description: 'Version control, branching strategies, and collaboration',
-      detailedDescription: 'I use Git for comprehensive version control, implementing effective branching strategies and collaborative development workflows to maintain clean and organized codebases.',
-      keyProjects: [
-        { name: 'All Projects' }
-      ]
-    },
-    { 
-      name: 'REST APIs', 
-      icon: Layers, 
-      description: 'API design, integration, and testing',
-      detailedDescription: 'I design and implement RESTful APIs with proper authentication, error handling, and documentation, ensuring seamless integration between frontend and backend systems.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application' },
-        { name: 'Recipe Manager' },
-        { name: 'Personal Task Manager' }
-      ]
-    }
-  ];
-
-  const services = [
-    {
-      icon: Globe,
-      title: 'Web Development',
-      description: 'Creating responsive, user-friendly websites and web applications using modern technologies and best practices.'
-    },
-    {
-      icon: Database,
-      title: 'Database Management',
-      description: 'Designing and optimizing databases, ensuring data integrity, and implementing efficient query strategies.'
-    },
-    {
-      icon: Code,
-      title: 'Full-Stack Development',
-      description: 'Building complete applications from frontend to backend, ensuring seamless integration and optimal performance.'
-    }
-  ];
-
-  const projects = [
-    {
-      title: 'Personal Finance Management Web Application',
-      description: 'A comprehensive web application for managing personal finances with secure user authentication, expense tracking, and financial data visualization.',
-      technologies: ['Django', 'Bootstrap', 'JavaScript', 'Chart.js', 'EmailJS'],
-      features: [
-        'Secure user registration and login with email verification',
-        'Add and manage expenses and income with dynamic visualization',
-        'Export financial reports in PDF, Excel, and CSV formats',
-        'User currency preference settings for personalized experience',
-        'Django RESTful APIs with JSON and EmailJS integration',
-        'Responsive design with Bootstrap for intuitive user interface'
-      ],
-      githubUrl: 'https://github.com/sidddharthhahir/MoneyBook.git',
-      timeline: 'June 2025 – July 2025'
-    },
-    {
-      title: 'Recipe Manager',
-      description: 'A comprehensive recipe management platform with authentication, image upload, advanced search capabilities, and optimized database performance.',
-      technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap', 'HTML5', 'CSS3'],
-      features: [
-        'User authentication and profile management',
-        'Recipe CRUD operations with image upload functionality', 
-        'Advanced search and filtering system with optimized queries',
-        'RESTful API design with PostgreSQL schema optimization',
-        '35% faster data retrieval through optimized database schemas',
-        'Social features for sharing and rating recipes'
-      ],
-      githubUrl: 'https://github.com/sidddharthhahir/recipe-manager',
-      timeline: 'April 2025 – May 2025'
-    },
-    {
-      title: 'Personal Task Manager',
-      description: 'An intuitive task management system with real-time updates, user authentication, and motivational features for enhanced productivity.',
-      technologies: ['Django', 'MySQL', 'JavaScript', 'AJAX', 'HTML5', 'CSS3'],
-      features: [
-        'User registration and secure login system',
-        'Task management with due dates and priority levels',
-        'Motivational quotes integration for user engagement',
-        'Real-time AJAX updates for seamless user experience',
-        'Statistics dashboard with progress tracking',
-        'Responsive design for all devices'
-      ],
-      githubUrl: 'https://github.com/sidddharthhahir/personal-task-manager',
-      timeline: 'Feb 2025 – March 2025'
-    },
-    {
-      title: 'Portfolio Website',
-      description: 'A modern, interactive portfolio website built with React and TypeScript, featuring AI integration and multi-language support.',
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'shadcn-ui', 'AI Integration'],
-      features: [
-        'Interactive AI chatbot for visitor engagement',
-        'Multi-language support for international accessibility',
-        'Responsive design with modern UI components',
-        'Real-time analytics and visitor tracking',
-        '500+ unique visitors achieved in the first month',
-        'SEO optimized with fast loading performance'
-      ],
-      timeline: 'Ongoing'
-    }
-  ];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      emailjs.init('1XEPgOlzfPoTgaput');
-      const result = await emailjs.send('service_5n5oy19', 'template_ixyj8he', {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-        to_name: 'Siddharth Ahir'
-      });
-      console.log('Email sent successfully:', result);
-      toast({
-        title: t('contact.success.title'),
-        description: t('contact.success.desc')
-      });
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      console.error('Failed to send email:', error);
-      toast({
-        title: t('contact.error.title'),
-        description: t('contact.error.desc'),
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({
-      behavior: 'smooth'
-    });
-  };
-
-  const handleProfileClick = () => {
-    const profileElement = document.querySelector('[data-profile-image]') as HTMLElement;
+  const handleAvatarClick = useCallback(() => {
+    setClickCount(prev => prev + 1);
     
-    setClickCount(prev => {
-      const newCount = prev + 1;
+    // Clear existing timeout
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+    
+    // Set new timeout to reset count
+    clickTimeoutRef.current = setTimeout(() => {
+      setClickCount(0);
+    }, 800);
+    
+    if (clickCount === 2) { // This will be the third click
+      // Mark as discovered
+      localStorage.setItem('triple-click-discovered', 'true');
+      setShowHint(false);
+      setIsHintDismissed(true);
       
-      if (newCount < 3) {
-        // Regular click vibration
-        VibrationManager.profileClick(profileElement);
-      } else if (newCount === 3) {
-        // Game reveal vibration
-        VibrationManager.gameReveal(profileElement);
-        setShowGameSelector(true);
-        return 0; // Reset counter
-      }
-      return newCount;
-    });
+      // Vibration feedback for game reveal
+      const avatarElement = document.querySelector('[data-avatar-wrapper]') as HTMLElement;
+      VibrationManager.gameReveal(avatarElement);
+      
+      // Show confetti and open game selector
+      setShowConfetti(true);
+      setTimeout(() => {
+        setIsGameSelectorOpen(true);
+        setShowConfetti(false);
+      }, 1000);
+      
+      toast({
+        title: "🎮 Games Unlocked!",
+        description: "Welcome to the secret gaming area!",
+      });
+    }
+  }, [clickCount, toast]);
+
+  const handleDismissHint = () => {
+    setShowHint(false);
+    setIsHintDismissed(true);
   };
 
-  // Game handlers
-  const handleGameSelectorClose = () => {
-    setShowGameSelector(false);
+  const handleCloseGameSelector = () => {
+    setIsGameSelectorOpen(false);
   };
 
   const handleSelectMemoryGame = () => {
-    setShowGameSelector(false);
-    setShowMemoryGame(true);
+    setActiveGame('memory');
+    setIsGameSelectorOpen(false);
   };
 
   const handleSelectTicTacToe = () => {
-    setShowGameSelector(false);
-    setShowTicTacToe(true);
+    setActiveGame('tictactoe');
+    setIsGameSelectorOpen(false);
   };
 
   const handleSelectEndlessRunner = () => {
-    setShowGameSelector(false);
-    setShowEndlessRunner(true);
+    setActiveGame('runner');
+    setIsGameSelectorOpen(false);
   };
 
-  const handleMemoryGameComplete = () => {
-    setShowMemoryGame(false);
-  };
-
-  const handleTicTacToeComplete = () => {
-    setShowTicTacToe(false);
-  };
-
-  const handleEndlessRunnerComplete = () => {
-    setShowEndlessRunner(false);
-  };
-
-  const handleResumeDownload = () => {
-    try {
-      // Convert Google Drive view link to direct download link
-      let downloadUrl = RESUME_CONFIG.url;
-      
-      // If it's a Google Drive link, convert to direct download format
-      if (downloadUrl.includes('drive.google.com')) {
-        const fileId = downloadUrl.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
-        if (fileId) {
-          downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-        }
-      }
-      
-      // Open the resume in a new tab
-      window.open(downloadUrl, '_blank', 'noopener,noreferrer');
-      
-      toast({
-        title: "Resume Opened",
-        description: `${RESUME_CONFIG.fileName} has been opened in a new tab!`
-      });
-    } catch (error) {
-      console.error('Failed to open resume:', error);
-      toast({
-        title: "Download Error",
-        description: "Failed to open resume. Please try again.",
-        variant: "destructive"
-      });
-    }
+  const handleCloseGame = () => {
+    setActiveGame(null);
   };
 
   const handleSkillClick = (skill: any) => {
     setSelectedSkill(skill);
-    setIsSkillModalOpen(true);
   };
 
-  const handleProjectClick = (githubUrl?: string) => {
-    if (githubUrl) {
-      window.open(githubUrl, '_blank');
-    }
+  const handleCloseSkillModal = () => {
+    setSelectedSkill(null);
   };
+
+  const skills = [
+    {
+      name: "React",
+      level: 90,
+      category: "Frontend",
+      icon: <Code className="w-5 h-5" />,
+      description: "Expert in React hooks, context, and modern patterns",
+      projects: ["E-commerce Platform", "Dashboard UI", "Real-time Chat"],
+      yearsOfExperience: 4
+    },
+    {
+      name: "Node.js",
+      level: 85,
+      category: "Backend",
+      icon: <Server className="w-5 h-5" />,
+      description: "Proficient in building scalable server-side applications",
+      projects: ["RESTful API", "Microservices", "Real-time Server"],
+      yearsOfExperience: 3
+    },
+    {
+      name: "Databases",
+      level: 95,
+      category: "Backend",
+      icon: <Database className="w-5 h-5" />,
+      description: "Deep understanding of SQL and NoSQL database systems",
+      projects: ["Data Migration", "Database Optimization", "Schema Design"],
+      yearsOfExperience: 5
+    },
+    {
+      name: "Mobile Development",
+      level: 75,
+      category: "Mobile",
+      icon: <Smartphone className="w-5 h-5" />,
+      description: "Experience in React Native and cross-platform mobile apps",
+      projects: ["Mobile E-commerce App", "Social Media App", "Task Manager"],
+      yearsOfExperience: 2
+    },
+    {
+      name: "Cloud Services",
+      level: 80,
+      category: "DevOps",
+      icon: <Globe className="w-5 h-5" />,
+      description: "Skilled in AWS and Google Cloud for deployment and scaling",
+      projects: ["Cloud Migration", "Serverless Architecture", "CI/CD Pipeline"],
+      yearsOfExperience: 3
+    },
+    {
+      name: "UI/UX Design",
+      level: 70,
+      category: "Design",
+      icon: <Settings className="w-5 h-5" />,
+      description: "Knowledgeable in creating intuitive and visually appealing interfaces",
+      projects: ["Dashboard Redesign", "Mobile App UI", "Website Mockups"],
+      yearsOfExperience: 2
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      {/* Add custom animations in a style tag */}
-      <style>
-        {`
-        @keyframes float-up-down {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes float-up-down-delayed {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-12px); }
-        }
-        
-        .float-animation {
-          animation: float-up-down 3s ease-in-out infinite;
-        }
-        
-        .float-animation-delayed {
-          animation: float-up-down-delayed 3s ease-in-out infinite 1.5s;
-        }
-        `}
-      </style>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Triple-click hint */}
+      <TripleClickHint 
+        isVisible={showHint && !isHintDismissed} 
+        onDismiss={handleDismissHint}
+      />
 
-      {/* Enhanced Animated Background Elements */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-        
-        {/* Floating particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-purple-400/30 rounded-full animate-ping delay-300"></div>
-          <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping delay-700"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-pink-400/30 rounded-full animate-ping delay-1000"></div>
+      {/* Confetti celebration */}
+      {showConfetti && <ConfettiCelebration />}
+
+      {/* Header */}
+      <header className="backdrop-blur-xl bg-black/20 border-b border-white/10 sticky top-0 z-30">
+        <div className="container mx-auto px-4 py-4">
+          <nav className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">SA</span>
+              </div>
+              <span className="text-white font-semibold text-lg">Siddharth Ahir</span>
+            </div>
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#home" className="text-gray-300 hover:text-white transition-colors">Home</a>
+              <a href="#about" className="text-gray-300 hover:text-white transition-colors">About</a>
+              <a href="#skills" className="text-gray-300 hover:text-white transition-colors">Skills</a>
+              <a href="#services" className="text-gray-300 hover:text-white transition-colors">Services</a>
+              <a href="#portfolio" className="text-gray-300 hover:text-white transition-colors">Portfolio</a>
+              <a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+              <Button variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
+                English
+              </Button>
+            </div>
+          </nav>
         </div>
-      </div>
+      </header>
 
-      {/* Responsive Navigation */}
-      <Navigation scrollToSection={scrollToSection} />
-
-      {/* Enhanced Dark Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
-        <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          {/* Enhanced Profile Section with fixed image positioning */}
-          <div className="mb-8">
-            <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
-              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
-              <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
-              <div 
-                data-profile-image
-                className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer"
-                onClick={handleProfileClick}
-              >
-                <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
-                  <img 
-                    src="https://i.postimg.cc/jdKRxWhL/IMG-1242.jpg" 
-                    alt="Siddharth Ahir Profile" 
-                    className="w-full h-full object-cover rounded-full object-center transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
-                    style={{ objectPosition: 'center 30%' }}
-                  />
+      {/* Hero Section */}
+      <section id="home" className="py-20 px-4">
+        <div className="container mx-auto text-center">
+          {/* Avatar with triple-click functionality */}
+          <div 
+            className="relative mb-8 cursor-pointer select-none"
+            onClick={handleAvatarClick}
+            data-avatar-wrapper
+          >
+            <div className="w-48 h-48 mx-auto rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 p-1 hover:scale-105 transition-transform duration-300">
+              <div className="w-full h-full rounded-full bg-gray-800 flex items-center justify-center overflow-hidden">
+                <div className="w-44 h-44 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center text-white text-6xl font-bold">
+                  SA
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Enhanced Text Content */}
-          <div className="space-y-8">
-            <div className="flex items-center justify-center gap-3">
-              <Sparkles size={28} className="text-yellow-400 animate-pulse" />
-              <span className="text-2xl text-gray-300 font-medium">Hello, I'm</span>
-              <Sparkles size={28} className="text-yellow-400 animate-pulse delay-500" />
-            </div>
-
-            <h1 className="text-6xl md:text-8xl font-bold mb-8">
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Siddharth Ahir
-              </span>
-            </h1>
-
-            <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
-              {content.heroTitle}
-            </h2>
-
-            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              {content.heroDescription}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Button 
-                onClick={() => scrollToSection('portfolio')} 
-                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl border border-white/20 group"
-              >
-                <span className="flex items-center gap-3">
-                  View My Work
-                  <Star size={20} className="group-hover:rotate-180 transition-transform duration-500" />
-                </span>
-              </Button>
-              <Button 
-                onClick={() => scrollToSection('contact')} 
-                className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl hover:shadow-purple-500/25"
-              >
-                Contact Me
-              </Button>
-            </div>
+          <div className="flex items-center justify-center mb-6">
+            <span className="text-2xl">✨</span>
+            <h1 className="text-4xl md:text-6xl font-bold mx-4">Hello, I'm</h1>
+            <span className="text-2xl">✨</span>
           </div>
-
-          <div className="mt-16">
-            <div className="flex flex-col items-center gap-3">
-              <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
-              <div className="animate-bounce">
-                <ArrowDown size={28} className="text-cyan-400" />
-              </div>
-            </div>
+          
+          <h2 className="text-5xl md:text-8xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-8">
+            Siddharth Ahir
+          </h2>
+          
+          <h3 className="text-2xl md:text-4xl text-gray-300 mb-8 font-light">
+            Full-Stack Developer & Database Expert
+          </h3>
+          
+          <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Passionate about creating efficient web applications and robust database solutions.
+          </p>
+          
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white px-8 py-3">
+              <Download className="w-5 h-5 mr-2" />
+              Download Resume
+            </Button>
+            <Button size="lg" variant="outline" className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-3">
+              <Mail className="w-5 h-5 mr-2" />
+              Contact Me
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Enhanced Dark About Section */}
-      <section id="about" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <div className="flex items-center justify-center gap-4 mb-16">
-            <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              {t('about.title')}
-            </h2>
-          </div>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
+      {/* About Section */}
+      <section id="about" className="py-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            About Me
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <p className="text-gray-300 text-lg leading-relaxed">
+                I'm a passionate full-stack developer with expertise in modern web technologies and database management. 
+                With years of experience in building scalable applications, I love turning complex problems into simple, 
+                beautiful, and intuitive solutions.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center p-6 backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10">
+                  <div className="text-3xl font-bold text-cyan-400 mb-2">50+</div>
+                  <div className="text-gray-400">Projects Completed</div>
+                </div>
+                <div className="text-center p-6 backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10">
+                  <div className="text-3xl font-bold text-purple-400 mb-2">4+</div>
+                  <div className="text-gray-400">Years Experience</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4 p-4 backdrop-blur-xl bg-white/5 rounded-xl border border-white/10">
+                <Calendar className="w-6 h-6 text-cyan-400" />
                 <div>
-                  <h3 className="text-2xl font-bold mb-6 text-cyan-400">Professional Summary</h3>
-                  <p className="text-xl text-gray-300 leading-relaxed">
-                    {content.professionalSummary}
-                  </p>
+                  <h3 className="text-white font-semibold">Experience</h3>
+                  <p className="text-gray-400">4+ Years in Web Development</p>
                 </div>
               </div>
-              <div>
-                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105">
-                  <CardHeader>
-                    <CardTitle className="text-cyan-400 text-2xl">Education</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">MSc Computer Science</h4>
-                      <p className="text-gray-300">International University of Applied Sciences</p>
-                      <p className="text-gray-300">Berlin, Germany</p>
-                      <p className="text-sm text-cyan-400 font-medium">Sept 2023 – Present</p>
-                    </div>
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">Bachelor of Computer Application</h4>
-                      <p className="text-gray-300">Gujarat University</p>
-                      <p className="text-gray-300">Ahmedabad, India</p>
-                      <p className="text-sm text-cyan-400 font-medium">July 2019 – April 2022</p>
-                    </div>
-                  </CardContent>
-                </Card>
+              
+              <div className="flex items-center space-x-4 p-4 backdrop-blur-xl bg-white/5 rounded-xl border border-white/10">
+                <Award className="w-6 h-6 text-purple-400" />
+                <div>
+                  <h3 className="text-white font-semibold">Certifications</h3>
+                  <p className="text-gray-400">AWS, Google Cloud, MongoDB</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-4 p-4 backdrop-blur-xl bg-white/5 rounded-xl border border-white/10">
+                <Users className="w-6 h-6 text-pink-400" />
+                <div>
+                  <h3 className="text-white font-semibold">Clients</h3>
+                  <p className="text-gray-400">30+ Satisfied Clients</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Enhanced Dark Skills Section - Fixed Grid Layout with Subtle Hover */}
-      <section id="skills" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Technical Skills
+      {/* Skills Section */}
+      <section id="skills" className="py-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            Skills & Expertise
           </h2>
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
-              {skills.map((skill, index) => (
-                <div key={index} className="w-full max-w-xs">
-                  <Card 
-                    className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/10 transform hover:-translate-y-1 cursor-pointer hover:border-cyan-400/30 h-full group"
-                    onClick={() => handleSkillClick(skill)}
-                  >
-                    <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
-                      <div className="mb-6 flex justify-center">
-                        <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/30 group-hover:to-purple-500/30 transition-all duration-300 backdrop-blur-xl border border-white/20 group-hover:scale-105">
-                          <skill.icon size={40} className="text-cyan-400 group-hover:text-purple-400 transition-all duration-300" />
-                        </div>
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-200 mb-3 group-hover:text-cyan-400 transition-all duration-300">
-                        {skill.name}
-                      </h3>
-                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-300 text-center">
-                        {skill.description}
-                      </p>
-                      <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="text-xs text-cyan-400 font-medium">Click for details</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Dark Services Section */}
-      <section id="services" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-700 ${visibleSections.has('services') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('services.title')}
-          </h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
-            {services.map((service, index) => (
-              <Card key={index} className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/20 group transform hover:-translate-y-3">
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-6 p-6 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-3xl w-fit shadow-2xl group-hover:shadow-cyan-500/30 transition-all duration-500 group-hover:scale-110">
-                    <service.icon size={40} className="text-white" />
-                  </div>
-                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-300 text-center leading-relaxed text-lg">
-                    {service.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Dark Portfolio Section - Now Academic Projects */}
-      <section id="portfolio" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Academic Projects
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
-            {projects.map((project, index) => (
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {skills.map((skill, index) => (
               <Card 
                 key={index} 
-                className={`backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3 ${project.githubUrl ? 'cursor-pointer hover:border-purple-400/50' : ''}`}
-                onClick={() => handleProjectClick(project.githubUrl)}
+                className="backdrop-blur-xl bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 cursor-pointer group"
+                onClick={() => handleSkillClick(skill)}
               >
-                <CardHeader>
-                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl flex items-center justify-between">
-                    {project.title}
-                    {project.githubUrl && (
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <ExternalLink size={20} className="text-purple-400" />
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-lg group-hover:from-cyan-500/30 group-hover:to-purple-500/30 transition-all duration-300">
+                        {skill.icon}
                       </div>
-                    )}
-                  </CardTitle>
-                  <CardDescription className="text-gray-300 leading-relaxed text-base">
-                    {project.description}
-                  </CardDescription>
-                  {project.githubUrl && (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Badge className="bg-purple-500/20 text-purple-300 border border-purple-400/30 text-xs">
-                        <Github size={12} className="mr-1" />
-                        View Code
-                      </Badge>
+                      <CardTitle className="text-white group-hover:text-cyan-400 transition-colors duration-300">
+                        {skill.name}
+                      </CardTitle>
                     </div>
-                  )}
+                    <Badge variant="outline" className="border-purple-400 text-purple-400">
+                      {skill.category}
+                    </Badge>
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.technologies')}</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => (
-                        <Badge key={techIndex} className="backdrop-blur-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/30 transition-all duration-500 hover:scale-105">
-                          {tech}
-                        </Badge>
-                      ))}
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">Proficiency</span>
+                      <span className="text-cyan-400 font-semibold">{skill.level}%</span>
                     </div>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.features')}</h4>
-                    <ul className="text-sm text-gray-300 space-y-2">
-                      {project.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start">
-                          <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div 
+                        className="h-2 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all duration-1000"
+                        style={{ width: `${skill.level}%` }}
+                      />
+                    </div>
+                    <p className="text-gray-400 text-sm">{skill.description}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -657,165 +371,215 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Updated Dark Contact Section with Proper Email Link */}
-      <section id="contact" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+      {/* Services Section */}
+      <section id="services" className="py-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+            Services
+          </h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="backdrop-blur-xl bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 group">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:from-cyan-500/30 group-hover:to-purple-500/30 transition-all duration-300">
+                  <Globe className="w-6 h-6 text-cyan-400" />
+                </div>
+                <CardTitle className="text-white group-hover:text-cyan-400 transition-colors duration-300">
+                  Web Development
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 mb-4">
+                  Full-stack web applications using modern technologies like React, Node.js, and cloud services.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline" className="border-cyan-400/50 text-cyan-400">React</Badge>
+                  <Badge variant="outline" className="border-cyan-400/50 text-cyan-400">Node.js</Badge>
+                  <Badge variant="outline" className="border-cyan-400/50 text-cyan-400">TypeScript</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="backdrop-blur-xl bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 group">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:from-purple-500/30 group-hover:to-pink-500/30 transition-all duration-300">
+                  <Database className="w-6 h-6 text-purple-400" />
+                </div>
+                <CardTitle className="text-white group-hover:text-purple-400 transition-colors duration-300">
+                  Database Design
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 mb-4">
+                  Expert database architecture and optimization for SQL and NoSQL databases.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline" className="border-purple-400/50 text-purple-400">PostgreSQL</Badge>
+                  <Badge variant="outline" className="border-purple-400/50 text-purple-400">MongoDB</Badge>
+                  <Badge variant="outline" className="border-purple-400/50 text-purple-400">Redis</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="backdrop-blur-xl bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 group">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-r from-pink-500/20 to-yellow-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:from-pink-500/30 group-hover:to-yellow-500/30 transition-all duration-300">
+                  <Server className="w-6 h-6 text-pink-400" />
+                </div>
+                <CardTitle className="text-white group-hover:text-pink-400 transition-colors duration-300">
+                  Cloud Solutions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 mb-4">
+                  Scalable cloud infrastructure and deployment solutions on AWS and Google Cloud.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline" className="border-pink-400/50 text-pink-400">AWS</Badge>
+                  <Badge variant="outline" className="border-pink-400/50 text-pink-400">Docker</Badge>
+                  <Badge variant="outline" className="border-pink-400/50 text-pink-400">Kubernetes</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Get In Touch
           </h2>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-16">
-              <div>
-                <h3 className="text-3xl font-bold mb-8 text-gray-200">Let's Work Together</h3>
-                <p className="text-gray-300 mb-10 leading-relaxed text-lg">
-                  I'm always interested in new opportunities and collaborations. 
-                  Feel free to reach out if you'd like to discuss a project or just say hello!
-                </p>
-                <div className="space-y-6">
-                  <a 
-                    href="mailto:sidahir25820@gmail.com"
-                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
-                  >
-                    <Mail className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      Email
-                    </span>
-                  </a>
-                  <a 
-                    href="https://linkedin.com/in/siddharth-ahir-798754262" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
-                  >
-                    <Linkedin className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      LinkedIn
-                    </span>
-                  </a>
-                  <a 
-                    href="https://github.com/sidddharthhahir" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
-                  >
-                    <Github className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      GitHub
-                    </span>
-                  </a>
-                  <button 
-                    onClick={handleResumeDownload}
-                    className="flex items-center w-full p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105"
-                  >
-                    <User className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      Download Resume
-                    </span>
-                  </button>
+          
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-2xl font-semibold text-white mb-6">Let's Work Together</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed">
+                    I'm always interested in new opportunities and exciting projects. 
+                    Whether you need a full-stack developer or database expert, let's discuss how we can work together.
+                  </p>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-4 p-4 backdrop-blur-xl bg-white/5 rounded-xl border border-white/10">
+                    <Mail className="w-6 h-6 text-cyan-400" />
+                    <div>
+                      <h4 className="text-white font-semibold">Email</h4>
+                      <p className="text-gray-400">siddharth@example.com</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4 p-4 backdrop-blur-xl bg-white/5 rounded-xl border border-white/10">
+                    <Phone className="w-6 h-6 text-purple-400" />
+                    <div>
+                      <h4 className="text-white font-semibold">Phone</h4>
+                      <p className="text-gray-400">+1 (555) 123-4567</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4 p-4 backdrop-blur-xl bg-white/5 rounded-xl border border-white/10">
+                    <MapPin className="w-6 h-6 text-pink-400" />
+                    <div>
+                      <h4 className="text-white font-semibold">Location</h4>
+                      <p className="text-gray-400">San Francisco, CA</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex space-x-4">
+                  <Button variant="outline" size="icon" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
+                    <Github className="w-5 h-5" />
+                  </Button>
+                  <Button variant="outline" size="icon" className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white">
+                    <Linkedin className="w-5 h-5" />
+                  </Button>
                 </div>
               </div>
-              <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
+              
+              <Card className="backdrop-blur-xl bg-white/5 border-white/10">
                 <CardHeader>
-                  <CardTitle className="text-gray-200 text-2xl">Send Message</CardTitle>
+                  <CardTitle className="text-white">Send Message</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <Input 
-                      type="text" 
-                      name="name" 
-                      placeholder="Your Name" 
-                      value={formData.name} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
-                      required 
-                      disabled={isSubmitting} 
-                    />
-                    <Input 
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-gray-300 text-sm font-medium block mb-2">First Name</label>
+                      <input 
+                        type="text" 
+                        className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors"
+                        placeholder="John"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-gray-300 text-sm font-medium block mb-2">Last Name</label>
+                      <input 
+                        type="text" 
+                        className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors"
+                        placeholder="Doe"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="text-gray-300 text-sm font-medium block mb-2">Email</label>
+                    <input 
                       type="email" 
-                      name="email" 
-                      placeholder="Your Email" 
-                      value={formData.email} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
-                      required 
-                      disabled={isSubmitting} 
+                      className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors"
+                      placeholder="john@example.com"
                     />
-                    <Textarea 
-                      name="message" 
-                      placeholder="Your Message" 
-                      value={formData.message} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" 
-                      required 
-                      disabled={isSubmitting} 
+                  </div>
+                  
+                  <div>
+                    <label className="text-gray-300 text-sm font-medium block mb-2">Message</label>
+                    <textarea 
+                      rows={4}
+                      className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-colors resize-none"
+                      placeholder="Tell me about your project..."
                     />
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/30 py-4 text-lg" 
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
-                    </Button>
-                  </form>
+                  </div>
+                  
+                  <Button className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white">
+                    Send Message
+                  </Button>
                 </CardContent>
               </Card>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Dark Footer */}
-      <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/20">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-300 font-medium text-lg">
-            {t('footer.copyright')}
-          </p>
-        </div>
-      </footer>
-
-      {/* Visitor Greeting */}
-      <VisitorGreeting />
-
-      {/* Chatbot Components */}
-      <ChatButton 
-        onClick={() => setIsChatOpen(true)} 
-        isOpen={isChatOpen}
-      />
-      <ChatWindow 
-        isOpen={isChatOpen} 
-        onClose={() => setIsChatOpen(false)}
-      />
 
       {/* Game Components */}
       <GameSelector
-        isOpen={showGameSelector}
-        onClose={handleGameSelectorClose}
+        isOpen={isGameSelectorOpen}
+        onClose={handleCloseGameSelector}
         onSelectMemoryGame={handleSelectMemoryGame}
         onSelectTicTacToe={handleSelectTicTacToe}
         onSelectEndlessRunner={handleSelectEndlessRunner}
       />
 
-      <MemoryGame 
-        isActive={showMemoryGame} 
-        onComplete={handleMemoryGameComplete} 
-      />
+      {activeGame === 'memory' && (
+        <MemoryGame isOpen={true} onClose={handleCloseGame} />
+      )}
 
-      <TicTacToeGame 
-        isActive={showTicTacToe} 
-        onComplete={handleTicTacToeComplete} 
-      />
+      {activeGame === 'tictactoe' && (
+        <TicTacToeGame isOpen={true} onClose={handleCloseGame} />
+      )}
 
-      <EndlessRunnerGame 
-        isActive={showEndlessRunner} 
-        onComplete={handleEndlessRunnerComplete} 
-      />
+      {activeGame === 'runner' && (
+        <EndlessRunnerGame isOpen={true} onClose={handleCloseGame} />
+      )}
 
       {/* Skill Modal */}
-      <SkillModal 
-        isOpen={isSkillModalOpen}
-        onClose={() => setIsSkillModalOpen(false)}
-        skill={selectedSkill}
-      />
+      {selectedSkill && (
+        <SkillModal
+          skill={selectedSkill}
+          isOpen={!!selectedSkill}
+          onClose={handleCloseSkillModal}
+        />
+      )}
     </div>
   );
 };
