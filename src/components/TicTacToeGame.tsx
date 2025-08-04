@@ -46,22 +46,25 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
     return squares.every(square => square !== null);
   };
 
-  // Minimax algorithm for AI
-  const minimax = (squares: Player[], depth: number, isMaximizing: boolean): number => {
+  // Optimized minimax algorithm with depth limit and alpha-beta pruning
+  const minimax = (squares: Player[], depth: number, isMaximizing: boolean, alpha: number = -Infinity, beta: number = Infinity): number => {
     const winner = checkWinner(squares);
     
+    // Terminal conditions
     if (winner === 'O') return 10 - depth; // AI wins
     if (winner === 'X') return depth - 10; // User wins
-    if (isBoardFull(squares)) return 0; // Draw
+    if (isBoardFull(squares) || depth >= 6) return 0; // Draw or depth limit
 
     if (isMaximizing) {
       let bestScore = -Infinity;
       for (let i = 0; i < 9; i++) {
         if (squares[i] === null) {
           squares[i] = 'O';
-          const score = minimax(squares, depth + 1, false);
+          const score = minimax(squares, depth + 1, false, alpha, beta);
           squares[i] = null;
           bestScore = Math.max(score, bestScore);
+          alpha = Math.max(alpha, score);
+          if (beta <= alpha) break; // Alpha-beta pruning
         }
       }
       return bestScore;
@@ -70,17 +73,49 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
       for (let i = 0; i < 9; i++) {
         if (squares[i] === null) {
           squares[i] = 'X';
-          const score = minimax(squares, depth + 1, true);
+          const score = minimax(squares, depth + 1, true, alpha, beta);
           squares[i] = null;
           bestScore = Math.min(score, bestScore);
+          beta = Math.min(beta, score);
+          if (beta <= alpha) break; // Alpha-beta pruning
         }
       }
       return bestScore;
     }
   };
 
-  // Get best move for AI
+  // Get best move for AI with simplified logic for better performance
   const getBestMove = (squares: Player[]): number => {
+    // First move - play center if available
+    if (squares.every(cell => cell === null)) {
+      return 4; // Center position
+    }
+
+    // Quick win check - if AI can win, take it
+    for (let i = 0; i < 9; i++) {
+      if (squares[i] === null) {
+        squares[i] = 'O';
+        if (checkWinner(squares) === 'O') {
+          squares[i] = null;
+          return i;
+        }
+        squares[i] = null;
+      }
+    }
+
+    // Block user win
+    for (let i = 0; i < 9; i++) {
+      if (squares[i] === null) {
+        squares[i] = 'X';
+        if (checkWinner(squares) === 'X') {
+          squares[i] = null;
+          return i;
+        }
+        squares[i] = null;
+      }
+    }
+
+    // Use minimax for strategic moves
     let bestScore = -Infinity;
     let bestMove = -1;
 
@@ -97,7 +132,7 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
       }
     }
 
-    return bestMove;
+    return bestMove !== -1 ? bestMove : squares.findIndex(cell => cell === null);
   };
 
   // Handle user move with Sid's personality
@@ -143,35 +178,48 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
     setSidMessage(SidPersonality.getRandomMessage('thinking'));
   };
 
-  // AI move effect with enhanced personality
+  // AI move effect with performance optimization
   useEffect(() => {
     if (currentPlayer === 'ai' && gameStatus === 'playing') {
       const timer = setTimeout(() => {
-        const bestMove = getBestMove(board);
-        if (bestMove !== -1) {
-          const newBoard = [...board];
-          newBoard[bestMove] = 'O';
-          setBoard(newBoard);
+        try {
+          const bestMove = getBestMove([...board]); // Create a copy to avoid mutation
+          if (bestMove !== -1 && bestMove < 9) {
+            const newBoard = [...board];
+            newBoard[bestMove] = 'O';
+            setBoard(newBoard);
 
-          // Vibrate on AI move
-          VibrationManager.cardFlip();
+            // Vibrate on AI move
+            VibrationManager.cardFlip();
 
-          const winner = checkWinner(newBoard);
-          if (winner === 'O') {
-            setGameStatus('lost');
-            setSidMessage(SidPersonality.getRandomMessage('sidWin'));
-            VibrationManager.incorrectMatch();
-          } else if (isBoardFull(newBoard)) {
-            setGameStatus('draw');
-            setSidMessage(SidPersonality.getRandomMessage('draw'));
-            VibrationManager.incorrectMatch();
-          } else {
+            const winner = checkWinner(newBoard);
+            if (winner === 'O') {
+              setGameStatus('lost');
+              setSidMessage(SidPersonality.getRandomMessage('sidWin'));
+              VibrationManager.incorrectMatch();
+            } else if (isBoardFull(newBoard)) {
+              setGameStatus('draw');
+              setSidMessage(SidPersonality.getRandomMessage('draw'));
+              VibrationManager.incorrectMatch();
+            } else {
+              setCurrentPlayer('user');
+              setSidMessage(null); // Clear message for user turn
+            }
+          }
+        } catch (error) {
+          console.error('AI move error:', error);
+          // Fallback to random move
+          const availableMoves = board.map((cell, index) => cell === null ? index : null).filter(i => i !== null) as number[];
+          if (availableMoves.length > 0) {
+            const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            const newBoard = [...board];
+            newBoard[randomMove] = 'O';
+            setBoard(newBoard);
             setCurrentPlayer('user');
-            setSidMessage(null); // Clear message for user turn
           }
         }
         setIsAiThinking(false);
-      }, 1500); // Longer delay for dramatic effect
+      }, 800); // Reduced delay for better user experience
 
       return () => clearTimeout(timer);
     }

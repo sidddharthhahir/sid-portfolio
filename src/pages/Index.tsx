@@ -40,21 +40,38 @@ const Index = () => {
   const [showTicTacToe, setShowTicTacToe] = useState(false);
   const [showEndlessRunner, setShowEndlessRunner] = useState(false);
   
-  // Triple-click hint state
+  // Triple-click hint state with better initialization
   const [showHint, setShowHint] = useState(false);
   const [isGameFeatureDiscovered, setIsGameFeatureDiscovered] = useState(false);
+  const [hintDismissed, setHintDismissed] = useState(false);
   
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const { toast } = useToast();
 
-  // Check if game feature has been discovered on mount
+  // Check if game feature has been discovered on mount with better logic
   useEffect(() => {
-    const discovered = localStorage.getItem('gameFeatureDiscovered');
-    if (discovered === 'true') {
-      setIsGameFeatureDiscovered(true);
-    } else {
-      // Show hint after 2 seconds if not discovered
+    try {
+      const discovered = localStorage.getItem('gameFeatureDiscovered') === 'true';
+      const dismissed = localStorage.getItem('hintDismissed') === 'true';
+      
+      console.log('Game feature discovered:', discovered);
+      console.log('Hint dismissed:', dismissed);
+      
+      setIsGameFeatureDiscovered(discovered);
+      setHintDismissed(dismissed);
+      
+      // Show hint after 2 seconds if not discovered and not permanently dismissed
+      if (!discovered && !dismissed) {
+        const timer = setTimeout(() => {
+          console.log('Showing hint...');
+          setShowHint(true);
+        }, 2000);
+        return () => clearTimeout(timer);
+      }
+    } catch (error) {
+      console.error('Error checking localStorage:', error);
+      // Fallback: show hint if localStorage fails
       const timer = setTimeout(() => {
         setShowHint(true);
       }, 2000);
@@ -300,6 +317,7 @@ const Index = () => {
     
     setClickCount(prev => {
       const newCount = prev + 1;
+      console.log('Profile click count:', newCount);
       
       if (newCount < 3) {
         // Regular click vibration
@@ -311,6 +329,7 @@ const Index = () => {
         
         // Mark feature as discovered
         if (!isGameFeatureDiscovered) {
+          console.log('Game feature discovered!');
           setIsGameFeatureDiscovered(true);
           localStorage.setItem('gameFeatureDiscovered', 'true');
           setShowHint(false); // Hide hint permanently
@@ -396,7 +415,10 @@ const Index = () => {
   };
 
   const handleHintDismiss = () => {
+    console.log('Hint dismissed');
     setShowHint(false);
+    setHintDismissed(true);
+    localStorage.setItem('hintDismissed', 'true');
   };
 
   return (
@@ -441,9 +463,9 @@ const Index = () => {
       {/* Responsive Navigation */}
       <Navigation scrollToSection={scrollToSection} />
 
-      {/* Triple-click hint */}
+      {/* Triple-click hint with improved visibility logic */}
       <TripleClickHint 
-        isVisible={showHint && !isGameFeatureDiscovered}
+        isVisible={showHint && !isGameFeatureDiscovered && !hintDismissed}
         onDismiss={handleHintDismiss}
       />
 
