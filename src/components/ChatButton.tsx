@@ -5,10 +5,10 @@ import { Bot } from 'lucide-react';
 
 interface ChatButtonProps {
   onClick: () => void;
-  isOpen?: boolean;
+  isOpen: boolean;
 }
 
-const ChatButton: React.FC<ChatButtonProps> = ({ onClick, isOpen = false }) => {
+const ChatButton: React.FC<ChatButtonProps> = ({ onClick, isOpen }) => {
   if (isOpen) return null;
 
   return (
