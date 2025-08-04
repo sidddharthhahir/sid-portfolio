@@ -58,8 +58,8 @@ const TripleClickHint = ({ isVisible, onDismiss }: TripleClickHintProps) => {
         `}
       </style>
 
-      {/* Floating hint tooltip */}
-      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-40 hint-slide-in">
+      {/* Floating hint tooltip - Updated positioning and z-index */}
+      <div className="fixed top-6 right-6 z-[9999] hint-slide-in pointer-events-auto">
         <div className="backdrop-blur-2xl bg-gradient-to-r from-purple-500/90 to-pink-500/90 border border-white/20 rounded-2xl px-4 py-3 shadow-2xl max-w-xs">
           <div className="flex items-start gap-3">
             <div className="hint-pulse">
@@ -82,16 +82,11 @@ const TripleClickHint = ({ isVisible, onDismiss }: TripleClickHintProps) => {
           </div>
         </div>
         
-        {/* Arrow pointing to avatar area */}
+        {/* Arrow pointing to avatar area - Adjusted positioning */}
         <div className="absolute -bottom-2 left-8 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-purple-500/90"></div>
       </div>
 
-      {/* Subtle badge on avatar (alternative approach) */}
-      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-30 pointer-events-none">
-        <div className="hint-pulse bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full w-6 h-6 flex items-center justify-center shadow-lg">
-          <Gamepad2 size={12} className="text-white" />
-        </div>
-      </div>
+      {/* Subtle pulsing indicator near profile - Removed as it might be causing the issue */}
     </>
   );
 };
