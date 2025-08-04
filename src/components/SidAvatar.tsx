@@ -3,13 +3,37 @@ import { useState, useEffect } from 'react';
 import { SidMessage } from '@/utils/sidPersonality';
 
 interface SidAvatarProps {
-  message: SidMessage | null;
+  message?: SidMessage | null;
   isThinking?: boolean;
   className?: string;
+  onTripleClick?: () => void;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-const SidAvatar = ({ message, isThinking = false, className = '' }: SidAvatarProps) => {
+const SidAvatar = ({ 
+  message = null, 
+  isThinking = false, 
+  className = '', 
+  onTripleClick,
+  size = 'md'
+}: SidAvatarProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  const sizeClasses = {
+    sm: 'w-8 h-8',
+    md: 'w-12 h-12', 
+    lg: 'w-16 h-16',
+    xl: 'w-20 h-20'
+  };
+
+  const textSizeClasses = {
+    sm: 'text-lg',
+    md: 'text-2xl',
+    lg: 'text-3xl', 
+    xl: 'text-4xl'
+  };
 
   useEffect(() => {
     if (message) {
@@ -18,6 +42,29 @@ const SidAvatar = ({ message, isThinking = false, className = '' }: SidAvatarPro
       return () => clearTimeout(timer);
     }
   }, [message]);
+
+  const handleClick = () => {
+    if (!onTripleClick) return;
+
+    const newClickCount = clickCount + 1;
+    setClickCount(newClickCount);
+
+    if (clickTimeout) {
+      clearTimeout(clickTimeout);
+    }
+
+    if (newClickCount === 3) {
+      onTripleClick();
+      setClickCount(0);
+      setClickTimeout(null);
+    } else {
+      const timeout = setTimeout(() => {
+        setClickCount(0);
+        setClickTimeout(null);
+      }, 500);
+      setClickTimeout(timeout);
+    }
+  };
 
   const getAvatarExpression = () => {
     if (isThinking) return '🤔';
@@ -44,11 +91,12 @@ const SidAvatar = ({ message, isThinking = false, className = '' }: SidAvatarPro
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <div 
-        className={`relative flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-400/30 transition-all duration-500 ${
+        className={`relative flex items-center justify-center ${sizeClasses[size]} rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-400/30 transition-all duration-500 ${
           isAnimating ? 'scale-110 shadow-lg shadow-purple-400/20' : 'scale-100'
-        } ${isThinking ? 'animate-pulse' : ''}`}
+        } ${isThinking ? 'animate-pulse' : ''} ${onTripleClick ? 'cursor-pointer hover:scale-105' : ''}`}
+        onClick={handleClick}
       >
-        <div className={`text-2xl transition-transform duration-300 ${
+        <div className={`${textSizeClasses[size]} transition-transform duration-300 ${
           isAnimating ? 'scale-125' : 'scale-100'
         }`}>
           {getAvatarExpression()}

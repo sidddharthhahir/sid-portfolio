@@ -30,6 +30,7 @@ export default function Index() {
   const [isTicTacToeActive, setIsTicTacToeActive] = useState(false);
   const [isHitTheIslandActive, setIsHitTheIslandActive] = useState(false);
   const [showTripleClickHint, setShowTripleClickHint] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // Game progression state
   const [completedGames, setCompletedGames] = useState<string[]>([]);
@@ -122,11 +123,28 @@ export default function Index() {
     setShowTripleClickHint(false);
   };
 
+  // Dummy scroll function for Navigation
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Dummy update functions for EditableSection
+  const handleContentUpdate = (content: string) => {
+    console.log('Content updated:', content);
+  };
+
+  const handleConfettiComplete = () => {
+    setShowConfetti(false);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation and Language Switcher */}
       <div className="flex justify-between items-center p-4 sm:p-6">
-        <Navigation />
+        <Navigation scrollToSection={scrollToSection} />
         <LanguageSwitcher />
       </div>
 
@@ -208,6 +226,7 @@ export default function Index() {
             <h2 className="text-3xl font-bold mb-6 text-center">{t('resume.about')}</h2>
             <EditableSection 
               content={resumeData.summary} 
+              onUpdate={handleContentUpdate}
               className="text-lg leading-relaxed text-muted-foreground text-center"
             />
           </CardContent>
@@ -232,7 +251,7 @@ export default function Index() {
                     <p className="text-lg font-medium">{job.company}</p>
                     <span className="text-sm text-muted-foreground">{job.location}</span>
                   </div>
-                  <EditableSection content={job.description} className="text-muted-foreground mb-4" />
+                  <EditableSection content={job.description} onUpdate={handleContentUpdate} className="text-muted-foreground mb-4" />
                   <div className="flex flex-wrap gap-2">
                     {job.technologies.map((tech, techIndex) => (
                       <Badge key={techIndex} variant="secondary" className="text-xs">
@@ -323,7 +342,7 @@ export default function Index() {
                         </a>
                       )}
                     </div>
-                    <EditableSection content={project.description} className="text-muted-foreground mb-4" />
+                    <EditableSection content={project.description} onUpdate={handleContentUpdate} className="text-muted-foreground mb-4" />
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech, techIndex) => (
                         <Badge key={techIndex} variant="outline" className="text-xs">
@@ -347,7 +366,11 @@ export default function Index() {
       </div>
 
       {/* Modals and Games */}
-      <SkillModal skill={selectedSkill} onClose={closeSkillModal} />
+      <SkillModal 
+        skill={selectedSkill} 
+        onClose={closeSkillModal} 
+        isOpen={!!selectedSkill}
+      />
       
       <GameSelector
         isOpen={isGameSelectorOpen}
@@ -375,7 +398,10 @@ export default function Index() {
 
       <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       <ChatButton onClick={() => setIsChatOpen(true)} />
-      <ConfettiEasterEgg />
+      <ConfettiEasterEgg 
+        isActive={showConfetti}
+        onComplete={handleConfettiComplete}
+      />
     </div>
   );
 }
