@@ -25,6 +25,17 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
   
   const gameRef = useRef<HTMLDivElement>(null);
 
+  // Function to mark tic-tac-toe game as completed
+  const markGameCompleted = () => {
+    try {
+      const currentProgress = JSON.parse(localStorage.getItem('game-progress') || '{}');
+      const newProgress = { ...currentProgress, ticTacToeCompleted: true };
+      localStorage.setItem('game-progress', JSON.stringify(newProgress));
+    } catch (error) {
+      console.warn('Failed to save game completion:', error);
+    }
+  };
+
   // Check for winner
   const checkWinner = (squares: Player[]): Player => {
     const lines = [
@@ -162,6 +173,10 @@ const TicTacToeGame = ({ isActive, onComplete }: TicTacToeGameProps) => {
       setGameStatus('won');
       setSidMessage(SidPersonality.getRandomMessage('userWin'));
       setShowCelebration(true);
+      
+      // Mark game as completed for progression system
+      markGameCompleted();
+      
       VibrationManager.gameComplete(gameRef.current || undefined);
       return;
     }

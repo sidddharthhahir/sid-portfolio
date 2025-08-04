@@ -36,6 +36,17 @@ const MemoryGame = ({ isActive, onComplete }: MemoryGameProps) => {
 
   const symbols = ['🚀', '💻', '⚡', '🎯', '🔥', '💎', '🌟', '🎨'];
 
+  // Function to mark memory game as completed
+  const markGameCompleted = () => {
+    try {
+      const currentProgress = JSON.parse(localStorage.getItem('game-progress') || '{}');
+      const newProgress = { ...currentProgress, memoryCompleted: true };
+      localStorage.setItem('game-progress', JSON.stringify(newProgress));
+    } catch (error) {
+      console.warn('Failed to save game completion:', error);
+    }
+  };
+
   // Timer effect
   useEffect(() => {
     if (startTime && !gameWon) {
@@ -136,6 +147,9 @@ const MemoryGame = ({ isActive, onComplete }: MemoryGameProps) => {
       setNewRecords({ moves: records.isNewMoveRecord, time: records.isNewTimeRecord });
       setCompletionMessage(GameStatsManager.getCompletionMessage(moves, finalTime));
       setBestStats(GameStatsManager.getBestStats());
+      
+      // Mark game as completed for progression system
+      markGameCompleted();
       
       // Show celebration
       setShowCelebration(true);
