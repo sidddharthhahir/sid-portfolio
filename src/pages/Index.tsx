@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +17,7 @@ import TicTacToeGame from '@/components/TicTacToeGame';
 import EndlessRunnerGame from '@/components/EndlessRunnerGame';
 import GameSelector from '@/components/GameSelector';
 import SkillModal from '@/components/SkillModal';
+import TripleClickHint from '@/components/TripleClickHint';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RESUME_CONFIG } from '@/config/resume';
 import { VibrationManager } from '@/utils/vibrationUtils';
@@ -38,9 +40,27 @@ const Index = () => {
   const [showTicTacToe, setShowTicTacToe] = useState(false);
   const [showEndlessRunner, setShowEndlessRunner] = useState(false);
   
+  // Triple-click hint state
+  const [showHint, setShowHint] = useState(false);
+  const [isGameFeatureDiscovered, setIsGameFeatureDiscovered] = useState(false);
+  
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const { toast } = useToast();
+
+  // Check if game feature has been discovered on mount
+  useEffect(() => {
+    const discovered = localStorage.getItem('gameFeatureDiscovered');
+    if (discovered === 'true') {
+      setIsGameFeatureDiscovered(true);
+    } else {
+      // Show hint after 2 seconds if not discovered
+      const timer = setTimeout(() => {
+        setShowHint(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   // Static content - no editing functionality for public users
   const content = {
@@ -288,6 +308,14 @@ const Index = () => {
         // Game reveal vibration
         VibrationManager.gameReveal(profileElement);
         setShowGameSelector(true);
+        
+        // Mark feature as discovered
+        if (!isGameFeatureDiscovered) {
+          setIsGameFeatureDiscovered(true);
+          localStorage.setItem('gameFeatureDiscovered', 'true');
+          setShowHint(false); // Hide hint permanently
+        }
+        
         return 0; // Reset counter
       }
       return newCount;
@@ -367,6 +395,10 @@ const Index = () => {
     }
   };
 
+  const handleHintDismiss = () => {
+    setShowHint(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Add custom animations in a style tag */}
@@ -408,6 +440,12 @@ const Index = () => {
 
       {/* Responsive Navigation */}
       <Navigation scrollToSection={scrollToSection} />
+
+      {/* Triple-click hint */}
+      <TripleClickHint 
+        isVisible={showHint && !isGameFeatureDiscovered}
+        onDismiss={handleHintDismiss}
+      />
 
       {/* Enhanced Dark Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
