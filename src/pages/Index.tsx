@@ -1,6 +1,7 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from 'next-themes';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ModeToggle } from '@/components/ModeToggle';
@@ -9,7 +10,7 @@ import { Sparkles, Github, Linkedin, Mail, Download, Gamepad2 } from 'lucide-rea
 import GameSelector from '@/components/GameSelector';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
-import EndlessRunner from '@/components/EndlessRunner';
+import EndlessRunner from '@/components/EndlessRunnerGame';
 import TripleClickHint from '@/components/TripleClickHint';
 
 const Index = () => {
@@ -20,7 +21,7 @@ const Index = () => {
   const [isEndlessRunnerActive, setIsEndlessRunnerActive] = useState(false);
   const [tripleClickCount, setTripleClickCount] = useState(0);
   const [showTripleClickHint, setShowTripleClickHint] = useState(true);
-  const router = useRouter();
+  const navigate = useNavigate();
   const avatarRef = useRef<HTMLImageElement>(null);
 
   // Detect triple click
@@ -158,7 +159,7 @@ const Index = () => {
                   Contact
                 </Button>
               </a>
-              <Button variant="outline" size="lg" onClick={() => router.push('/resume.pdf')} >
+              <Button variant="outline" size="lg" onClick={() => window.open('/resume.pdf', '_blank')} >
                 <Download className="mr-2 h-4 w-4" />
                 Resume
               </Button>
