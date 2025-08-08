@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -484,7 +483,7 @@ const Index = () => {
               >
                 <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                   <img 
-                    src="https://i.postimg.cc/jdKRxWhL/IMG-1242.jpg" 
+                    src="https://i.postimg.cc/2S8B2QfK/IMG-1772.jpg" 
                     alt="Siddharth Ahir Profile" 
                     className="w-full h-full object-cover rounded-full object-center transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
                     style={{ objectPosition: 'center 30%' }}
