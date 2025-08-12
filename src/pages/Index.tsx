@@ -478,15 +478,15 @@ const Index = () => {
               <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
               <div 
                 data-profile-image
-                className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer"
+                className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer overflow-hidden"
                 onClick={handleProfileClick}
               >
                 <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                   <img 
                     src="https://i.postimg.cc/P5HS8SsF/FLUX-Playground-Image.png" 
                     alt="Siddharth Ahir Profile" 
-                    className="w-full h-full object-cover rounded-full object-center transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
-                    style={{ objectPosition: 'center 30%' }}
+                    className="w-full h-full object-cover rounded-full transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
+                    style={{ objectPosition: 'center 15%' }}
                   />
                 </div>
               </div>
