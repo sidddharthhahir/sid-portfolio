@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink } from 'lucide-react';
+import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Clock, Zap } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
@@ -208,6 +208,36 @@ const Index = () => {
   ];
 
   const projects = [
+    {
+      title: '📊 Game KPI Dashboard',
+      description: 'Real-time KPI dashboard with server-side filters and sub-second charts on ~5k rows.',
+      technologies: ['React', 'Node.js', 'Supabase', 'PostgreSQL', 'Recharts', 'MUI'],
+      features: [
+        'Server-side filtering with cached APIs for sub-second responses',
+        'Indexed Supabase tables; pagination and debounced search',
+        'Spend vs Installs chart, cohort table, and date range presets',
+        'JWT session auth and role-based access (viewer/admin)',
+        'Dockerized dev and GitHub Actions CI'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/Dashboard',
+      timeline: 'Recent',
+      metrics: '⏱️ Response time: sub-second'
+    },
+    {
+      title: '🎬 Movie Database',
+      description: 'TMDB-powered browsing with ML-explained recommendations (SHAP) on Django + Supabase.',
+      technologies: ['Django', 'Python', 'Supabase (Postgres)', 'TMDB API', 'scikit-learn', 'SHAP'],
+      features: [
+        'Personalized recommendations with cached fetches (~120 ms)',
+        'SHAP explanations to surface why a title is recommended',
+        'Admin model refresh using joblib; scheduled updates',
+        'Search, filters, and watchlist with authenticated users',
+        'REST API with rate limiting and structured logging'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/MovieDatabase',
+      timeline: 'Recent',
+      metrics: '⚡ Rec fetch: ~120 ms'
+    },
     {
       title: 'Personal Finance Management Web Application',
       description: 'A comprehensive web application for managing personal finances with secure user authentication, expense tracking, and financial data visualization.',
@@ -698,7 +728,7 @@ const Index = () => {
                       ))}
                     </div>
                   </div>
-                  <div>
+                  <div className="mb-4">
                     <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.features')}</h4>
                     <ul className="text-sm text-gray-300 space-y-2">
                       {project.features.map((feature, featureIndex) => (
@@ -709,6 +739,15 @@ const Index = () => {
                       ))}
                     </ul>
                   </div>
+                  {project.metrics && (
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <div className="flex items-center gap-2 text-sm text-gray-400">
+                        {project.metrics.includes('⏱️') && <Clock size={14} className="text-cyan-400" />}
+                        {project.metrics.includes('⚡') && <Zap size={14} className="text-yellow-400" />}
+                        <span>{project.metrics}</span>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
