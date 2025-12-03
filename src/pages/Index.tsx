@@ -239,6 +239,21 @@ const Index = () => {
       metrics: '⚡ Rec fetch: ~120 ms'
     },
     {
+      title: '🤖 MovieWise-XAI',
+      description: 'Explainable-AI Movie Recommendation System — combines traditional recommendation algorithms with RAG + local LLM backend for personalized suggestions with human-readable explanations.',
+      technologies: ['Python', 'Django', 'ML / XAI', 'LightFM', 'RAG / LLM', 'REST API', 'JavaScript'],
+      features: [
+        'Hybrid recommendation engine (collaborative + content-based via LightFM / scikit-learn)',
+        'Natural-language explanation generation using RAG + LLM pipeline',
+        'User rating system, movie search & trending lists via TMDB API',
+        'Watch-trailer support and dark/light UI theme toggle',
+        'Full-stack: Python, Django, Django REST Framework, JS/HTML/CSS frontend'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/MovieWise-XAI',
+      timeline: 'Recent',
+      metrics: '🧠 XAI-powered recommendations'
+    },
+    {
       title: 'Personal Finance Management Web Application',
       description: 'A comprehensive web application for managing personal finances with secure user authentication, expense tracking, and financial data visualization.',
       technologies: ['Django', 'Bootstrap', 'JavaScript', 'Chart.js', 'EmailJS'],
