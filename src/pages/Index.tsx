@@ -186,6 +186,25 @@ const Index = () => {
         { name: 'Recipe Manager' },
         { name: 'Personal Task Manager' }
       ]
+    },
+    { 
+      name: 'RAG', 
+      icon: Sparkles, 
+      description: 'Retrieval-Augmented Generation for AI applications',
+      detailedDescription: 'I implement RAG pipelines to enhance AI applications with contextual knowledge retrieval, combining vector databases with LLMs for accurate and grounded responses.',
+      keyProjects: [
+        { name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }
+      ]
+    },
+    { 
+      name: 'LLM / Vibe Coding', 
+      icon: Sparkles, 
+      description: 'AI-assisted development and LLM integration',
+      detailedDescription: 'I leverage Large Language Models for both application development and AI-first product features, combining modern vibe coding practices with traditional software engineering.',
+      keyProjects: [
+        { name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' },
+        { name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }
+      ]
     }
   ];
 
@@ -224,19 +243,19 @@ const Index = () => {
       metrics: '⏱️ Response time: sub-second'
     },
     {
-      title: '🎬 Movie Database',
-      description: 'TMDB-powered browsing with ML-explained recommendations (SHAP) on Django + Supabase.',
-      technologies: ['Django', 'Python', 'Supabase (Postgres)', 'TMDB API', 'scikit-learn', 'SHAP'],
+      title: '🏋️ PocketFit AI Coach',
+      description: 'AI-Powered Personal Fitness & Nutrition Coach — a modern AI-driven fitness web application that acts as a personalized gym and nutrition coach with adaptive plans.',
+      technologies: ['React', 'JavaScript', 'AI Logic', 'Fitness Algorithms', 'Full-Stack Development'],
       features: [
-        'Personalized recommendations with cached fetches (~120 ms)',
-        'SHAP explanations to surface why a title is recommended',
-        'Admin model refresh using joblib; scheduled updates',
-        'Search, filters, and watchlist with authenticated users',
-        'REST API with rate limiting and structured logging'
+        'AI-based fitness coaching with personalized workout & diet plans',
+        'Automatic calorie, TDEE, and protein calculation based on user profile',
+        'Smart onboarding flow capturing goals, body metrics, and experience',
+        'Daily workout routines with sets, reps, rest times & attendance tracking',
+        'Modern responsive UI with dashboard, progress views, and smooth UX'
       ],
-      githubUrl: 'https://github.com/sidddharthhahir/MovieDatabase',
+      githubUrl: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git',
       timeline: 'Recent',
-      metrics: '⚡ Rec fetch: ~120 ms'
+      metrics: '🤖 AI-powered coaching'
     },
     {
       title: '🤖 MovieWise-XAI',
