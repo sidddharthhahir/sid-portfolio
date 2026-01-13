@@ -4,7 +4,7 @@
 
 export const RESUME_CONFIG = {
   // Google Drive resume link - make sure it's set to "Anyone with the link can view"
-  url: 'https://drive.google.com/file/d/1V7nRpW2vbIPUqCLS5JrU08tngmPzDXr8/view?usp=sharing',
+  url: 'https://drive.google.com/file/d/1CLMwgAa5oqXvDfnSFzqd0LwFJ74eJgm-/view?usp=sharing',
   
   // Display name for the resume file
   fileName: 'Siddharth Ahir Resume',
