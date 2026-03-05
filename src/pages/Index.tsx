@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Clock, Zap } from 'lucide-react';
+import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Clock, Zap, Brain, Bot, FlaskConical, Cpu, BarChart3, Lightbulb, Rocket, MapPin, Calendar } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ChatButton from '@/components/ChatButton';
 import ChatWindow from '@/components/ChatWindow';
@@ -39,7 +39,6 @@ const Index = () => {
   const [showTicTacToe, setShowTicTacToe] = useState(false);
   const [showEndlessRunner, setShowEndlessRunner] = useState(false);
   
-  // Triple-click hint state with better initialization
   const [showHint, setShowHint] = useState(false);
   const [isGameFeatureDiscovered, setIsGameFeatureDiscovered] = useState(false);
   const [hintDismissed, setHintDismissed] = useState(false);
@@ -48,42 +47,21 @@ const Index = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const { toast } = useToast();
 
-  // Check if game feature has been discovered on mount with better logic
   useEffect(() => {
     try {
       const discovered = localStorage.getItem('gameFeatureDiscovered') === 'true';
       const dismissed = localStorage.getItem('hintDismissed') === 'true';
-      
-      console.log('Game feature discovered:', discovered);
-      console.log('Hint dismissed:', dismissed);
-      
       setIsGameFeatureDiscovered(discovered);
       setHintDismissed(dismissed);
-      
-      // Show hint after 2 seconds if not discovered and not permanently dismissed
       if (!discovered && !dismissed) {
-        const timer = setTimeout(() => {
-          console.log('Showing hint...');
-          setShowHint(true);
-        }, 2000);
+        const timer = setTimeout(() => setShowHint(true), 2000);
         return () => clearTimeout(timer);
       }
     } catch (error) {
-      console.error('Error checking localStorage:', error);
-      // Fallback: show hint if localStorage fails
-      const timer = setTimeout(() => {
-        setShowHint(true);
-      }, 2000);
+      const timer = setTimeout(() => setShowHint(true), 2000);
       return () => clearTimeout(timer);
     }
   }, []);
-
-  // Static content - no editing functionality for public users
-  const content = {
-    professionalSummary: "Results-driven Software Engineer with hands-on experience building and optimizing web applications using Python, Django, JavaScript, React, and SQL. Skilled in both backend and frontend development, with a strong foundation in designing scalable systems and creating responsive user interfaces. Demonstrated ability to learn new technologies quickly, solve complex problems, and deliver high-quality solutions through personal and academic projects. Committed to writing maintainable code and contributing effectively to collaborative teams.",
-    heroTitle: "Full-Stack Developer & Database Expert",
-    heroDescription: "Passionate about creating efficient web applications and robust database solutions. Currently pursuing Master's in Computer Science with expertise in Python, Django, and modern web technologies."
-  };
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -97,247 +75,148 @@ const Index = () => {
       },
       { threshold: 0.1 }
     );
-
     const sections = document.querySelectorAll('[data-animate]');
     sections.forEach((section) => observer.observe(section));
-
     return () => observer.disconnect();
   }, []);
 
-  const skills = [
-    { 
-      name: 'Python', 
-      icon: Code, 
-      description: 'Advanced programming with Django, Flask frameworks',
-      detailedDescription: 'I leverage Python to build robust backend applications, automation scripts, and data processing solutions. My expertise spans web development with Django and Flask, API development, and database integration.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
-        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' },
-        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
-      ]
-    },
-    { 
-      name: 'JavaScript', 
-      icon: Braces, 
-      description: 'Modern ES6+, React, Node.js development',
-      detailedDescription: 'Proficient in modern JavaScript (ES6+), React for frontend development, and Node.js for backend services. I create dynamic and interactive web experiences with clean code practices and async programming.',
-      keyProjects: [
-        { name: 'Portfolio Website' },
-        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
-        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
-      ]
-    },
-    { 
-      name: 'Django', 
-      icon: Server, 
-      description: 'Full-stack web development and REST APIs',
-      detailedDescription: 'I use Django to develop comprehensive web applications with robust backend architecture, user authentication, and RESTful API services, focusing on scalable and maintainable code.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application', url: 'https://github.com/sidddharthhahir/MoneyBook.git' },
-        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' },
-        { name: 'Personal Task Manager', url: 'https://github.com/sidddharthhahir/personal-task-manager' }
-      ]
-    },
-    { 
-      name: 'React', 
-      icon: Layers, 
-      description: 'Modern frontend development with hooks and TypeScript',
-      detailedDescription: 'Expert in building dynamic user interfaces with React, utilizing hooks, context, and TypeScript for type-safe development. I create responsive and accessible web applications.',
-      keyProjects: [
-        { name: 'Portfolio Website' }
-      ]
-    },
-    { 
-      name: 'SQL', 
-      icon: Database, 
-      description: 'Database design, optimization, and complex queries',
-      detailedDescription: 'Proficient in designing efficient database schemas, writing complex queries, and optimizing database performance for web applications with focus on data integrity and scalability.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application' },
-        { name: 'Recipe Manager' },
-        { name: 'Personal Task Manager' }
-      ]
-    },
-    { 
-      name: 'PostgreSQL', 
-      icon: Database, 
-      description: 'Advanced database management and performance tuning',
-      detailedDescription: 'I utilize PostgreSQL for robust data storage solutions, implementing advanced features like indexing, stored procedures, and performance optimization for high-traffic applications.',
-      keyProjects: [
-        { name: 'Recipe Manager', url: 'https://github.com/sidddharthhahir/recipe-manager' }
-      ]
-    },
-    { 
-      name: 'Git', 
-      icon: GitBranch, 
-      description: 'Version control, branching strategies, and collaboration',
-      detailedDescription: 'I use Git for comprehensive version control, implementing effective branching strategies and collaborative development workflows to maintain clean and organized codebases.',
-      keyProjects: [
-        { name: 'All Projects' }
-      ]
-    },
-    { 
-      name: 'REST APIs', 
-      icon: Layers, 
-      description: 'API design, integration, and testing',
-      detailedDescription: 'I design and implement RESTful APIs with proper authentication, error handling, and documentation, ensuring seamless integration between frontend and backend systems.',
-      keyProjects: [
-        { name: 'Personal Finance Management Web Application' },
-        { name: 'Recipe Manager' },
-        { name: 'Personal Task Manager' }
-      ]
-    },
-    { 
-      name: 'RAG', 
-      icon: Sparkles, 
-      description: 'Retrieval-Augmented Generation for AI applications',
-      detailedDescription: 'I implement RAG pipelines to enhance AI applications with contextual knowledge retrieval, combining vector databases with LLMs for accurate and grounded responses.',
-      keyProjects: [
-        { name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }
-      ]
-    },
-    { 
-      name: 'LLM / Vibe Coding', 
-      icon: Sparkles, 
-      description: 'AI-assisted development and LLM integration',
-      detailedDescription: 'I leverage Large Language Models for both application development and AI-first product features, combining modern vibe coding practices with traditional software engineering.',
-      keyProjects: [
-        { name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' },
-        { name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }
-      ]
-    }
-  ];
-
-  const services = [
+  // AI-focused skill categories
+  const skillCategories = [
     {
+      title: 'AI / Machine Learning',
+      icon: Brain,
+      skills: [
+        { name: 'Recommendation Systems (LightFM)', icon: Sparkles, description: 'Hybrid collaborative + content-based recommendation engines', detailedDescription: 'Building hybrid recommendation systems using LightFM combining collaborative filtering with content-based approaches for personalized recommendations.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'RAG', icon: Brain, description: 'Retrieval-Augmented Generation pipelines', detailedDescription: 'Implementing RAG pipelines to enhance LLM outputs with contextual knowledge retrieval for accurate, grounded AI responses.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Explainable AI (SHAP, LIME)', icon: Lightbulb, description: 'Making AI decisions transparent and interpretable', detailedDescription: 'Using SHAP and LIME to surface human-readable explanations for AI model predictions, building trust in AI systems.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'LLM Integration (Ollama)', icon: Bot, description: 'Local LLM deployment and integration', detailedDescription: 'Integrating local large language models via Ollama for privacy-preserving, low-latency AI-powered features.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Prompt Engineering', icon: Braces, description: 'Designing effective prompts for LLMs', detailedDescription: 'Crafting precise prompts and prompt chains to maximize LLM output quality for production applications.', keyProjects: [{ name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
+      ]
+    },
+    {
+      title: 'AI Application Development',
+      icon: Rocket,
+      skills: [
+        { name: 'Python', icon: Code, description: 'Core language for AI/ML development', detailedDescription: 'Advanced Python for building AI applications, ML pipelines, data processing, and backend services.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }, { name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
+        { name: 'AI-Powered Product Design', icon: Lightbulb, description: 'Designing AI-first user experiences', detailedDescription: 'Designing products where AI is the core value proposition — from recommendation engines to intelligent coaching systems.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
+        { name: 'AI System Architecture', icon: Layers, description: 'Architecting scalable AI systems', detailedDescription: 'Designing end-to-end architectures for AI applications including model serving, data pipelines, and API layers.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Data Pipelines for AI', icon: Database, description: 'Building data infrastructure for ML', detailedDescription: 'Creating efficient data pipelines that feed ML models with clean, structured data for training and inference.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+      ]
+    },
+    {
+      title: 'Backend & Data Systems',
+      icon: Server,
+      skills: [
+        { name: 'Django / DRF', icon: Server, description: 'Python web framework & REST APIs', detailedDescription: 'Building robust backend systems with Django and Django REST Framework for AI-powered applications.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Node.js / Express', icon: Server, description: 'JavaScript runtime & framework', detailedDescription: 'Server-side JavaScript for building fast, scalable API services and real-time applications.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'PostgreSQL / Supabase', icon: Database, description: 'Relational databases & BaaS', detailedDescription: 'Database design, query optimization, and using Supabase for rapid backend development with real-time features.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }, { name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'Prisma / MySQL', icon: Database, description: 'ORM & database management', detailedDescription: 'Type-safe database access with Prisma ORM and MySQL for structured data management.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
+      ]
+    },
+    {
+      title: 'Frontend for AI Products',
       icon: Globe,
-      title: 'Web Development',
-      description: 'Creating responsive, user-friendly websites and web applications using modern technologies and best practices.'
+      skills: [
+        { name: 'React / TypeScript', icon: Layers, description: 'Modern frontend development', detailedDescription: 'Building dynamic, type-safe user interfaces for AI-powered applications with React and TypeScript.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
+        { name: 'Next.js', icon: Globe, description: 'Full-stack React framework', detailedDescription: 'Server-side rendering and full-stack development with Next.js for production AI applications.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
+        { name: 'Tailwind CSS / Vite', icon: FileCode, description: 'Modern styling & build tools', detailedDescription: 'Rapid UI development with utility-first CSS and lightning-fast build tooling.', keyProjects: [{ name: 'Portfolio Website' }] },
+      ]
     },
     {
-      icon: Database,
-      title: 'Database Management',
-      description: 'Designing and optimizing databases, ensuring data integrity, and implementing efficient query strategies.'
+      title: 'DevOps & Infrastructure',
+      icon: Cpu,
+      skills: [
+        { name: 'Docker', icon: Server, description: 'Containerized deployments', detailedDescription: 'Containerizing AI applications and development environments for consistent, reproducible deployments.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'GitHub Actions', icon: GitBranch, description: 'CI/CD automation', detailedDescription: 'Automating testing, building, and deployment pipelines with GitHub Actions.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'AWS / Heroku', icon: Globe, description: 'Cloud deployment platforms', detailedDescription: 'Deploying and scaling applications on cloud infrastructure.', keyProjects: [] },
+        { name: 'Git / GitHub', icon: GitBranch, description: 'Version control & collaboration', detailedDescription: 'Professional version control workflows, code review, and open-source collaboration.', keyProjects: [{ name: 'All Projects' }] },
+      ]
     },
-    {
-      icon: Code,
-      title: 'Full-Stack Development',
-      description: 'Building complete applications from frontend to backend, ensuring seamless integration and optimal performance.'
-    }
   ];
 
   const projects = [
     {
-      title: '📊 Game KPI Dashboard',
-      description: 'Real-time KPI dashboard with server-side filters and sub-second charts on ~5k rows.',
-      technologies: ['React', 'Node.js', 'Supabase', 'PostgreSQL', 'Recharts', 'MUI'],
+      title: '🤖 MovieWise-XAI',
+      subtitle: 'Featured AI Project',
+      description: 'An explainable movie recommendation system that combines hybrid recommendation models with large language models to generate human-readable explanations.',
+      technologies: ['Python', 'Django', 'LightFM', 'Ollama', 'RAG'],
       features: [
-        'Server-side filtering with cached APIs for sub-second responses',
-        'Indexed Supabase tables; pagination and debounced search',
-        'Spend vs Installs chart, cohort table, and date range presets',
-        'JWT session auth and role-based access (viewer/admin)',
-        'Dockerized dev and GitHub Actions CI'
+        'Hybrid recommendation engine (collaborative + content-based)',
+        'Explainable AI using SHAP/LIME concepts',
+        'LLM-generated natural language explanations',
+        'Retrieval-augmented reasoning pipeline'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/MovieWise-XAI',
+      metrics: '🧠 XAI-powered recommendations',
+      featured: true
+    },
+    {
+      title: '🏠 RoomSplit',
+      subtitle: 'AI-Ready System Architecture',
+      description: 'A multi-user expense management platform designed with scalable data models and optimized transaction settlement algorithms.',
+      technologies: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
+      features: [
+        'Optimized expense settlement algorithm',
+        'Multi-user system architecture',
+        'Scalable relational database design',
+        'Modern dashboard UI'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/roomsplit',
+      metrics: '⚙️ Optimized algorithms'
+    },
+    {
+      title: '📄 AI Resume Customizer',
+      subtitle: 'LLM-Powered Tool',
+      description: 'An AI-powered tool that customizes resumes automatically based on job descriptions using LLM-based text analysis.',
+      technologies: ['Python', 'LLM APIs', 'NLP'],
+      features: [
+        'Resume-job description matching',
+        'AI-powered resume tailoring',
+        'NLP text analysis pipeline',
+        'Automation of job application preparation'
+      ],
+      githubUrl: 'https://github.com/sidddharthhahir/ai-resume-customizer',
+      metrics: '🤖 AI-automated workflow'
+    },
+    {
+      title: '📊 Game KPI Dashboard',
+      subtitle: 'Analytics & Data Systems',
+      description: 'An analytics dashboard that processes marketing performance data and visualizes KPIs for decision-making.',
+      technologies: ['React', 'Node.js', 'Express', 'Supabase', 'Recharts'],
+      features: [
+        'KPI tracking and visualization',
+        'Server-side filtering with cached APIs',
+        'Indexed queries for sub-second analytics'
       ],
       githubUrl: 'https://github.com/sidddharthhahir/Dashboard',
-      timeline: 'Recent',
-      metrics: '⏱️ Response time: sub-second'
+      metrics: '⏱️ Sub-second response time'
     },
     {
       title: '🏋️ PocketFit AI Coach',
-      description: 'AI-Powered Personal Fitness & Nutrition Coach — a modern AI-driven fitness web application that acts as a personalized gym and nutrition coach with adaptive plans.',
-      technologies: ['React', 'JavaScript', 'AI Logic', 'Fitness Algorithms', 'Full-Stack Development'],
+      subtitle: 'AI-Powered Application',
+      description: 'An AI-powered fitness assistant that generates personalized workout and diet plans with natural language meal logging.',
+      technologies: ['React', 'TypeScript', 'Supabase', 'AI Integration'],
       features: [
-        'AI-based fitness coaching with personalized workout & diet plans',
-        'Automatic calorie, TDEE, and protein calculation based on user profile',
-        'Smart onboarding flow capturing goals, body metrics, and experience',
-        'Daily workout routines with sets, reps, rest times & attendance tracking',
-        'Modern responsive UI with dashboard, progress views, and smooth UX'
+        'AI-generated fitness recommendations',
+        'Natural language meal logging',
+        'Progress tracking dashboard'
       ],
       githubUrl: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git',
-      timeline: 'Recent',
       metrics: '🤖 AI-powered coaching'
     },
-    {
-      title: '🤖 MovieWise-XAI',
-      description: 'Explainable-AI Movie Recommendation System — combines traditional recommendation algorithms with RAG + local LLM backend for personalized suggestions with human-readable explanations.',
-      technologies: ['Python', 'Django', 'ML / XAI', 'LightFM', 'RAG / LLM', 'REST API', 'JavaScript'],
-      features: [
-        'Hybrid recommendation engine (collaborative + content-based via LightFM / scikit-learn)',
-        'Natural-language explanation generation using RAG + LLM pipeline',
-        'User rating system, movie search & trending lists via TMDB API',
-        'Watch-trailer support and dark/light UI theme toggle',
-        'Full-stack: Python, Django, Django REST Framework, JS/HTML/CSS frontend'
-      ],
-      githubUrl: 'https://github.com/sidddharthhahir/MovieWise-XAI',
-      timeline: 'Recent',
-      metrics: '🧠 XAI-powered recommendations'
-    },
-    {
-      title: 'Personal Finance Management Web Application',
-      description: 'A comprehensive web application for managing personal finances with secure user authentication, expense tracking, and financial data visualization.',
-      technologies: ['Django', 'Bootstrap', 'JavaScript', 'Chart.js', 'EmailJS'],
-      features: [
-        'Secure user registration and login with email verification',
-        'Add and manage expenses and income with dynamic visualization',
-        'Export financial reports in PDF, Excel, and CSV formats',
-        'User currency preference settings for personalized experience',
-        'Django RESTful APIs with JSON and EmailJS integration',
-        'Responsive design with Bootstrap for intuitive user interface'
-      ],
-      githubUrl: 'https://github.com/sidddharthhahir/MoneyBook.git',
-      timeline: 'June 2025 – July 2025'
-    },
-    {
-      title: 'Recipe Manager',
-      description: 'A comprehensive recipe management platform with authentication, image upload, advanced search capabilities, and optimized database performance.',
-      technologies: ['Django', 'PostgreSQL', 'Python', 'Bootstrap', 'HTML5', 'CSS3'],
-      features: [
-        'User authentication and profile management',
-        'Recipe CRUD operations with image upload functionality', 
-        'Advanced search and filtering system with optimized queries',
-        'RESTful API design with PostgreSQL schema optimization',
-        '35% faster data retrieval through optimized database schemas',
-        'Social features for sharing and rating recipes'
-      ],
-      githubUrl: 'https://github.com/sidddharthhahir/recipe-manager',
-      timeline: 'April 2025 – May 2025'
-    },
-    {
-      title: 'Personal Task Manager',
-      description: 'An intuitive task management system with real-time updates, user authentication, and motivational features for enhanced productivity.',
-      technologies: ['Django', 'MySQL', 'JavaScript', 'AJAX', 'HTML5', 'CSS3'],
-      features: [
-        'User registration and secure login system',
-        'Task management with due dates and priority levels',
-        'Motivational quotes integration for user engagement',
-        'Real-time AJAX updates for seamless user experience',
-        'Statistics dashboard with progress tracking',
-        'Responsive design for all devices'
-      ],
-      githubUrl: 'https://github.com/sidddharthhahir/personal-task-manager',
-      timeline: 'Feb 2025 – March 2025'
-    },
-    {
-      title: 'Portfolio Website',
-      description: 'A modern, interactive portfolio website built with React and TypeScript, featuring AI integration and multi-language support.',
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'shadcn-ui', 'AI Integration'],
-      features: [
-        'Interactive AI chatbot for visitor engagement',
-        'Multi-language support for international accessibility',
-        'Responsive design with modern UI components',
-        'Real-time analytics and visitor tracking',
-        '500+ unique visitors achieved in the first month',
-        'SEO optimized with fast loading performance'
-      ],
-      timeline: 'Ongoing'
-    }
+  ];
+
+  const aiInterests = [
+    { icon: Bot, label: 'Large Language Model Applications' },
+    { icon: Lightbulb, label: 'Explainable AI' },
+    { icon: Sparkles, label: 'Recommendation Systems' },
+    { icon: Rocket, label: 'AI Product Engineering' },
+    { icon: Database, label: 'AI + Data Infrastructure' },
+    { icon: Globe, label: 'AI-powered SaaS Products' },
   ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -351,204 +230,111 @@ const Index = () => {
         message: formData.message,
         to_name: 'Siddharth Ahir'
       });
-      console.log('Email sent successfully:', result);
-      toast({
-        title: t('contact.success.title'),
-        description: t('contact.success.desc')
-      });
+      toast({ title: t('contact.success.title'), description: t('contact.success.desc') });
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
-      console.error('Failed to send email:', error);
-      toast({
-        title: t('contact.error.title'),
-        description: t('contact.error.desc'),
-        variant: "destructive"
-      });
+      toast({ title: t('contact.error.title'), description: t('contact.error.desc'), variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({
-      behavior: 'smooth'
-    });
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleProfileClick = () => {
     const profileElement = document.querySelector('[data-profile-image]') as HTMLElement;
-    
     setClickCount(prev => {
       const newCount = prev + 1;
-      console.log('Profile click count:', newCount);
-      
       if (newCount < 3) {
-        // Regular click vibration
         VibrationManager.profileClick(profileElement);
       } else if (newCount === 3) {
-        // Game reveal vibration
         VibrationManager.gameReveal(profileElement);
         setShowGameSelector(true);
-        
-        // Mark feature as discovered
         if (!isGameFeatureDiscovered) {
-          console.log('Game feature discovered!');
           setIsGameFeatureDiscovered(true);
           localStorage.setItem('gameFeatureDiscovered', 'true');
-          setShowHint(false); // Hide hint permanently
+          setShowHint(false);
         }
-        
-        return 0; // Reset counter
+        return 0;
       }
       return newCount;
     });
   };
 
-  // Game handlers
-  const handleGameSelectorClose = () => {
-    setShowGameSelector(false);
-  };
-
-  const handleSelectMemoryGame = () => {
-    setShowGameSelector(false);
-    setShowMemoryGame(true);
-  };
-
-  const handleSelectTicTacToe = () => {
-    setShowGameSelector(false);
-    setShowTicTacToe(true);
-  };
-
-  const handleSelectEndlessRunner = () => {
-    setShowGameSelector(false);
-    setShowEndlessRunner(true);
-  };
-
-  const handleMemoryGameComplete = () => {
-    setShowMemoryGame(false);
-  };
-
-  const handleTicTacToeComplete = () => {
-    setShowTicTacToe(false);
-  };
-
-  const handleEndlessRunnerComplete = () => {
-    setShowEndlessRunner(false);
-  };
+  const handleGameSelectorClose = () => setShowGameSelector(false);
+  const handleSelectMemoryGame = () => { setShowGameSelector(false); setShowMemoryGame(true); };
+  const handleSelectTicTacToe = () => { setShowGameSelector(false); setShowTicTacToe(true); };
+  const handleSelectEndlessRunner = () => { setShowGameSelector(false); setShowEndlessRunner(true); };
+  const handleMemoryGameComplete = () => setShowMemoryGame(false);
+  const handleTicTacToeComplete = () => setShowTicTacToe(false);
+  const handleEndlessRunnerComplete = () => setShowEndlessRunner(false);
 
   const handleResumeDownload = () => {
     try {
-      // Convert Google Drive view link to direct download link
       let downloadUrl = RESUME_CONFIG.url;
-      
-      // If it's a Google Drive link, convert to direct download format
       if (downloadUrl.includes('drive.google.com')) {
         const fileId = downloadUrl.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
-        if (fileId) {
-          downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-        }
+        if (fileId) downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
       }
-      
-      // Open the resume in a new tab
       window.open(downloadUrl, '_blank', 'noopener,noreferrer');
-      
-      toast({
-        title: "Resume Opened",
-        description: `${RESUME_CONFIG.fileName} has been opened in a new tab!`
-      });
+      toast({ title: "Resume Opened", description: `${RESUME_CONFIG.fileName} has been opened in a new tab!` });
     } catch (error) {
-      console.error('Failed to open resume:', error);
-      toast({
-        title: "Download Error",
-        description: "Failed to open resume. Please try again.",
-        variant: "destructive"
-      });
+      toast({ title: "Download Error", description: "Failed to open resume. Please try again.", variant: "destructive" });
     }
   };
 
-  const handleSkillClick = (skill: any) => {
-    setSelectedSkill(skill);
-    setIsSkillModalOpen(true);
-  };
-
-  const handleProjectClick = (githubUrl?: string) => {
-    if (githubUrl) {
-      window.open(githubUrl, '_blank');
-    }
-  };
-
-  const handleHintDismiss = () => {
-    console.log('Hint dismissed');
-    setShowHint(false);
-    setHintDismissed(true);
-    localStorage.setItem('hintDismissed', 'true');
-  };
+  const handleSkillClick = (skill: any) => { setSelectedSkill(skill); setIsSkillModalOpen(true); };
+  const handleProjectClick = (githubUrl?: string) => { if (githubUrl) window.open(githubUrl, '_blank'); };
+  const handleHintDismiss = () => { setShowHint(false); setHintDismissed(true); localStorage.setItem('hintDismissed', 'true'); };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      {/* Add custom animations in a style tag */}
-      <style>
-        {`
-        @keyframes float-up-down {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes float-up-down-delayed {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-12px); }
-        }
-        
-        .float-animation {
-          animation: float-up-down 3s ease-in-out infinite;
-        }
-        
-        .float-animation-delayed {
-          animation: float-up-down-delayed 3s ease-in-out infinite 1.5s;
-        }
-        `}
-      </style>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+      <style>{`
+        @keyframes float-up-down { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes float-up-down-delayed { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+        .float-animation { animation: float-up-down 3s ease-in-out infinite; }
+        .float-animation-delayed { animation: float-up-down-delayed 3s ease-in-out infinite 1.5s; }
+        @keyframes neural-pulse { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.3; } }
+        .neural-bg { animation: neural-pulse 4s ease-in-out infinite; }
+      `}</style>
 
-      {/* Enhanced Animated Background Elements */}
+      {/* Animated Background — dark, techy */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-        
-        {/* Floating particles */}
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-full blur-3xl neural-bg"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl neural-bg" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-r from-teal-500/5 to-cyan-500/5 rounded-full blur-3xl neural-bg" style={{ animationDelay: '1s' }}></div>
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-purple-400/30 rounded-full animate-ping delay-300"></div>
-          <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping delay-700"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-pink-400/30 rounded-full animate-ping delay-1000"></div>
+          <div className="absolute top-1/4 left-1/3 w-1 h-1 bg-emerald-400/30 rounded-full animate-ping delay-300"></div>
+          <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyan-400/30 rounded-full animate-ping delay-700"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-teal-400/20 rounded-full animate-ping delay-1000"></div>
         </div>
       </div>
 
-      {/* Responsive Navigation */}
       <Navigation scrollToSection={scrollToSection} />
 
-      {/* Triple-click hint with improved visibility logic */}
       <TripleClickHint 
         isVisible={showHint && !isGameFeatureDiscovered && !hintDismissed}
         onDismiss={handleHintDismiss}
       />
 
-      {/* Enhanced Dark Hero Section */}
+      {/* ═══════════════ HERO SECTION ═══════════════ */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
         <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          {/* Enhanced Profile Section with fixed image positioning */}
           <div className="mb-8">
             <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
-              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
+              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
               <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
               <div 
                 data-profile-image
-                className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer overflow-hidden"
+                className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer overflow-hidden"
                 onClick={handleProfileClick}
               >
                 <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                   <img 
                     src="https://i.postimg.cc/P5HS8SsF/FLUX-Playground-Image.png" 
-                    alt="Siddharth Ahir Profile" 
+                    alt="Siddharth Ahir — AI Engineer" 
                     className="w-full h-full object-cover rounded-full transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
                     style={{ objectPosition: 'center 15%' }}
                   />
@@ -557,43 +343,60 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Enhanced Text Content */}
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
-              <Sparkles size={28} className="text-yellow-400 animate-pulse" />
+              <Brain size={28} className="text-emerald-400 animate-pulse" />
               <span className="text-2xl text-gray-300 font-medium">Hello, I'm</span>
-              <Sparkles size={28} className="text-yellow-400 animate-pulse delay-500" />
+              <Brain size={28} className="text-emerald-400 animate-pulse delay-500" />
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold mb-8">
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
                 Siddharth Ahir
               </span>
             </h1>
 
-            <h2 className="text-3xl md:text-4xl text-gray-200 mb-8 font-medium">
-              {content.heroTitle}
+            <h2 className="text-2xl md:text-3xl text-gray-200 mb-4 font-medium max-w-4xl mx-auto leading-relaxed">
+              AI Engineer | Building Intelligent Systems with LLMs, RAG & Scalable Data Architectures
             </h2>
 
-            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              {content.heroDescription}
-            </p>
+            <div className="max-w-3xl mx-auto text-left space-y-4">
+              <p className="text-lg text-gray-300 leading-relaxed text-center">
+                I am Siddharth Ahir, an AI-focused software engineer based in Berlin. I design and build intelligent applications using large language models, recommendation systems, and scalable backend architectures.
+              </p>
+              <div className="flex flex-wrap justify-center gap-3 mt-6">
+                {['LLM Integrations', 'RAG Pipelines', 'AI-Powered Features', 'Scalable Data Systems'].map((item) => (
+                  <Badge key={item} className="backdrop-blur-xl bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 px-4 py-1.5 text-sm">
+                    {item}
+                  </Badge>
+                ))}
+              </div>
+            </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
               <Button 
                 onClick={() => scrollToSection('portfolio')} 
-                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/25 backdrop-blur-xl border border-white/20 group"
+                className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/25 backdrop-blur-xl border border-white/20 group"
               >
                 <span className="flex items-center gap-3">
-                  View My Work
-                  <Star size={20} className="group-hover:rotate-180 transition-transform duration-500" />
+                  View AI Projects
+                  <Brain size={20} className="group-hover:rotate-12 transition-transform duration-500" />
+                </span>
+              </Button>
+              <Button 
+                onClick={() => window.open('https://github.com/sidddharthhahir', '_blank')}
+                className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl"
+              >
+                <span className="flex items-center gap-3">
+                  <Github size={20} />
+                  GitHub
                 </span>
               </Button>
               <Button 
                 onClick={() => scrollToSection('contact')} 
-                className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl hover:shadow-purple-500/25"
+                className="backdrop-blur-xl bg-white/5 border border-white/15 text-gray-300 hover:bg-white/15 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium"
               >
-                Contact Me
+                Contact
               </Button>
             </div>
           </div>
@@ -602,48 +405,66 @@ const Index = () => {
             <div className="flex flex-col items-center gap-3">
               <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
               <div className="animate-bounce">
-                <ArrowDown size={28} className="text-cyan-400" />
+                <ArrowDown size={28} className="text-emerald-400" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Enhanced Dark About Section */}
+      {/* ═══════════════ ABOUT SECTION ═══════════════ */}
       <section id="about" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           <div className="flex items-center justify-center gap-4 mb-16">
-            <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              {t('about.title')}
+            <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+              About Me
             </h2>
           </div>
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-2xl font-bold mb-6 text-cyan-400">Professional Summary</h3>
-                  <p className="text-xl text-gray-300 leading-relaxed">
-                    {content.professionalSummary}
+                  <h3 className="text-2xl font-bold mb-6 text-emerald-400">AI Engineer Profile</h3>
+                  <p className="text-lg text-gray-300 leading-relaxed mb-6">
+                    I am a Computer Science Master's student in Berlin specializing in AI-powered software systems. My work combines machine learning, large language models, and modern full-stack engineering to build intelligent applications.
+                  </p>
+                  <h4 className="text-lg font-semibold text-gray-200 mb-4">I have experience designing:</h4>
+                  <ul className="space-y-3">
+                    {[
+                      'Recommendation systems using hybrid ML models',
+                      'Explainable AI systems using SHAP/LIME',
+                      'LLM-powered applications using Ollama',
+                      'Retrieval-Augmented Generation pipelines',
+                      'Scalable backend systems for AI products'
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-gray-300">
+                        <span className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mt-2 flex-shrink-0"></span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-emerald-400/80 mt-6 font-medium italic">
+                    I enjoy building real-world AI products — not just training models.
                   </p>
                 </div>
               </div>
               <div>
                 <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105">
                   <CardHeader>
-                    <CardTitle className="text-cyan-400 text-2xl">Education</CardTitle>
+                    <CardTitle className="text-emerald-400 text-2xl">Education</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
                       <h4 className="font-semibold text-gray-200 text-lg">MSc Computer Science</h4>
                       <p className="text-gray-300">International University of Applied Sciences</p>
                       <p className="text-gray-300">Berlin, Germany</p>
-                      <p className="text-sm text-cyan-400 font-medium">Sept 2023 – Present</p>
+                      <p className="text-sm text-emerald-400 font-medium">Sept 2023 – Present</p>
                     </div>
                     <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
                       <h4 className="font-semibold text-gray-200 text-lg">Bachelor of Computer Application</h4>
                       <p className="text-gray-300">Gujarat University</p>
                       <p className="text-gray-300">Ahmedabad, India</p>
-                      <p className="text-sm text-cyan-400 font-medium">July 2019 – April 2022</p>
+                      <p className="text-sm text-emerald-400 font-medium">July 2019 – April 2022</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -653,121 +474,99 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Enhanced Dark Skills Section - Fixed Grid Layout with Subtle Hover */}
+      {/* ═══════════════ SKILLS SECTION ═══════════════ */}
       <section id="skills" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
             Technical Skills
           </h2>
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
-              {skills.map((skill, index) => (
-                <div key={index} className="w-full max-w-xs">
-                  <Card 
-                    className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/10 transform hover:-translate-y-1 cursor-pointer hover:border-cyan-400/30 h-full group"
-                    onClick={() => handleSkillClick(skill)}
-                  >
-                    <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
-                      <div className="mb-6 flex justify-center">
-                        <div className="p-6 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl group-hover:from-cyan-500/30 group-hover:to-purple-500/30 transition-all duration-300 backdrop-blur-xl border border-white/20 group-hover:scale-105">
-                          <skill.icon size={40} className="text-cyan-400 group-hover:text-purple-400 transition-all duration-300" />
-                        </div>
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-200 mb-3 group-hover:text-cyan-400 transition-all duration-300">
-                        {skill.name}
-                      </h3>
-                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-all duration-300 text-center">
-                        {skill.description}
-                      </p>
-                      <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="text-xs text-cyan-400 font-medium">Click for details</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Dark Services Section */}
-      <section id="services" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-700 ${visibleSections.has('services') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t('services.title')}
-          </h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
-            {services.map((service, index) => (
-              <Card key={index} className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/20 group transform hover:-translate-y-3">
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-6 p-6 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-3xl w-fit shadow-2xl group-hover:shadow-cyan-500/30 transition-all duration-500 group-hover:scale-110">
-                    <service.icon size={40} className="text-white" />
+          <div className="max-w-7xl mx-auto space-y-12">
+            {skillCategories.map((category, catIndex) => (
+              <div key={catIndex}>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-lg border border-white/10">
+                    <category.icon size={24} className="text-emerald-400" />
                   </div>
-                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-300 text-center leading-relaxed text-lg">
-                    {service.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+                  <h3 className="text-2xl font-bold text-gray-200">{category.title}</h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {category.skills.map((skill, index) => (
+                    <Card 
+                      key={index}
+                      className="backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/10 cursor-pointer hover:border-emerald-400/30 group"
+                      onClick={() => handleSkillClick(skill)}
+                    >
+                      <CardContent className="p-5 flex items-start gap-4">
+                        <div className="p-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl group-hover:from-emerald-500/30 group-hover:to-cyan-500/30 transition-all duration-300 border border-white/10 flex-shrink-0">
+                          <skill.icon size={22} className="text-emerald-400 group-hover:text-cyan-400 transition-all duration-300" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-semibold text-gray-200 group-hover:text-emerald-400 transition-all duration-300">
+                            {skill.name}
+                          </h4>
+                          <p className="text-xs text-gray-400 mt-1 group-hover:text-gray-300 transition-all duration-300">
+                            {skill.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Enhanced Dark Portfolio Section - Now Academic Projects */}
+      {/* ═══════════════ PROJECTS SECTION ═══════════════ */}
       <section id="portfolio" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            Academic Projects
+          <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            AI & Engineering Projects
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
+          <p className="text-center text-gray-400 mb-16 text-lg">Real-world AI products, not toy demos</p>
+          <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
             {projects.map((project, index) => (
               <Card 
                 key={index} 
-                className={`backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20 group transform hover:-translate-y-3 ${project.githubUrl ? 'cursor-pointer hover:border-purple-400/50' : ''}`}
+                className={`backdrop-blur-2xl bg-black/30 border hover:bg-black/40 transition-all duration-700 hover:scale-105 hover:shadow-2xl group transform hover:-translate-y-3 cursor-pointer ${
+                  project.featured 
+                    ? 'border-emerald-400/40 hover:shadow-emerald-500/20 md:col-span-2 hover:border-emerald-400/60' 
+                    : 'border-white/15 hover:shadow-cyan-500/15 hover:border-cyan-400/40'
+                }`}
                 onClick={() => handleProjectClick(project.githubUrl)}
               >
                 <CardHeader>
-                  <CardTitle className="text-gray-200 group-hover:text-cyan-400 transition-all duration-500 text-xl flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-2">
+                    <Badge className={`text-xs px-3 py-1 ${project.featured ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30' : 'bg-cyan-500/15 text-cyan-300 border-cyan-400/25'}`}>
+                      {project.subtitle}
+                    </Badge>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <ExternalLink size={18} className="text-emerald-400" />
+                    </div>
+                  </div>
+                  <CardTitle className="text-gray-200 group-hover:text-emerald-400 transition-all duration-500 text-xl">
                     {project.title}
-                    {project.githubUrl && (
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <ExternalLink size={20} className="text-purple-400" />
-                      </div>
-                    )}
                   </CardTitle>
                   <CardDescription className="text-gray-300 leading-relaxed text-base">
                     {project.description}
                   </CardDescription>
-                  {project.githubUrl && (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Badge className="bg-purple-500/20 text-purple-300 border border-purple-400/30 text-xs">
-                        <Github size={12} className="mr-1" />
-                        View Code
-                      </Badge>
-                    </div>
-                  )}
                 </CardHeader>
                 <CardContent>
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.technologies')}</h4>
+                  <div className="mb-5">
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech, techIndex) => (
-                        <Badge key={techIndex} className="backdrop-blur-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/30 transition-all duration-500 hover:scale-105">
+                        <Badge key={techIndex} className="backdrop-blur-xl bg-emerald-500/15 text-emerald-300 border border-emerald-400/25 hover:bg-emerald-500/25 transition-all duration-500 text-xs">
                           {tech}
                         </Badge>
                       ))}
                     </div>
                   </div>
                   <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-cyan-400 mb-3">{t('portfolio.features')}</h4>
                     <ul className="text-sm text-gray-300 space-y-2">
                       {project.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-start">
-                          <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                          <span className="w-1.5 h-1.5 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
                           {feature}
                         </li>
                       ))}
@@ -775,11 +574,7 @@ const Index = () => {
                   </div>
                   {project.metrics && (
                     <div className="mt-4 pt-4 border-t border-white/10">
-                      <div className="flex items-center gap-2 text-sm text-gray-400">
-                        {project.metrics.includes('⏱️') && <Clock size={14} className="text-cyan-400" />}
-                        {project.metrics.includes('⚡') && <Zap size={14} className="text-yellow-400" />}
-                        <span>{project.metrics}</span>
-                      </div>
+                      <span className="text-sm text-gray-400">{project.metrics}</span>
                     </div>
                   )}
                 </CardContent>
@@ -789,103 +584,115 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Updated Dark Contact Section with Proper Email Link */}
+      {/* ═══════════════ AI INTERESTS SECTION ═══════════════ */}
+      <section id="interests" className="py-24" data-animate>
+        <div className={`container mx-auto px-6 transition-all duration-1500 ${visibleSections.has('interests') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            AI Research & Engineering Interests
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {aiInterests.map((interest, index) => (
+              <div key={index} className="flex items-center gap-4 p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 hover:border-emerald-400/30 transition-all duration-500 hover:scale-105 group">
+                <interest.icon size={24} className="text-emerald-400 group-hover:text-cyan-400 transition-colors flex-shrink-0" />
+                <span className="text-gray-300 font-medium text-sm group-hover:text-gray-200">{interest.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ GITHUB / OPEN SOURCE SECTION ═══════════════ */}
+      <section id="github" className="py-24" data-animate>
+        <div className={`container mx-auto px-6 transition-all duration-1500 ${visibleSections.has('github') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <h2 className="text-5xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            Open Source & Experiments
+          </h2>
+          <p className="text-center text-gray-400 mb-12 text-lg">AI tools, backend systems, and intelligent applications</p>
+          <div className="max-w-2xl mx-auto text-center">
+            <Card className="backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:border-emerald-400/30">
+              <CardContent className="p-10 flex flex-col items-center gap-6">
+                <div className="p-5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-2xl border border-white/10">
+                  <Github size={48} className="text-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-200 mb-2">github.com/sidddharthhahir</h3>
+                  <p className="text-gray-400">Explore my AI projects, experiments, and open-source contributions</p>
+                </div>
+                <Button 
+                  onClick={() => window.open('https://github.com/sidddharthhahir', '_blank')}
+                  className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-8 py-3 rounded-full hover:scale-110 transition-all duration-500"
+                >
+                  <span className="flex items-center gap-2">
+                    <Github size={18} />
+                    View GitHub Profile
+                  </span>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ CONTACT SECTION ═══════════════ */}
       <section id="contact" className="py-24" data-animate>
         <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
             Get In Touch
           </h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16">
               <div>
-                <h3 className="text-3xl font-bold mb-8 text-gray-200">Let's Work Together</h3>
-                <p className="text-gray-300 mb-10 leading-relaxed text-lg">
-                  I'm always interested in new opportunities and collaborations. 
-                  Feel free to reach out if you'd like to discuss a project or just say hello!
+                <h3 className="text-3xl font-bold mb-6 text-gray-200">Let's Build Something Intelligent</h3>
+                <p className="text-gray-300 mb-6 leading-relaxed text-lg">
+                  I am currently looking for:
                 </p>
-                <div className="space-y-6">
-                  <a 
-                    href="mailto:sidahir25820@gmail.com"
-                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
-                  >
-                    <Mail className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      Email
-                    </span>
+                <ul className="space-y-3 mb-8">
+                  {['AI Engineer roles', 'Machine Learning Engineer internships', 'AI product engineering opportunities'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-gray-300 text-lg">
+                      <span className="w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0"></span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <div className="space-y-3 mb-10 p-5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="flex items-center gap-3 text-gray-300">
+                    <MapPin size={18} className="text-emerald-400" />
+                    <span>Berlin, Germany</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-300">
+                    <Calendar size={18} className="text-emerald-400" />
+                    <span>Student work (20h/week) · Full-time from April 2026</span>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <a href="mailto:sidahir25820@gmail.com" className="flex items-center p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    <Mail className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
+                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">Email</span>
                   </a>
-                  <a 
-                    href="https://linkedin.com/in/siddharth-ahir-798754262" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
-                  >
-                    <Linkedin className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      LinkedIn
-                    </span>
+                  <a href="https://linkedin.com/in/siddharth-ahir-798754262" target="_blank" rel="noopener noreferrer" className="flex items-center p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    <Linkedin className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
+                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">LinkedIn</span>
                   </a>
-                  <a 
-                    href="https://github.com/sidddharthhahir" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105 cursor-pointer"
-                  >
-                    <Github className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      GitHub
-                    </span>
+                  <a href="https://github.com/sidddharthhahir" target="_blank" rel="noopener noreferrer" className="flex items-center p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    <Github className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
+                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">GitHub</span>
                   </a>
-                  <button 
-                    onClick={handleResumeDownload}
-                    className="flex items-center w-full p-6 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-500 group hover:scale-105"
-                  >
-                    <User className="text-cyan-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={24} />
-                    <span className="text-gray-200 hover:text-cyan-400 transition-colors duration-500 font-medium text-lg">
-                      Download Resume
-                    </span>
+                  <button onClick={handleResumeDownload} className="flex items-center w-full p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
+                    <User className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
+                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">Download Resume</span>
                   </button>
                 </div>
               </div>
-              <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
+              <Card className="backdrop-blur-2xl bg-black/30 border border-white/15 shadow-2xl hover:shadow-emerald-500/10 transition-all duration-700 hover:scale-105">
                 <CardHeader>
                   <CardTitle className="text-gray-200 text-2xl">Send Message</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <Input 
-                      type="text" 
-                      name="name" 
-                      placeholder="Your Name" 
-                      value={formData.name} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
-                      required 
-                      disabled={isSubmitting} 
-                    />
-                    <Input 
-                      type="email" 
-                      name="email" 
-                      placeholder="Your Email" 
-                      value={formData.email} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" 
-                      required 
-                      disabled={isSubmitting} 
-                    />
-                    <Textarea 
-                      name="message" 
-                      placeholder="Your Message" 
-                      value={formData.message} 
-                      onChange={handleInputChange} 
-                      className="backdrop-blur-xl bg-black/40 border border-white/30 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" 
-                      required 
-                      disabled={isSubmitting} 
-                    />
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/30 py-4 text-lg" 
-                      disabled={isSubmitting}
-                    >
+                    <Input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                    <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                    <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" required disabled={isSubmitting} />
+                    <Button type="submit" className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/30 py-4 text-lg" disabled={isSubmitting}>
                       {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
@@ -896,58 +703,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Dark Footer */}
-      <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/20">
+      {/* Footer */}
+      <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/15">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-300 font-medium text-lg">
-            {t('footer.copyright')}
+          <p className="text-gray-400 font-medium">
+            © 2024 Siddharth Ahir · AI Engineer · Berlin, Germany
           </p>
         </div>
       </footer>
 
-      {/* Visitor Greeting */}
       <VisitorGreeting />
-
-      {/* Chatbot Components */}
-      <ChatButton 
-        onClick={() => setIsChatOpen(true)} 
-        isOpen={isChatOpen}
-      />
-      <ChatWindow 
-        isOpen={isChatOpen} 
-        onClose={() => setIsChatOpen(false)}
-      />
-
-      {/* Game Components */}
-      <GameSelector
-        isOpen={showGameSelector}
-        onClose={handleGameSelectorClose}
-        onSelectMemoryGame={handleSelectMemoryGame}
-        onSelectTicTacToe={handleSelectTicTacToe}
-        onSelectEndlessRunner={handleSelectEndlessRunner}
-      />
-
-      <MemoryGame 
-        isActive={showMemoryGame} 
-        onComplete={handleMemoryGameComplete} 
-      />
-
-      <TicTacToeGame 
-        isActive={showTicTacToe} 
-        onComplete={handleTicTacToeComplete} 
-      />
-
-      <EndlessRunnerGame 
-        isActive={showEndlessRunner} 
-        onComplete={handleEndlessRunnerComplete} 
-      />
-
-      {/* Skill Modal */}
-      <SkillModal 
-        isOpen={isSkillModalOpen}
-        onClose={() => setIsSkillModalOpen(false)}
-        skill={selectedSkill}
-      />
+      <ChatButton onClick={() => setIsChatOpen(true)} isOpen={isChatOpen} />
+      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      <GameSelector isOpen={showGameSelector} onClose={handleGameSelectorClose} onSelectMemoryGame={handleSelectMemoryGame} onSelectTicTacToe={handleSelectTicTacToe} onSelectEndlessRunner={handleSelectEndlessRunner} />
+      <MemoryGame isActive={showMemoryGame} onComplete={handleMemoryGameComplete} />
+      <TicTacToeGame isActive={showTicTacToe} onComplete={handleTicTacToeComplete} />
+      <EndlessRunnerGame isActive={showEndlessRunner} onComplete={handleEndlessRunnerComplete} />
+      <SkillModal isOpen={isSkillModalOpen} onClose={() => setIsSkillModalOpen(false)} skill={selectedSkill} />
     </div>
   );
 };
