@@ -673,7 +673,7 @@ const Index = () => {
               </div>
               <Card className="backdrop-blur-2xl bg-black/30 border border-white/15 shadow-2xl hover:shadow-emerald-500/10 transition-all duration-700 hover:scale-105">
                 <CardHeader>
-                  <CardTitle className="text-gray-200 text-2xl">Send Message</CardTitle>
+                  <CardTitle className="text-gray-200 text-2xl">{t('contact.form.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
