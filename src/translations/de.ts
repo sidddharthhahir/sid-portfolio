@@ -1,92 +1,57 @@
-
 export default {
   // Navigation
   'nav.home': 'Startseite',
   'nav.about': 'Über mich',
   'nav.skills': 'Fähigkeiten',
-  'nav.services': 'Dienstleistungen',
-  'nav.portfolio': 'Portfolio',
+  'nav.projects': 'Projekte',
+  'nav.github': 'GitHub',
   'nav.contact': 'Kontakt',
 
   // Hero Section
   'hero.greeting': 'Hallo, ich bin',
   'hero.name': 'Siddharth Ahir',
-  'hero.title': 'Python-Entwickler | Django & SQL Spezialist',
-  'hero.description': 'Engagierter Python-Entwickler mit Spezialisierung auf Django und SQL, leidenschaftlich für die Entwicklung effizienter, skalierbarer Lösungen mit sauberem, zuverlässigem Code.',
-  'hero.viewWork': 'Meine Arbeit ansehen',
-  'hero.contactMe': 'Kontaktieren Sie mich',
+  'hero.title': 'KI-Ingenieur | Intelligente Systeme mit LLMs, RAG & skalierbaren Datenarchitekturen',
+  'hero.description': 'Ich bin Siddharth Ahir, ein KI-fokussierter Softwareingenieur in Berlin. Ich entwerfe und baue intelligente Anwendungen mit großen Sprachmodellen, Empfehlungssystemen und skalierbaren Backend-Architekturen.',
+  'hero.viewProjects': 'KI-Projekte ansehen',
   'hero.scrollExplore': 'Scrollen zum Erkunden',
 
   // About Section
   'about.title': 'Über mich',
-  'about.description1': 'Ich bin ein leidenschaftlicher Python-Entwickler mit einer starken Grundlage in Django und SQL, der sich der Entwicklung effizienter und skalierbarer Web-Lösungen widmet. Mein Entwicklungsansatz betont sauberen Code, optimale Leistung und benutzerzentriertes Design.',
-  'about.description2': 'Mit Erfahrung in Full-Stack-Entwicklung und Datenbankoptimierung löse ich gerne komplexe Probleme und verwandle Ideen in robuste Anwendungen, die einen Unterschied machen.',
+  'about.profileTitle': 'KI-Ingenieur Profil',
+  'about.description': 'Ich bin Informatik-Masterstudent in Berlin mit Spezialisierung auf KI-gestützte Softwaresysteme. Meine Arbeit verbindet maschinelles Lernen, große Sprachmodelle und modernes Full-Stack-Engineering zum Bau intelligenter Anwendungen.',
+  'about.experienceTitle': 'Ich habe Erfahrung im Entwurf von:',
+  'about.experience1': 'Empfehlungssysteme mit hybriden ML-Modellen',
+  'about.experience2': 'Erklärbare KI-Systeme mit SHAP/LIME',
+  'about.experience3': 'LLM-gestützte Anwendungen mit Ollama',
+  'about.experience4': 'Retrieval-Augmented Generation Pipelines',
+  'about.experience5': 'Skalierbare Backend-Systeme für KI-Produkte',
+  'about.tagline': 'Ich baue gerne reale KI-Produkte — nicht nur Modelle trainieren.',
   'about.education': 'Bildung',
-  'about.masters': 'Master in Informatik',
-  'about.mastersSchool': 'Internationale Hochschule für angewandte Wissenschaften, Berlin',
-  'about.mastersStatus': 'Derzeit in Bearbeitung',
-  'about.bachelors': 'Bachelor in Computer-Anwendung',
-  'about.bachelorsSchool': 'Gujarat Universität',
-  'about.bachelorsYear': '2022',
-  'about.internship': 'Software-Entwickler Praktikant',
-  'about.internshipType': 'Berufserfahrung',
-  'about.internshipYear': '2022',
 
   // Skills Section
-  'skills.title': 'Fähigkeiten & Expertise',
-  'skills.python.name': 'Python',
-  'skills.python.desc': 'Backend-Entwicklung',
-  'skills.django.name': 'Django',
-  'skills.django.desc': 'Web-Framework',
-  'skills.sql.name': 'SQL',
-  'skills.sql.desc': 'Datenbankabfragen',
-  'skills.postgresql.name': 'PostgreSQL',
-  'skills.postgresql.desc': 'Datenbanksystem',
-  'skills.javascript.name': 'JavaScript',
-  'skills.javascript.desc': 'Frontend-Entwicklung',
-  'skills.html.name': 'HTML/CSS',
-  'skills.html.desc': 'Web-Markup & Styling',
-  'skills.git.name': 'Git',
-  'skills.git.desc': 'Versionskontrolle',
-  'skills.api.name': 'API-Integration',
-  'skills.api.desc': 'Systemintegration',
+  'skills.title': 'Technische Fähigkeiten',
 
-  // Services Section
-  'services.title': 'Dienstleistungen',
-  'services.web.title': 'Web-Entwicklung',
-  'services.web.desc': 'Moderne, responsive Websites mit Django und den neuesten Web-Technologien.',
-  'services.database.title': 'Datenbank-Services',
-  'services.database.desc': 'Effizientes Datenbankdesign, Optimierung und Verwaltung mit PostgreSQL und MySQL.',
-  'services.python.title': 'Python-Anwendungen',
-  'services.python.desc': 'Maßgeschneiderte Webanwendungen mit Django-Framework und sauberem, skalierbarem Code.',
+  // Projects Section
+  'projects.title': 'KI- & Ingenieurprojekte',
+  'projects.subtitle': 'Reale KI-Produkte, keine Spielzeug-Demos',
 
-  // Portfolio Section
-  'portfolio.title': 'Portfolio',
-  'portfolio.recipe.title': 'Rezept-Manager',
-  'portfolio.recipe.desc': 'Django-Webanwendung für Rezeptverwaltung mit Benutzerauthentifizierung und Bild-Uploads.',
-  'portfolio.task.title': 'Persönlicher Aufgaben-Manager',
-  'portfolio.task.desc': 'Aufgabenverwaltungsanwendung mit sicheren Benutzerdaten und umfassenden Tracking-Funktionen.',
-  'portfolio.hci.title': 'HCI Portfolio-Projekt',
-  'portfolio.hci.desc': 'Usability-Tests für Wetter-Website mit umfassender UX-Analyse und Empfehlungen.',
-  'portfolio.technologies': 'Technologien:',
-  'portfolio.features': 'Hauptmerkmale:',
-  'portfolio.recipe.feature1': 'Benutzerauthentifizierung',
-  'portfolio.recipe.feature2': 'Bild-Uploads',
-  'portfolio.recipe.feature3': 'Erweiterte Filterung',
-  'portfolio.recipe.feature4': 'Responsive Design',
-  'portfolio.task.feature1': 'Aufgabenverfolgung',
-  'portfolio.task.feature2': 'Fälligkeitsdaten',
-  'portfolio.task.feature3': 'Abschlussstatus',
-  'portfolio.task.feature4': 'Benutzersicherheit',
-  'portfolio.hci.feature1': 'Testplanung',
-  'portfolio.hci.feature2': 'Ausführung',
-  'portfolio.hci.feature3': 'UX-Empfehlungen',
-  'portfolio.hci.feature4': 'Benutzerforschung',
+  // AI Interests
+  'interests.title': 'KI-Forschung & Ingenieurinteressen',
+
+  // GitHub
+  'github.title': 'Open Source & Experimente',
+  'github.subtitle': 'KI-Tools, Backend-Systeme und intelligente Anwendungen',
+  'github.viewProfile': 'GitHub-Profil ansehen',
 
   // Contact Section
   'contact.title': 'Kontakt aufnehmen',
-  'contact.subtitle': 'Lassen Sie uns zusammenarbeiten',
-  'contact.description': 'Ich bin immer an neuen Möglichkeiten und spannenden Projekten interessiert. Zögern Sie nicht, mich zu kontaktieren, wenn Sie über potenzielle Zusammenarbeit sprechen möchten.',
+  'contact.subtitle': 'Lassen Sie uns etwas Intelligentes bauen',
+  'contact.lookingFor': 'Ich suche derzeit nach:',
+  'contact.role1': 'KI-Ingenieur Stellen',
+  'contact.role2': 'Machine Learning Ingenieur Praktika',
+  'contact.role3': 'KI-Produktentwicklung Möglichkeiten',
+  'contact.location': 'Berlin, Deutschland',
+  'contact.availability': 'Werkstudent (20h/Woche) · Vollzeit ab April 2026',
   'contact.resume': 'Lebenslauf herunterladen',
   'contact.form.title': 'Nachricht senden',
   'contact.form.name': 'Ihr Name',
@@ -100,10 +65,10 @@ export default {
   'contact.error.desc': 'Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.',
 
   // Footer
-  'footer.copyright': '© 2024 Siddharth Ahir. Alle Rechte vorbehalten.',
+  'footer.copyright': '© 2024 Siddharth Ahir · KI-Ingenieur · Berlin, Deutschland',
 
-  // Language Switcher
-  'language.english': 'Englisch',
+  // Language
+  'language.english': 'English',
   'language.german': 'Deutsch',
   'language.switch': 'Sprache wechseln'
 };
