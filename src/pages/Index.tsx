@@ -677,11 +677,11 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <Input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
-                    <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
-                    <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" required disabled={isSubmitting} />
+                    <Input type="text" name="name" placeholder={t('contact.form.name')} value={formData.name} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                    <Input type="email" name="email" placeholder={t('contact.form.email')} value={formData.email} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                    <Textarea name="message" placeholder={t('contact.form.message')} value={formData.message} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" required disabled={isSubmitting} />
                     <Button type="submit" className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/30 py-4 text-lg" disabled={isSubmitting}>
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
                     </Button>
                   </form>
                 </CardContent>
