@@ -586,7 +586,7 @@ const Index = () => {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ GITHUB / OPEN SOURCE SECTION ═══════════════ */}
