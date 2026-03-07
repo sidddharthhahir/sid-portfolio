@@ -569,7 +569,7 @@ const Index = () => {
               </Card>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ AI INTERESTS SECTION ═══════════════ */}
