@@ -32,6 +32,7 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
   
   // Game states
   const [showGameSelector, setShowGameSelector] = useState(false);
