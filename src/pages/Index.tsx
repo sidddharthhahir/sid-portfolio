@@ -503,7 +503,7 @@ const Index = () => {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ PROJECTS SECTION ═══════════════ */}
