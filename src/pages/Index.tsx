@@ -356,8 +356,8 @@ const Index = () => {
               {t('hero.title')}
             </h2>
 
-            <div className="max-w-3xl mx-auto text-left space-y-4">
               <p className="text-lg text-gray-300 leading-relaxed text-center">
+                {t('hero.description')}
                 I am Siddharth Ahir, an AI-focused software engineer based in Berlin. I design and build intelligent applications using large language models, recommendation systems, and scalable backend architectures.
               </p>
               <div className="flex flex-wrap justify-center gap-3 mt-6">
