@@ -301,16 +301,13 @@ const Index = () => {
         .neural-bg { animation: neural-pulse 4s ease-in-out infinite; }
       `}</style>
 
-      {/* Animated Background — dark, techy */}
+      {/* 3D Neural Network Background */}
       <div className="fixed inset-0 -z-10">
+        <Suspense fallback={null}>
+          <NeuralNetwork3D />
+        </Suspense>
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-full blur-3xl neural-bg"></div>
         <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl neural-bg" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-r from-teal-500/5 to-cyan-500/5 rounded-full blur-3xl neural-bg" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/3 w-1 h-1 bg-emerald-400/30 rounded-full animate-ping delay-300"></div>
-          <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyan-400/30 rounded-full animate-ping delay-700"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-teal-400/20 rounded-full animate-ping delay-1000"></div>
-        </div>
       </div>
 
       <Navigation scrollToSection={scrollToSection} />
