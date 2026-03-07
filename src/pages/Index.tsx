@@ -457,8 +457,8 @@ const Index = () => {
                   </CardContent>
                 </Card>
               </div>
-            </div>
           </div>
+        </motion.div>
         </div>
       </section>
 
