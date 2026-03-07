@@ -375,7 +375,7 @@ const Index = () => {
                 className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/25 backdrop-blur-xl border border-white/20 group"
               >
                 <span className="flex items-center gap-3">
-                  View AI Projects
+                  {t('hero.viewProjects')}
                   <Brain size={20} className="group-hover:rotate-12 transition-transform duration-500" />
                 </span>
               </Button>
