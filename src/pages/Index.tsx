@@ -645,7 +645,7 @@ const Index = () => {
                 <div className="space-y-3 mb-10 p-5 rounded-xl bg-white/5 border border-white/10">
                   <div className="flex items-center gap-3 text-gray-300">
                     <MapPin size={18} className="text-emerald-400" />
-                    <span>Berlin, Germany</span>
+                    <span>{t('contact.location')}</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
                     <Calendar size={18} className="text-emerald-400" />
