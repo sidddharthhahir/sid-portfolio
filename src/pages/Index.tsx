@@ -714,8 +714,6 @@ const Index = () => {
       </footer>
 
       <VisitorGreeting />
-      <ChatButton onClick={() => setIsChatOpen(true)} isOpen={isChatOpen} />
-      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       <GameSelector isOpen={showGameSelector} onClose={handleGameSelectorClose} onSelectMemoryGame={handleSelectMemoryGame} onSelectTicTacToe={handleSelectTicTacToe} onSelectEndlessRunner={handleSelectEndlessRunner} />
       <MemoryGame isActive={showMemoryGame} onComplete={handleMemoryGameComplete} />
       <TicTacToeGame isActive={showTicTacToe} onComplete={handleTicTacToeComplete} />
