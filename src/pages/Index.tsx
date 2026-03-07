@@ -649,7 +649,7 @@ const Index = () => {
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
                     <Calendar size={18} className="text-emerald-400" />
-                    <span>Student work (20h/week) · Full-time from April 2026</span>
+                    <span>{t('contact.availability')}</span>
                   </div>
                 </div>
                 <div className="space-y-4">
