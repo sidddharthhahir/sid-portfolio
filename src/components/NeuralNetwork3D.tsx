@@ -64,9 +64,7 @@ function NeuralNodes() {
         const points = [new THREE.Vector3(...conn.start), new THREE.Vector3(...conn.end)];
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
         return (
-          <line key={i} geometry={geometry}>
-            <lineBasicMaterial color="#34d399" transparent opacity={0.12} />
-          </line>
+          <primitive key={i} object={new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: '#34d399', transparent: true, opacity: 0.12 }))} />
         );
       })}
     </group>
