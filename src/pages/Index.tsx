@@ -667,7 +667,7 @@ const Index = () => {
                   </a>
                   <button onClick={handleResumeDownload} className="flex items-center w-full p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
                     <User className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
-                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">Download Resume</span>
+                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">{t('contact.resume')}</span>
                   </button>
                 </div>
               </div>
