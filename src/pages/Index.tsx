@@ -464,9 +464,9 @@ const Index = () => {
 
       {/* ═══════════════ SKILLS SECTION ═══════════════ */}
       <section id="skills" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-            Technical Skills
+            {t('skills.title')}
           </h2>
           <div className="max-w-7xl mx-auto space-y-12">
             {skillCategories.map((category, catIndex) => (
