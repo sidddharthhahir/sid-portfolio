@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,8 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Clock, Zap, Brain, Bot, FlaskConical, Cpu, BarChart3, Lightbulb, Rocket, MapPin, Calendar } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import ChatButton from '@/components/ChatButton';
-import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
@@ -20,6 +19,8 @@ import TripleClickHint from '@/components/TripleClickHint';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RESUME_CONFIG } from '@/config/resume';
 import { VibrationManager } from '@/utils/vibrationUtils';
+
+const NeuralNetwork3D = lazy(() => import('@/components/NeuralNetwork3D'));
 
 const Index = () => {
   const { t } = useLanguage();
