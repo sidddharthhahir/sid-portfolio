@@ -426,13 +426,7 @@ const Index = () => {
                   </p>
                   <h4 className="text-lg font-semibold text-gray-200 mb-4">{t('about.experienceTitle')}</h4>
                   <ul className="space-y-3">
-                    {[
-                      'Recommendation systems using hybrid ML models',
-                      'Explainable AI systems using SHAP/LIME',
-                      'LLM-powered applications using Ollama',
-                      'Retrieval-Augmented Generation pipelines',
-                      'Scalable backend systems for AI products'
-                    ].map((item, i) => (
+                    {[t('about.experience1'), t('about.experience2'), t('about.experience3'), t('about.experience4'), t('about.experience5')].map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-gray-300">
                         <span className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mt-2 flex-shrink-0"></span>
                         {item}
