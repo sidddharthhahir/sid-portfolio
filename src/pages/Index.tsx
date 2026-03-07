@@ -402,7 +402,7 @@ const Index = () => {
               <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
               <div className="animate-bounce">
                 <ArrowDown size={28} className="text-emerald-400" />
-              </div>
+        </motion.div>
             </div>
           </div>
         </div>
