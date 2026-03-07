@@ -612,7 +612,7 @@ const Index = () => {
                 >
                   <span className="flex items-center gap-2">
                     <Github size={18} />
-                    View GitHub Profile
+                    {t('github.viewProfile')}
                   </span>
                 </Button>
               </CardContent>
