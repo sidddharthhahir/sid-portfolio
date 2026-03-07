@@ -399,7 +399,7 @@ const Index = () => {
 
           <div className="mt-16">
             <div className="flex flex-col items-center gap-3">
-              <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
+              <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
               <div className="animate-bounce">
                 <ArrowDown size={28} className="text-emerald-400" />
               </div>
