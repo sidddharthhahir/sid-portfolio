@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,8 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Clock, Zap, Brain, Bot, FlaskConical, Cpu, BarChart3, Lightbulb, Rocket, MapPin, Calendar } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import ChatButton from '@/components/ChatButton';
-import ChatWindow from '@/components/ChatWindow';
 import Navigation from '@/components/Navigation';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
@@ -20,6 +19,8 @@ import TripleClickHint from '@/components/TripleClickHint';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RESUME_CONFIG } from '@/config/resume';
 import { VibrationManager } from '@/utils/vibrationUtils';
+
+const NeuralNetwork3D = lazy(() => import('@/components/NeuralNetwork3D'));
 
 const Index = () => {
   const { t } = useLanguage();
@@ -300,16 +301,13 @@ const Index = () => {
         .neural-bg { animation: neural-pulse 4s ease-in-out infinite; }
       `}</style>
 
-      {/* Animated Background — dark, techy */}
+      {/* 3D Neural Network Background */}
       <div className="fixed inset-0 -z-10">
+        <Suspense fallback={null}>
+          <NeuralNetwork3D />
+        </Suspense>
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-full blur-3xl neural-bg"></div>
         <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl neural-bg" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-r from-teal-500/5 to-cyan-500/5 rounded-full blur-3xl neural-bg" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/3 w-1 h-1 bg-emerald-400/30 rounded-full animate-ping delay-300"></div>
-          <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyan-400/30 rounded-full animate-ping delay-700"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-teal-400/20 rounded-full animate-ping delay-1000"></div>
-        </div>
       </div>
 
       <Navigation scrollToSection={scrollToSection} />
@@ -321,7 +319,7 @@ const Index = () => {
 
       {/* ═══════════════ HERO SECTION ═══════════════ */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
-        <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: 'easeOut' }} className="container mx-auto px-6 text-center">
           <div className="mb-8">
             <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
               <div className="absolute inset-4 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
@@ -345,24 +343,22 @@ const Index = () => {
 
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
-              <Brain size={28} className="text-emerald-400 animate-pulse" />
-              <span className="text-2xl text-gray-300 font-medium">Hello, I'm</span>
-              <Brain size={28} className="text-emerald-400 animate-pulse delay-500" />
+              <span className="text-2xl text-gray-300 font-medium">{t('hero.greeting')}</span>
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold mb-8">
               <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                Siddharth Ahir
+                {t('hero.name')}
               </span>
             </h1>
 
             <h2 className="text-2xl md:text-3xl text-gray-200 mb-4 font-medium max-w-4xl mx-auto leading-relaxed">
-              AI Engineer | Building Intelligent Systems with LLMs, RAG & Scalable Data Architectures
+              {t('hero.title')}
             </h2>
 
-            <div className="max-w-3xl mx-auto text-left space-y-4">
+            <div className="max-w-3xl mx-auto space-y-4">
               <p className="text-lg text-gray-300 leading-relaxed text-center">
-                I am Siddharth Ahir, an AI-focused software engineer based in Berlin. I design and build intelligent applications using large language models, recommendation systems, and scalable backend architectures.
+                {t('hero.description')}
               </p>
               <div className="flex flex-wrap justify-center gap-3 mt-6">
                 {['LLM Integrations', 'RAG Pipelines', 'AI-Powered Features', 'Scalable Data Systems'].map((item) => (
@@ -379,7 +375,7 @@ const Index = () => {
                 className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/25 backdrop-blur-xl border border-white/20 group"
               >
                 <span className="flex items-center gap-3">
-                  View AI Projects
+                  {t('hero.viewProjects')}
                   <Brain size={20} className="group-hover:rotate-12 transition-transform duration-500" />
                 </span>
               </Button>
@@ -396,56 +392,48 @@ const Index = () => {
                 onClick={() => scrollToSection('contact')} 
                 className="backdrop-blur-xl bg-white/5 border border-white/15 text-gray-300 hover:bg-white/15 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium"
               >
-                Contact
+                {t('nav.contact')}
               </Button>
             </div>
           </div>
 
           <div className="mt-16">
             <div className="flex flex-col items-center gap-3">
-              <span className="text-sm text-gray-400 animate-pulse">Scroll to explore</span>
+              <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
               <div className="animate-bounce">
                 <ArrowDown size={28} className="text-emerald-400" />
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ ABOUT SECTION ═══════════════ */}
       <section id="about" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <div className="flex items-center justify-center gap-4 mb-16">
             <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              About Me
+              {t('about.title')}
             </h2>
           </div>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-2xl font-bold mb-6 text-emerald-400">AI Engineer Profile</h3>
+                  <h3 className="text-2xl font-bold mb-6 text-emerald-400">{t('about.profileTitle')}</h3>
                   <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                    I am a Computer Science Master's student in Berlin specializing in AI-powered software systems. My work combines machine learning, large language models, and modern full-stack engineering to build intelligent applications.
+                    {t('about.description')}
                   </p>
-                  <h4 className="text-lg font-semibold text-gray-200 mb-4">I have experience designing:</h4>
+                  <h4 className="text-lg font-semibold text-gray-200 mb-4">{t('about.experienceTitle')}</h4>
                   <ul className="space-y-3">
-                    {[
-                      'Recommendation systems using hybrid ML models',
-                      'Explainable AI systems using SHAP/LIME',
-                      'LLM-powered applications using Ollama',
-                      'Retrieval-Augmented Generation pipelines',
-                      'Scalable backend systems for AI products'
-                    ].map((item, i) => (
+                    {[t('about.experience1'), t('about.experience2'), t('about.experience3'), t('about.experience4'), t('about.experience5')].map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-gray-300">
                         <span className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mt-2 flex-shrink-0"></span>
                         {item}
                       </li>
                     ))}
                   </ul>
-                  <p className="text-emerald-400/80 mt-6 font-medium italic">
-                    I enjoy building real-world AI products — not just training models.
-                  </p>
+                  <p className="text-emerald-400/80 mt-6 font-medium italic">{t('about.tagline')}</p>
                 </div>
               </div>
               <div>
@@ -471,14 +459,14 @@ const Index = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ SKILLS SECTION ═══════════════ */}
       <section id="skills" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-500 ${visibleSections.has('skills') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-            Technical Skills
+            {t('skills.title')}
           </h2>
           <div className="max-w-7xl mx-auto space-y-12">
             {skillCategories.map((category, catIndex) => (
@@ -515,16 +503,16 @@ const Index = () => {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ PROJECTS SECTION ═══════════════ */}
       <section id="portfolio" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-900 ${visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-            AI & Engineering Projects
+            {t('projects.title')}
           </h2>
-          <p className="text-center text-gray-400 mb-16 text-lg">Real-world AI products, not toy demos</p>
+          <p className="text-center text-gray-400 mb-16 text-lg">{t('projects.subtitle')}</p>
           <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
             {projects.map((project, index) => (
               <Card 
@@ -581,14 +569,14 @@ const Index = () => {
               </Card>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ AI INTERESTS SECTION ═══════════════ */}
       <section id="interests" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 ${visibleSections.has('interests') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-            AI Research & Engineering Interests
+            {t('interests.title')}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {aiInterests.map((interest, index) => (
@@ -598,16 +586,16 @@ const Index = () => {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ GITHUB / OPEN SOURCE SECTION ═══════════════ */}
       <section id="github" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 ${visibleSections.has('github') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-            Open Source & Experiments
+            {t('github.title')}
           </h2>
-          <p className="text-center text-gray-400 mb-12 text-lg">AI tools, backend systems, and intelligent applications</p>
+          <p className="text-center text-gray-400 mb-12 text-lg">{t('github.subtitle')}</p>
           <div className="max-w-2xl mx-auto text-center">
             <Card className="backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:border-emerald-400/30">
               <CardContent className="p-10 flex flex-col items-center gap-6">
@@ -624,30 +612,30 @@ const Index = () => {
                 >
                   <span className="flex items-center gap-2">
                     <Github size={18} />
-                    View GitHub Profile
+                    {t('github.viewProfile')}
                   </span>
                 </Button>
               </CardContent>
             </Card>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ CONTACT SECTION ═══════════════ */}
       <section id="contact" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-            Get In Touch
+            {t('contact.title')}
           </h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16">
               <div>
-                <h3 className="text-3xl font-bold mb-6 text-gray-200">Let's Build Something Intelligent</h3>
+                <h3 className="text-3xl font-bold mb-6 text-gray-200">{t('contact.subtitle')}</h3>
                 <p className="text-gray-300 mb-6 leading-relaxed text-lg">
-                  I am currently looking for:
+                  {t('contact.lookingFor')}
                 </p>
                 <ul className="space-y-3 mb-8">
-                  {['AI Engineer roles', 'Machine Learning Engineer internships', 'AI product engineering opportunities'].map((item, i) => (
+                  {[t('contact.role1'), t('contact.role2'), t('contact.role3')].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-gray-300 text-lg">
                       <span className="w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0"></span>
                       {item}
@@ -657,11 +645,11 @@ const Index = () => {
                 <div className="space-y-3 mb-10 p-5 rounded-xl bg-white/5 border border-white/10">
                   <div className="flex items-center gap-3 text-gray-300">
                     <MapPin size={18} className="text-emerald-400" />
-                    <span>Berlin, Germany</span>
+                    <span>{t('contact.location')}</span>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
                     <Calendar size={18} className="text-emerald-400" />
-                    <span>Student work (20h/week) · Full-time from April 2026</span>
+                    <span>{t('contact.availability')}</span>
                   </div>
                 </div>
                 <div className="space-y-4">
@@ -679,42 +667,40 @@ const Index = () => {
                   </a>
                   <button onClick={handleResumeDownload} className="flex items-center w-full p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
                     <User className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
-                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">Download Resume</span>
+                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">{t('contact.resume')}</span>
                   </button>
                 </div>
               </div>
               <Card className="backdrop-blur-2xl bg-black/30 border border-white/15 shadow-2xl hover:shadow-emerald-500/10 transition-all duration-700 hover:scale-105">
                 <CardHeader>
-                  <CardTitle className="text-gray-200 text-2xl">Send Message</CardTitle>
+                  <CardTitle className="text-gray-200 text-2xl">{t('contact.form.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <Input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
-                    <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
-                    <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" required disabled={isSubmitting} />
+                    <Input type="text" name="name" placeholder={t('contact.form.name')} value={formData.name} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                    <Input type="email" name="email" placeholder={t('contact.form.email')} value={formData.email} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                    <Textarea name="message" placeholder={t('contact.form.message')} value={formData.message} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" required disabled={isSubmitting} />
                     <Button type="submit" className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/30 py-4 text-lg" disabled={isSubmitting}>
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
                     </Button>
                   </form>
                 </CardContent>
               </Card>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
       <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/15">
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-400 font-medium">
-            © 2024 Siddharth Ahir · AI Engineer · Berlin, Germany
+            {t('footer.copyright')}
           </p>
         </div>
       </footer>
 
       <VisitorGreeting />
-      <ChatButton onClick={() => setIsChatOpen(true)} isOpen={isChatOpen} />
-      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       <GameSelector isOpen={showGameSelector} onClose={handleGameSelectorClose} onSelectMemoryGame={handleSelectMemoryGame} onSelectTicTacToe={handleSelectTicTacToe} onSelectEndlessRunner={handleSelectEndlessRunner} />
       <MemoryGame isActive={showMemoryGame} onComplete={handleMemoryGameComplete} />
       <TicTacToeGame isActive={showTicTacToe} onComplete={handleTicTacToeComplete} />
