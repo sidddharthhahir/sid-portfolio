@@ -618,7 +618,7 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ CONTACT SECTION ═══════════════ */}
