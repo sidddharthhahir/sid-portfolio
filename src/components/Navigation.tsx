@@ -13,12 +13,12 @@ const Navigation = ({ scrollToSection }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigationItems = [
-    { label: 'Home', section: 'home' },
-    { label: 'About', section: 'about' },
-    { label: 'Skills', section: 'skills' },
-    { label: 'Projects', section: 'portfolio' },
-    { label: 'GitHub', section: 'github' },
-    { label: 'Contact', section: 'contact' }
+    { label: t('nav.home'), section: 'home' },
+    { label: t('nav.about'), section: 'about' },
+    { label: t('nav.skills'), section: 'skills' },
+    { label: t('nav.projects'), section: 'portfolio' },
+    { label: t('nav.github'), section: 'github' },
+    { label: t('nav.contact'), section: 'contact' }
   ];
 
   const handleNavClick = (section: string) => {
