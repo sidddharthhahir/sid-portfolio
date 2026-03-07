@@ -434,8 +434,6 @@ const Index = () => {
                     ))}
                   </ul>
                   <p className="text-emerald-400/80 mt-6 font-medium italic">{t('about.tagline')}</p>
-                    I enjoy building real-world AI products — not just training models.
-                  </p>
                 </div>
               </div>
               <div>
