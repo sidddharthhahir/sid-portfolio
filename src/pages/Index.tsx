@@ -422,7 +422,7 @@ const Index = () => {
                 <div>
                   <h3 className="text-2xl font-bold mb-6 text-emerald-400">{t('about.profileTitle')}</h3>
                   <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                    I am a Computer Science Master's student in Berlin specializing in AI-powered software systems. My work combines machine learning, large language models, and modern full-stack engineering to build intelligent applications.
+                    {t('about.description')}
                   </p>
                   <h4 className="text-lg font-semibold text-gray-200 mb-4">I have experience designing:</h4>
                   <ul className="space-y-3">
