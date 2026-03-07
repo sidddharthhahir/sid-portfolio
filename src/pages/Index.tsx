@@ -695,7 +695,7 @@ const Index = () => {
       <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/15">
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-400 font-medium">
-            © 2024 Siddharth Ahir · AI Engineer · Berlin, Germany
+            {t('footer.copyright')}
           </p>
         </div>
       </footer>
