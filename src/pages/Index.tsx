@@ -353,7 +353,7 @@ const Index = () => {
             </h1>
 
             <h2 className="text-2xl md:text-3xl text-gray-200 mb-4 font-medium max-w-4xl mx-auto leading-relaxed">
-              AI Engineer | Building Intelligent Systems with LLMs, RAG & Scalable Data Architectures
+              {t('hero.title')}
             </h2>
 
             <div className="max-w-3xl mx-auto text-left space-y-4">
