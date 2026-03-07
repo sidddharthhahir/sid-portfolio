@@ -348,7 +348,7 @@ const Index = () => {
 
             <h1 className="text-6xl md:text-8xl font-bold mb-8">
               <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                Siddharth Ahir
+                {t('hero.name')}
               </span>
             </h1>
 
