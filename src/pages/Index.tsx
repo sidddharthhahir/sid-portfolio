@@ -319,7 +319,7 @@ const Index = () => {
 
       {/* ═══════════════ HERO SECTION ═══════════════ */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
-        <div className={`container mx-auto px-6 text-center transition-all duration-1500 ${visibleSections.has('home') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: 'easeOut' }} className="container mx-auto px-6 text-center">
           <div className="mb-8">
             <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
               <div className="absolute inset-4 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
