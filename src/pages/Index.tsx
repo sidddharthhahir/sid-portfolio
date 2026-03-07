@@ -635,7 +635,7 @@ const Index = () => {
                   {t('contact.lookingFor')}
                 </p>
                 <ul className="space-y-3 mb-8">
-                  {['AI Engineer roles', 'Machine Learning Engineer internships', 'AI product engineering opportunities'].map((item, i) => (
+                  {[t('contact.role1'), t('contact.role2'), t('contact.role3')].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-gray-300 text-lg">
                       <span className="w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0"></span>
                       {item}
