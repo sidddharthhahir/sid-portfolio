@@ -343,9 +343,7 @@ const Index = () => {
 
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
-              <Brain size={28} className="text-emerald-400 animate-pulse" />
-              <span className="text-2xl text-gray-300 font-medium">Hello, I'm</span>
-              <Brain size={28} className="text-emerald-400 animate-pulse delay-500" />
+              <span className="text-2xl text-gray-300 font-medium">{t('hero.greeting')}</span>
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold mb-8">
