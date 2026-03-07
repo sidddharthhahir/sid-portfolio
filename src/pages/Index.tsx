@@ -410,10 +410,10 @@ const Index = () => {
 
       {/* ═══════════════ ABOUT SECTION ═══════════════ */}
       <section id="about" className="py-24" data-animate>
-        <div className={`container mx-auto px-6 transition-all duration-1500 delay-300 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
           <div className="flex items-center justify-center gap-4 mb-16">
             <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              About Me
+              {t('about.title')}
             </h2>
           </div>
           <div className="max-w-6xl mx-auto">
