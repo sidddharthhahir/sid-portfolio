@@ -688,7 +688,7 @@ const Index = () => {
               </Card>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
