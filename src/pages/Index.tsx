@@ -356,9 +356,9 @@ const Index = () => {
               {t('hero.title')}
             </h2>
 
+            <div className="max-w-3xl mx-auto space-y-4">
               <p className="text-lg text-gray-300 leading-relaxed text-center">
                 {t('hero.description')}
-                I am Siddharth Ahir, an AI-focused software engineer based in Berlin. I design and build intelligent applications using large language models, recommendation systems, and scalable backend architectures.
               </p>
               <div className="flex flex-wrap justify-center gap-3 mt-6">
                 {['LLM Integrations', 'RAG Pipelines', 'AI-Powered Features', 'Scalable Data Systems'].map((item) => (
@@ -392,7 +392,7 @@ const Index = () => {
                 onClick={() => scrollToSection('contact')} 
                 className="backdrop-blur-xl bg-white/5 border border-white/15 text-gray-300 hover:bg-white/15 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium"
               >
-                Contact
+                {t('nav.contact')}
               </Button>
             </div>
           </div>
@@ -402,10 +402,10 @@ const Index = () => {
               <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
               <div className="animate-bounce">
                 <ArrowDown size={28} className="text-emerald-400" />
-        </motion.div>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ═══════════════ ABOUT SECTION ═══════════════ */}
