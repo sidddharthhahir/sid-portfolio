@@ -424,7 +424,7 @@ const Index = () => {
                   <p className="text-lg text-gray-300 leading-relaxed mb-6">
                     {t('about.description')}
                   </p>
-                  <h4 className="text-lg font-semibold text-gray-200 mb-4">I have experience designing:</h4>
+                  <h4 className="text-lg font-semibold text-gray-200 mb-4">{t('about.experienceTitle')}</h4>
                   <ul className="space-y-3">
                     {[
                       'Recommendation systems using hybrid ML models',
