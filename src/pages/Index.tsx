@@ -404,6 +404,10 @@ const Index = () => {
               </div>
             </div>
 
+            <div className="flex justify-center mb-4">
+              <CurrentlyLearning />
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
               <Button 
                 onClick={() => scrollToSection('portfolio')} 
