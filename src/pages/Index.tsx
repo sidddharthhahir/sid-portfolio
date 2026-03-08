@@ -12,6 +12,8 @@ import emailjs from '@emailjs/browser';
 import Navigation from '@/components/Navigation';
 import TypewriterText from '@/components/TypewriterText';
 import CurrentlyLearning from '@/components/CurrentlyLearning';
+import ParticleTrail from '@/components/ParticleTrail';
+import MagneticProfile from '@/components/MagneticProfile';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
