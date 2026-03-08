@@ -820,6 +820,7 @@ const Index = () => {
       <TicTacToeGame isActive={showTicTacToe} onComplete={handleTicTacToeComplete} />
       <EndlessRunnerGame isActive={showEndlessRunner} onComplete={handleEndlessRunnerComplete} />
       <SkillModal isOpen={isSkillModalOpen} onClose={() => setIsSkillModalOpen(false)} skill={selectedSkill} />
+      <AmbientMusicToggle />
     </div>
   );
 };
