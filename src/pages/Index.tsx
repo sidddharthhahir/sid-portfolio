@@ -15,7 +15,6 @@ import CurrentlyLearning from '@/components/CurrentlyLearning';
 import ParticleTrail from '@/components/ParticleTrail';
 import MagneticProfile from '@/components/MagneticProfile';
 import GitHubStatsWidget from '@/components/GitHubStatsWidget';
-import AmbientMusicToggle from '../components/AmbientMusicToggle';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
@@ -94,50 +93,50 @@ const Index = () => {
       title: 'AI / Machine Learning',
       icon: Brain,
       skills: [
-        { name: 'Recommendation Systems (LightFM)', icon: Sparkles, description: 'Hybrid collaborative + content-based recommendation engines', proficiency: 90, detailedDescription: 'Building hybrid recommendation systems using LightFM combining collaborative filtering with content-based approaches for personalized recommendations.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'RAG', icon: Brain, description: 'Retrieval-Augmented Generation pipelines', proficiency: 85, detailedDescription: 'Implementing RAG pipelines to enhance LLM outputs with contextual knowledge retrieval for accurate, grounded AI responses.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Explainable AI (SHAP, LIME)', icon: Lightbulb, description: 'Making AI decisions transparent and interpretable', proficiency: 80, detailedDescription: 'Using SHAP and LIME to surface human-readable explanations for AI model predictions, building trust in AI systems.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'LLM Integration (Ollama)', icon: Bot, description: 'Local LLM deployment and integration', proficiency: 85, detailedDescription: 'Integrating local large language models via Ollama for privacy-preserving, low-latency AI-powered features.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Prompt Engineering', icon: Braces, description: 'Designing effective prompts for LLMs', proficiency: 88, detailedDescription: 'Crafting precise prompts and prompt chains to maximize LLM output quality for production applications.', keyProjects: [{ name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
+        { name: 'Recommendation Systems (LightFM)', icon: Sparkles, description: 'Hybrid collaborative + content-based recommendation engines', detailedDescription: 'Building hybrid recommendation systems using LightFM combining collaborative filtering with content-based approaches for personalized recommendations.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'RAG', icon: Brain, description: 'Retrieval-Augmented Generation pipelines', detailedDescription: 'Implementing RAG pipelines to enhance LLM outputs with contextual knowledge retrieval for accurate, grounded AI responses.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Explainable AI (SHAP, LIME)', icon: Lightbulb, description: 'Making AI decisions transparent and interpretable', detailedDescription: 'Using SHAP and LIME to surface human-readable explanations for AI model predictions, building trust in AI systems.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'LLM Integration (Ollama)', icon: Bot, description: 'Local LLM deployment and integration', detailedDescription: 'Integrating local large language models via Ollama for privacy-preserving, low-latency AI-powered features.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Prompt Engineering', icon: Braces, description: 'Designing effective prompts for LLMs', detailedDescription: 'Crafting precise prompts and prompt chains to maximize LLM output quality for production applications.', keyProjects: [{ name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
       ]
     },
     {
       title: 'AI Application Development',
       icon: Rocket,
       skills: [
-        { name: 'Python', icon: Code, description: 'Core language for AI/ML development', proficiency: 92, detailedDescription: 'Advanced Python for building AI applications, ML pipelines, data processing, and backend services.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }, { name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
-        { name: 'AI-Powered Product Design', icon: Lightbulb, description: 'Designing AI-first user experiences', proficiency: 82, detailedDescription: 'Designing products where AI is the core value proposition — from recommendation engines to intelligent coaching systems.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
-        { name: 'AI System Architecture', icon: Layers, description: 'Architecting scalable AI systems', proficiency: 78, detailedDescription: 'Designing end-to-end architectures for AI applications including model serving, data pipelines, and API layers.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Data Pipelines for AI', icon: Database, description: 'Building data infrastructure for ML', proficiency: 80, detailedDescription: 'Creating efficient data pipelines that feed ML models with clean, structured data for training and inference.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'Python', icon: Code, description: 'Core language for AI/ML development', detailedDescription: 'Advanced Python for building AI applications, ML pipelines, data processing, and backend services.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }, { name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
+        { name: 'AI-Powered Product Design', icon: Lightbulb, description: 'Designing AI-first user experiences', detailedDescription: 'Designing products where AI is the core value proposition — from recommendation engines to intelligent coaching systems.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
+        { name: 'AI System Architecture', icon: Layers, description: 'Architecting scalable AI systems', detailedDescription: 'Designing end-to-end architectures for AI applications including model serving, data pipelines, and API layers.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Data Pipelines for AI', icon: Database, description: 'Building data infrastructure for ML', detailedDescription: 'Creating efficient data pipelines that feed ML models with clean, structured data for training and inference.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
       ]
     },
     {
       title: 'Backend & Data Systems',
       icon: Server,
       skills: [
-        { name: 'Django / DRF', icon: Server, description: 'Python web framework & REST APIs', proficiency: 88, detailedDescription: 'Building robust backend systems with Django and Django REST Framework for AI-powered applications.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Node.js / Express', icon: Server, description: 'JavaScript runtime & framework', proficiency: 82, detailedDescription: 'Server-side JavaScript for building fast, scalable API services and real-time applications.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'PostgreSQL / Supabase', icon: Database, description: 'Relational databases & BaaS', proficiency: 85, detailedDescription: 'Database design, query optimization, and using Supabase for rapid backend development with real-time features.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }, { name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'Prisma / MySQL', icon: Database, description: 'ORM & database management', proficiency: 75, detailedDescription: 'Type-safe database access with Prisma ORM and MySQL for structured data management.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
+        { name: 'Django / DRF', icon: Server, description: 'Python web framework & REST APIs', detailedDescription: 'Building robust backend systems with Django and Django REST Framework for AI-powered applications.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Node.js / Express', icon: Server, description: 'JavaScript runtime & framework', detailedDescription: 'Server-side JavaScript for building fast, scalable API services and real-time applications.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'PostgreSQL / Supabase', icon: Database, description: 'Relational databases & BaaS', detailedDescription: 'Database design, query optimization, and using Supabase for rapid backend development with real-time features.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }, { name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'Prisma / MySQL', icon: Database, description: 'ORM & database management', detailedDescription: 'Type-safe database access with Prisma ORM and MySQL for structured data management.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
       ]
     },
     {
       title: 'Frontend for AI Products',
       icon: Globe,
       skills: [
-        { name: 'React / TypeScript', icon: Layers, description: 'Modern frontend development', proficiency: 88, detailedDescription: 'Building dynamic, type-safe user interfaces for AI-powered applications with React and TypeScript.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
-        { name: 'Next.js', icon: Globe, description: 'Full-stack React framework', proficiency: 80, detailedDescription: 'Server-side rendering and full-stack development with Next.js for production AI applications.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
-        { name: 'Tailwind CSS / Vite', icon: FileCode, description: 'Modern styling & build tools', proficiency: 90, detailedDescription: 'Rapid UI development with utility-first CSS and lightning-fast build tooling.', keyProjects: [{ name: 'Portfolio Website' }] },
+        { name: 'React / TypeScript', icon: Layers, description: 'Modern frontend development', detailedDescription: 'Building dynamic, type-safe user interfaces for AI-powered applications with React and TypeScript.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
+        { name: 'Next.js', icon: Globe, description: 'Full-stack React framework', detailedDescription: 'Server-side rendering and full-stack development with Next.js for production AI applications.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
+        { name: 'Tailwind CSS / Vite', icon: FileCode, description: 'Modern styling & build tools', detailedDescription: 'Rapid UI development with utility-first CSS and lightning-fast build tooling.', keyProjects: [{ name: 'Portfolio Website' }] },
       ]
     },
     {
       title: 'DevOps & Infrastructure',
       icon: Cpu,
       skills: [
-        { name: 'Docker', icon: Server, description: 'Containerized deployments', proficiency: 75, detailedDescription: 'Containerizing AI applications and development environments for consistent, reproducible deployments.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'GitHub Actions', icon: GitBranch, description: 'CI/CD automation', proficiency: 78, detailedDescription: 'Automating testing, building, and deployment pipelines with GitHub Actions.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'AWS / Heroku', icon: Globe, description: 'Cloud deployment platforms', proficiency: 70, detailedDescription: 'Deploying and scaling applications on cloud infrastructure.', keyProjects: [] },
-        { name: 'Git / GitHub', icon: GitBranch, description: 'Version control & collaboration', proficiency: 92, detailedDescription: 'Professional version control workflows, code review, and open-source collaboration.', keyProjects: [{ name: 'All Projects' }] },
+        { name: 'Docker', icon: Server, description: 'Containerized deployments', detailedDescription: 'Containerizing AI applications and development environments for consistent, reproducible deployments.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'GitHub Actions', icon: GitBranch, description: 'CI/CD automation', detailedDescription: 'Automating testing, building, and deployment pipelines with GitHub Actions.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'AWS / Heroku', icon: Globe, description: 'Cloud deployment platforms', detailedDescription: 'Deploying and scaling applications on cloud infrastructure.', keyProjects: [] },
+        { name: 'Git / GitHub', icon: GitBranch, description: 'Version control & collaboration', detailedDescription: 'Professional version control workflows, code review, and open-source collaboration.', keyProjects: [{ name: 'All Projects' }] },
       ]
     },
   ];
@@ -529,35 +528,17 @@ const Index = () => {
                       className="backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/10 cursor-pointer hover:border-emerald-400/30 group"
                       onClick={() => handleSkillClick(skill)}
                     >
-                      <CardContent className="p-5">
-                        <div className="flex items-start gap-4 mb-3">
-                          <div className="p-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl group-hover:from-emerald-500/30 group-hover:to-cyan-500/30 transition-all duration-300 border border-white/10 flex-shrink-0">
-                            <skill.icon size={22} className="text-emerald-400 group-hover:text-cyan-400 transition-all duration-300" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-semibold text-gray-200 group-hover:text-emerald-400 transition-all duration-300">
-                              {skill.name}
-                            </h4>
-                            <p className="text-xs text-gray-400 mt-1 group-hover:text-gray-300 transition-all duration-300">
-                              {skill.description}
-                            </p>
-                          </div>
+                      <CardContent className="p-5 flex items-start gap-4">
+                        <div className="p-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl group-hover:from-emerald-500/30 group-hover:to-cyan-500/30 transition-all duration-300 border border-white/10 flex-shrink-0">
+                          <skill.icon size={22} className="text-emerald-400 group-hover:text-cyan-400 transition-all duration-300" />
                         </div>
-                        {/* Animated proficiency bar */}
-                        <div className="mt-3">
-                          <div className="flex justify-between items-center mb-1.5">
-                            <span className="text-[10px] text-gray-500 uppercase tracking-wider">Proficiency</span>
-                            <span className="text-[10px] text-emerald-400 font-semibold">{skill.proficiency}%</span>
-                          </div>
-                          <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${skill.proficiency}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1.2, delay: index * 0.1, ease: 'easeOut' }}
-                              className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400"
-                            />
-                          </div>
+                        <div>
+                          <h4 className="text-sm font-semibold text-gray-200 group-hover:text-emerald-400 transition-all duration-300">
+                            {skill.name}
+                          </h4>
+                          <p className="text-xs text-gray-400 mt-1 group-hover:text-gray-300 transition-all duration-300">
+                            {skill.description}
+                          </p>
                         </div>
                       </CardContent>
                     </Card>
@@ -821,7 +802,6 @@ const Index = () => {
       <TicTacToeGame isActive={showTicTacToe} onComplete={handleTicTacToeComplete} />
       <EndlessRunnerGame isActive={showEndlessRunner} onComplete={handleEndlessRunnerComplete} />
       <SkillModal isOpen={isSkillModalOpen} onClose={() => setIsSkillModalOpen(false)} skill={selectedSkill} />
-      <AmbientMusicToggle />
     </div>
   );
 };
