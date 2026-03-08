@@ -374,7 +374,6 @@ const Index = () => {
               </div>
             </MagneticProfile>
           </div>
-          </div>
 
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
