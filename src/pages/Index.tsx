@@ -15,6 +15,8 @@ import CurrentlyLearning from '@/components/CurrentlyLearning';
 import ParticleTrail from '@/components/ParticleTrail';
 import MagneticProfile from '@/components/MagneticProfile';
 import GitHubStatsWidget from '@/components/GitHubStatsWidget';
+import MovieRecommendationAI from '@/components/MovieRecommendationAI';
+import PortfolioAIChat from '@/components/PortfolioAIChat';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
