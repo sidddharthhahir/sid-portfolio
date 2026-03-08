@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-interface Node {
+interface NodePoint {
   x: number;
   y: number;
   vx: number;
@@ -11,12 +11,12 @@ interface Node {
 
 const NeuralNetwork3D = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const nodesRef = useRef<Node[]>([]);
+  const nodesRef = useRef<NodePoint[]>([]);
   const animRef = useRef<number>(0);
   const mouseRef = useRef({ x: 0, y: 0 });
 
   const initNodes = useCallback((w: number, h: number) => {
-    const nodes: Node[] = [];
+    const nodes: NodePoint[] = [];
     for (let i = 0; i < 60; i++) {
       nodes.push({
         x: Math.random() * w,
@@ -57,7 +57,6 @@ const NeuralNetwork3D = () => {
       ctx.clearRect(0, 0, w, h);
 
       const nodes = nodesRef.current;
-      // Update positions
       for (const node of nodes) {
         node.x += node.vx;
         node.y += node.vy;
@@ -65,7 +64,6 @@ const NeuralNetwork3D = () => {
         if (node.y < 0 || node.y > h) node.vy *= -1;
       }
 
-      // Draw connections
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
@@ -82,7 +80,6 @@ const NeuralNetwork3D = () => {
         }
       }
 
-      // Draw mouse connections
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
       if (mx > 0 && my > 0) {
@@ -101,7 +98,6 @@ const NeuralNetwork3D = () => {
         }
       }
 
-      // Draw nodes
       for (const node of nodes) {
         ctx.beginPath();
         ctx.fillStyle = node.color;
