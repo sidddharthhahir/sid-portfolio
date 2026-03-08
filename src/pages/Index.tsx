@@ -383,7 +383,12 @@ const Index = () => {
             </h1>
 
             <h2 className="text-2xl md:text-3xl text-gray-200 mb-4 font-medium max-w-4xl mx-auto leading-relaxed">
-              {t('hero.title')}
+              <TypewriterText phrases={[
+                'AI Engineer → LLMs, RAG & Intelligent Systems',
+                'Building Explainable AI Products',
+                'Designing Scalable Data Architectures',
+                'Crafting AI-Powered User Experiences',
+              ]} />
             </h2>
 
             <div className="max-w-3xl mx-auto space-y-4">
