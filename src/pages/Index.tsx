@@ -10,6 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Clock, Zap, Brain, Bot, FlaskConical, Cpu, BarChart3, Lightbulb, Rocket, MapPin, Calendar } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Navigation from '@/components/Navigation';
+import TypewriterText from '@/components/TypewriterText';
+import CurrentlyLearning from '@/components/CurrentlyLearning';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
