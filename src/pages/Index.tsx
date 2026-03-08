@@ -719,6 +719,50 @@ const Index = () => {
         </motion.div>
       </section>
 
+      {/* ═══════════════ TRY MY AI SECTION ═══════════════ */}
+      <section id="try-ai" className="py-24" data-animate>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent mb-4">
+              Try My AI
+            </h2>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Interactive demos showcasing real AI engineering — from recommendation engines to intelligent assistants.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto space-y-16">
+            {/* Movie Recommendation Demo */}
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 flex items-center justify-center">
+                  <Sparkles size={20} className="text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-100">AI Movie Recommendation Engine</h3>
+              </div>
+              <p className="text-gray-400 mb-6 ml-[52px]">
+                Enter a movie you like and the AI will recommend similar movies with explanations.
+              </p>
+              <MovieRecommendationAI />
+            </div>
+
+            {/* Portfolio Chatbot */}
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-500 flex items-center justify-center">
+                  <Bot size={20} className="text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-100">Ask AI About My Projects</h3>
+              </div>
+              <p className="text-gray-400 mb-6 ml-[52px]">
+                You can ask this AI anything about the projects in this portfolio.
+              </p>
+              <PortfolioAIChat />
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* ═══════════════ CONTACT SECTION ═══════════════ */}
       <section id="contact" className="py-24" data-animate>
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
