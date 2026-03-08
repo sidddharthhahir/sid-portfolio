@@ -528,17 +528,35 @@ const Index = () => {
                       className="backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/10 cursor-pointer hover:border-emerald-400/30 group"
                       onClick={() => handleSkillClick(skill)}
                     >
-                      <CardContent className="p-5 flex items-start gap-4">
-                        <div className="p-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl group-hover:from-emerald-500/30 group-hover:to-cyan-500/30 transition-all duration-300 border border-white/10 flex-shrink-0">
-                          <skill.icon size={22} className="text-emerald-400 group-hover:text-cyan-400 transition-all duration-300" />
+                      <CardContent className="p-5">
+                        <div className="flex items-start gap-4 mb-3">
+                          <div className="p-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl group-hover:from-emerald-500/30 group-hover:to-cyan-500/30 transition-all duration-300 border border-white/10 flex-shrink-0">
+                            <skill.icon size={22} className="text-emerald-400 group-hover:text-cyan-400 transition-all duration-300" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-sm font-semibold text-gray-200 group-hover:text-emerald-400 transition-all duration-300">
+                              {skill.name}
+                            </h4>
+                            <p className="text-xs text-gray-400 mt-1 group-hover:text-gray-300 transition-all duration-300">
+                              {skill.description}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="text-sm font-semibold text-gray-200 group-hover:text-emerald-400 transition-all duration-300">
-                            {skill.name}
-                          </h4>
-                          <p className="text-xs text-gray-400 mt-1 group-hover:text-gray-300 transition-all duration-300">
-                            {skill.description}
-                          </p>
+                        {/* Animated proficiency bar */}
+                        <div className="mt-3">
+                          <div className="flex justify-between items-center mb-1.5">
+                            <span className="text-[10px] text-gray-500 uppercase tracking-wider">Proficiency</span>
+                            <span className="text-[10px] text-emerald-400 font-semibold">{skill.proficiency}%</span>
+                          </div>
+                          <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              whileInView={{ width: `${skill.proficiency}%` }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 1.2, delay: index * 0.1, ease: 'easeOut' }}
+                              className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400"
+                            />
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
