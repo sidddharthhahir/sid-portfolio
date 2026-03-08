@@ -17,6 +17,7 @@ const Navigation = ({ scrollToSection }: NavigationProps) => {
     { label: t('nav.about'), section: 'about' },
     { label: t('nav.skills'), section: 'skills' },
     { label: t('nav.projects'), section: 'portfolio' },
+    { label: 'Try My AI', section: 'try-ai' },
     { label: t('nav.github'), section: 'github' },
     { label: t('nav.contact'), section: 'contact' }
   ];
