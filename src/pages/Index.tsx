@@ -10,6 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Linkedin, Github, Code, Database, Globe, User, Briefcase, Contact, ArrowDown, Sparkles, Star, Server, Braces, FileCode, GitBranch, Layers, ExternalLink, Clock, Zap, Brain, Bot, FlaskConical, Cpu, BarChart3, Lightbulb, Rocket, MapPin, Calendar } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Navigation from '@/components/Navigation';
+import TypewriterText from '@/components/TypewriterText';
+import CurrentlyLearning from '@/components/CurrentlyLearning';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
@@ -381,7 +383,12 @@ const Index = () => {
             </h1>
 
             <h2 className="text-2xl md:text-3xl text-gray-200 mb-4 font-medium max-w-4xl mx-auto leading-relaxed">
-              {t('hero.title')}
+              <TypewriterText phrases={[
+                'AI Engineer → LLMs, RAG & Intelligent Systems',
+                'Building Explainable AI Products',
+                'Designing Scalable Data Architectures',
+                'Crafting AI-Powered User Experiences',
+              ]} />
             </h2>
 
             <div className="max-w-3xl mx-auto space-y-4">
@@ -395,6 +402,10 @@ const Index = () => {
                   </Badge>
                 ))}
               </div>
+            </div>
+
+            <div className="flex justify-center mb-4">
+              <CurrentlyLearning />
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
