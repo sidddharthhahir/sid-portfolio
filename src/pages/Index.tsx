@@ -342,6 +342,7 @@ const Index = () => {
         <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl neural-bg" style={{ animationDelay: '2s' }}></div>
       </div>
 
+      <ParticleTrail />
       <Navigation scrollToSection={scrollToSection} />
 
       <TripleClickHint 
