@@ -12,6 +12,8 @@ import emailjs from '@emailjs/browser';
 import Navigation from '@/components/Navigation';
 import TypewriterText from '@/components/TypewriterText';
 import CurrentlyLearning from '@/components/CurrentlyLearning';
+import ParticleTrail from '@/components/ParticleTrail';
+import MagneticProfile from '@/components/MagneticProfile';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
@@ -340,6 +342,7 @@ const Index = () => {
         <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl neural-bg" style={{ animationDelay: '2s' }}></div>
       </div>
 
+      <ParticleTrail />
       <Navigation scrollToSection={scrollToSection} />
 
       <TripleClickHint 
@@ -351,24 +354,25 @@ const Index = () => {
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: 'easeOut' }} className="container mx-auto px-6 text-center">
           <div className="mb-8">
-            <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
-              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
-              <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
-              <div 
-                data-profile-image
-                className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer overflow-hidden"
-                onClick={handleProfileClick}
-              >
-                <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
-                  <img 
-                    src="https://i.postimg.cc/P5HS8SsF/FLUX-Playground-Image.png" 
-                    alt="Siddharth Ahir — AI Engineer" 
-                    className="w-full h-full object-cover rounded-full transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
-                    style={{ objectPosition: 'center 15%' }}
-                  />
+            <MagneticProfile onClick={handleProfileClick}>
+              <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
+                <div className="absolute inset-4 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
+                <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
+                <div 
+                  data-profile-image
+                  className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer overflow-hidden"
+                >
+                  <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
+                    <img 
+                      src="https://i.postimg.cc/P5HS8SsF/FLUX-Playground-Image.png" 
+                      alt="Siddharth Ahir — AI Engineer" 
+                      className="w-full h-full object-cover rounded-full transition-all duration-700 group-hover:scale-105 filter brightness-110 contrast-110"
+                      style={{ objectPosition: 'center 15%' }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            </MagneticProfile>
           </div>
 
           <div className="space-y-8">
