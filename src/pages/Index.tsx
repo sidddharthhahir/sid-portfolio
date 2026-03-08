@@ -713,6 +713,7 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
+          <GitHubStatsWidget />
         </motion.div>
       </section>
 
