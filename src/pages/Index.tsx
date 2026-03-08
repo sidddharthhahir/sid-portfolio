@@ -14,6 +14,7 @@ import TypewriterText from '@/components/TypewriterText';
 import CurrentlyLearning from '@/components/CurrentlyLearning';
 import ParticleTrail from '@/components/ParticleTrail';
 import MagneticProfile from '@/components/MagneticProfile';
+import GitHubStatsWidget from '@/components/GitHubStatsWidget';
 import VisitorGreeting from '@/components/VisitorGreeting';
 import MemoryGame from '@/components/MemoryGame';
 import TicTacToeGame from '@/components/TicTacToeGame';
@@ -712,6 +713,7 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
+          <GitHubStatsWidget />
         </motion.div>
       </section>
 
