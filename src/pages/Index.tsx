@@ -93,50 +93,50 @@ const Index = () => {
       title: 'AI / Machine Learning',
       icon: Brain,
       skills: [
-        { name: 'Recommendation Systems (LightFM)', icon: Sparkles, description: 'Hybrid collaborative + content-based recommendation engines', detailedDescription: 'Building hybrid recommendation systems using LightFM combining collaborative filtering with content-based approaches for personalized recommendations.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'RAG', icon: Brain, description: 'Retrieval-Augmented Generation pipelines', detailedDescription: 'Implementing RAG pipelines to enhance LLM outputs with contextual knowledge retrieval for accurate, grounded AI responses.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Explainable AI (SHAP, LIME)', icon: Lightbulb, description: 'Making AI decisions transparent and interpretable', detailedDescription: 'Using SHAP and LIME to surface human-readable explanations for AI model predictions, building trust in AI systems.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'LLM Integration (Ollama)', icon: Bot, description: 'Local LLM deployment and integration', detailedDescription: 'Integrating local large language models via Ollama for privacy-preserving, low-latency AI-powered features.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Prompt Engineering', icon: Braces, description: 'Designing effective prompts for LLMs', detailedDescription: 'Crafting precise prompts and prompt chains to maximize LLM output quality for production applications.', keyProjects: [{ name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
+        { name: 'Recommendation Systems (LightFM)', icon: Sparkles, description: 'Hybrid collaborative + content-based recommendation engines', proficiency: 90, detailedDescription: 'Building hybrid recommendation systems using LightFM combining collaborative filtering with content-based approaches for personalized recommendations.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'RAG', icon: Brain, description: 'Retrieval-Augmented Generation pipelines', proficiency: 85, detailedDescription: 'Implementing RAG pipelines to enhance LLM outputs with contextual knowledge retrieval for accurate, grounded AI responses.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Explainable AI (SHAP, LIME)', icon: Lightbulb, description: 'Making AI decisions transparent and interpretable', proficiency: 80, detailedDescription: 'Using SHAP and LIME to surface human-readable explanations for AI model predictions, building trust in AI systems.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'LLM Integration (Ollama)', icon: Bot, description: 'Local LLM deployment and integration', proficiency: 85, detailedDescription: 'Integrating local large language models via Ollama for privacy-preserving, low-latency AI-powered features.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Prompt Engineering', icon: Braces, description: 'Designing effective prompts for LLMs', proficiency: 88, detailedDescription: 'Crafting precise prompts and prompt chains to maximize LLM output quality for production applications.', keyProjects: [{ name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
       ]
     },
     {
       title: 'AI Application Development',
       icon: Rocket,
       skills: [
-        { name: 'Python', icon: Code, description: 'Core language for AI/ML development', detailedDescription: 'Advanced Python for building AI applications, ML pipelines, data processing, and backend services.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }, { name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
-        { name: 'AI-Powered Product Design', icon: Lightbulb, description: 'Designing AI-first user experiences', detailedDescription: 'Designing products where AI is the core value proposition — from recommendation engines to intelligent coaching systems.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
-        { name: 'AI System Architecture', icon: Layers, description: 'Architecting scalable AI systems', detailedDescription: 'Designing end-to-end architectures for AI applications including model serving, data pipelines, and API layers.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Data Pipelines for AI', icon: Database, description: 'Building data infrastructure for ML', detailedDescription: 'Creating efficient data pipelines that feed ML models with clean, structured data for training and inference.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'Python', icon: Code, description: 'Core language for AI/ML development', proficiency: 92, detailedDescription: 'Advanced Python for building AI applications, ML pipelines, data processing, and backend services.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }, { name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
+        { name: 'AI-Powered Product Design', icon: Lightbulb, description: 'Designing AI-first user experiences', proficiency: 82, detailedDescription: 'Designing products where AI is the core value proposition — from recommendation engines to intelligent coaching systems.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
+        { name: 'AI System Architecture', icon: Layers, description: 'Architecting scalable AI systems', proficiency: 78, detailedDescription: 'Designing end-to-end architectures for AI applications including model serving, data pipelines, and API layers.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Data Pipelines for AI', icon: Database, description: 'Building data infrastructure for ML', proficiency: 80, detailedDescription: 'Creating efficient data pipelines that feed ML models with clean, structured data for training and inference.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
       ]
     },
     {
       title: 'Backend & Data Systems',
       icon: Server,
       skills: [
-        { name: 'Django / DRF', icon: Server, description: 'Python web framework & REST APIs', detailedDescription: 'Building robust backend systems with Django and Django REST Framework for AI-powered applications.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
-        { name: 'Node.js / Express', icon: Server, description: 'JavaScript runtime & framework', detailedDescription: 'Server-side JavaScript for building fast, scalable API services and real-time applications.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'PostgreSQL / Supabase', icon: Database, description: 'Relational databases & BaaS', detailedDescription: 'Database design, query optimization, and using Supabase for rapid backend development with real-time features.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }, { name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'Prisma / MySQL', icon: Database, description: 'ORM & database management', detailedDescription: 'Type-safe database access with Prisma ORM and MySQL for structured data management.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
+        { name: 'Django / DRF', icon: Server, description: 'Python web framework & REST APIs', proficiency: 88, detailedDescription: 'Building robust backend systems with Django and Django REST Framework for AI-powered applications.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
+        { name: 'Node.js / Express', icon: Server, description: 'JavaScript runtime & framework', proficiency: 82, detailedDescription: 'Server-side JavaScript for building fast, scalable API services and real-time applications.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'PostgreSQL / Supabase', icon: Database, description: 'Relational databases & BaaS', proficiency: 85, detailedDescription: 'Database design, query optimization, and using Supabase for rapid backend development with real-time features.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }, { name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'Prisma / MySQL', icon: Database, description: 'ORM & database management', proficiency: 75, detailedDescription: 'Type-safe database access with Prisma ORM and MySQL for structured data management.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
       ]
     },
     {
       title: 'Frontend for AI Products',
       icon: Globe,
       skills: [
-        { name: 'React / TypeScript', icon: Layers, description: 'Modern frontend development', detailedDescription: 'Building dynamic, type-safe user interfaces for AI-powered applications with React and TypeScript.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
-        { name: 'Next.js', icon: Globe, description: 'Full-stack React framework', detailedDescription: 'Server-side rendering and full-stack development with Next.js for production AI applications.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
-        { name: 'Tailwind CSS / Vite', icon: FileCode, description: 'Modern styling & build tools', detailedDescription: 'Rapid UI development with utility-first CSS and lightning-fast build tooling.', keyProjects: [{ name: 'Portfolio Website' }] },
+        { name: 'React / TypeScript', icon: Layers, description: 'Modern frontend development', proficiency: 88, detailedDescription: 'Building dynamic, type-safe user interfaces for AI-powered applications with React and TypeScript.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
+        { name: 'Next.js', icon: Globe, description: 'Full-stack React framework', proficiency: 80, detailedDescription: 'Server-side rendering and full-stack development with Next.js for production AI applications.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
+        { name: 'Tailwind CSS / Vite', icon: FileCode, description: 'Modern styling & build tools', proficiency: 90, detailedDescription: 'Rapid UI development with utility-first CSS and lightning-fast build tooling.', keyProjects: [{ name: 'Portfolio Website' }] },
       ]
     },
     {
       title: 'DevOps & Infrastructure',
       icon: Cpu,
       skills: [
-        { name: 'Docker', icon: Server, description: 'Containerized deployments', detailedDescription: 'Containerizing AI applications and development environments for consistent, reproducible deployments.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'GitHub Actions', icon: GitBranch, description: 'CI/CD automation', detailedDescription: 'Automating testing, building, and deployment pipelines with GitHub Actions.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
-        { name: 'AWS / Heroku', icon: Globe, description: 'Cloud deployment platforms', detailedDescription: 'Deploying and scaling applications on cloud infrastructure.', keyProjects: [] },
-        { name: 'Git / GitHub', icon: GitBranch, description: 'Version control & collaboration', detailedDescription: 'Professional version control workflows, code review, and open-source collaboration.', keyProjects: [{ name: 'All Projects' }] },
+        { name: 'Docker', icon: Server, description: 'Containerized deployments', proficiency: 75, detailedDescription: 'Containerizing AI applications and development environments for consistent, reproducible deployments.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'GitHub Actions', icon: GitBranch, description: 'CI/CD automation', proficiency: 78, detailedDescription: 'Automating testing, building, and deployment pipelines with GitHub Actions.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
+        { name: 'AWS / Heroku', icon: Globe, description: 'Cloud deployment platforms', proficiency: 70, detailedDescription: 'Deploying and scaling applications on cloud infrastructure.', keyProjects: [] },
+        { name: 'Git / GitHub', icon: GitBranch, description: 'Version control & collaboration', proficiency: 92, detailedDescription: 'Professional version control workflows, code review, and open-source collaboration.', keyProjects: [{ name: 'All Projects' }] },
       ]
     },
   ];
