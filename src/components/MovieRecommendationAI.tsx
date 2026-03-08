@@ -198,7 +198,8 @@ const MovieRecommendationAI = () => {
     await new Promise(r => setTimeout(r, 600));
 
     const key = movieInput.toLowerCase().trim();
-    const results = MOVIE_DATABASE[key] || DEFAULT_RECOMMENDATIONS;
+    const dbResults = MOVIE_DATABASE[key];
+    const results = dbResults ? shuffleAndPick(dbResults, 3) : getRandomFallback();
     setRecommendations(results);
     setIsLoading(false);
     setPipelineStep(0);
