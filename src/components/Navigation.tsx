@@ -28,10 +28,10 @@ const Navigation = ({ scrollToSection }: NavigationProps) => {
   };
 
   return (
-    <nav className="fixed top-0 w-full backdrop-blur-2xl bg-black/20 border-b border-white/10 z-50 transition-all duration-500 shadow-lg">
+    <nav className="fixed top-0 w-full backdrop-blur-2xl bg-background/60 border-b border-border z-50 transition-all duration-500">
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+          <div className="text-2xl font-black glow-text">
             Siddharth Ahir
           </div>
 
@@ -40,7 +40,7 @@ const Navigation = ({ scrollToSection }: NavigationProps) => {
               <button
                 key={item.section}
                 onClick={() => scrollToSection(item.section)}
-                className="text-gray-300 hover:text-emerald-400 transition-all duration-500 hover:scale-110 font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-emerald-400 after:to-cyan-400 after:left-0 after:-bottom-1 after:transition-all after:duration-500 hover:after:w-full"
+                className="text-muted-foreground hover:text-primary transition-all duration-500 hover:scale-105 font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-secondary after:left-0 after:-bottom-1 after:transition-all after:duration-500 hover:after:w-full"
               >
                 {item.label}
               </button>
@@ -52,7 +52,7 @@ const Navigation = ({ scrollToSection }: NavigationProps) => {
             <LanguageSwitcher />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-300 hover:text-emerald-400 transition-colors duration-300 p-2"
+              className="text-muted-foreground hover:text-primary transition-colors duration-300 p-2"
               aria-label="Toggle navigation menu"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -68,7 +68,7 @@ const Navigation = ({ scrollToSection }: NavigationProps) => {
               <button
                 key={item.section}
                 onClick={() => handleNavClick(item.section)}
-                className="block w-full text-left px-4 py-3 text-gray-300 hover:text-emerald-400 hover:bg-white/5 transition-all duration-300 rounded-lg font-medium"
+                className="block w-full text-left px-4 py-3 text-muted-foreground hover:text-primary hover:bg-muted/30 transition-all duration-300 rounded-lg font-medium"
               >
                 {item.label}
               </button>
