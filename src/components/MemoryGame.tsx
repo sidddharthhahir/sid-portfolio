@@ -32,7 +32,7 @@ const MemoryGame = ({ isActive, onComplete }: MemoryGameProps) => {
   const [showCelebration, setShowCelebration] = useState(false);
   
   const gameRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<NodeJS.Timeout>();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const symbols = ['🚀', '💻', '⚡', '🎯', '🔥', '💎', '🌟', '🎨'];
 
