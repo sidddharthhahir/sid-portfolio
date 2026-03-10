@@ -30,30 +30,45 @@ import { VibrationManager } from '@/utils/vibrationUtils';
 
 const NeuralNetwork3D = lazy(() => import('@/components/NeuralNetwork3D'));
 
+// Animation variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (delay = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }
+  })
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.2 }
+  }
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+};
+
 const Index = () => {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [clickCount, setClickCount] = useState(0);
-  
-  // Game states
   const [showGameSelector, setShowGameSelector] = useState(false);
   const [showMemoryGame, setShowMemoryGame] = useState(false);
   const [showTicTacToe, setShowTicTacToe] = useState(false);
   const [showEndlessRunner, setShowEndlessRunner] = useState(false);
-  
   const [showHint, setShowHint] = useState(false);
   const [isGameFeatureDiscovered, setIsGameFeatureDiscovered] = useState(false);
   const [hintDismissed, setHintDismissed] = useState(false);
-  
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+  const [expandedProject, setExpandedProject] = useState<number | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -72,7 +87,6 @@ const Index = () => {
     }
   }, []);
 
-  // Intersection Observer for scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -89,11 +103,11 @@ const Index = () => {
     return () => observer.disconnect();
   }, []);
 
-  // AI-focused skill categories
   const skillCategories = [
     {
       title: 'AI / Machine Learning',
       icon: Brain,
+      gradient: 'from-primary to-secondary',
       skills: [
         { name: 'Recommendation Systems (LightFM)', icon: Sparkles, description: 'Hybrid collaborative + content-based recommendation engines', detailedDescription: 'Building hybrid recommendation systems using LightFM combining collaborative filtering with content-based approaches for personalized recommendations.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
         { name: 'RAG', icon: Brain, description: 'Retrieval-Augmented Generation pipelines', detailedDescription: 'Implementing RAG pipelines to enhance LLM outputs with contextual knowledge retrieval for accurate, grounded AI responses.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
@@ -105,6 +119,7 @@ const Index = () => {
     {
       title: 'AI Application Development',
       icon: Rocket,
+      gradient: 'from-secondary to-accent',
       skills: [
         { name: 'Python', icon: Code, description: 'Core language for AI/ML development', detailedDescription: 'Advanced Python for building AI applications, ML pipelines, data processing, and backend services.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }, { name: 'AI Resume Customizer', url: 'https://github.com/sidddharthhahir/ai-resume-customizer' }] },
         { name: 'AI-Powered Product Design', icon: Lightbulb, description: 'Designing AI-first user experiences', detailedDescription: 'Designing products where AI is the core value proposition — from recommendation engines to intelligent coaching systems.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
@@ -115,6 +130,7 @@ const Index = () => {
     {
       title: 'Backend & Data Systems',
       icon: Server,
+      gradient: 'from-accent to-primary',
       skills: [
         { name: 'Django / DRF', icon: Server, description: 'Python web framework & REST APIs', detailedDescription: 'Building robust backend systems with Django and Django REST Framework for AI-powered applications.', keyProjects: [{ name: 'MovieWise-XAI', url: 'https://github.com/sidddharthhahir/MovieWise-XAI' }] },
         { name: 'Node.js / Express', icon: Server, description: 'JavaScript runtime & framework', detailedDescription: 'Server-side JavaScript for building fast, scalable API services and real-time applications.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
@@ -125,6 +141,7 @@ const Index = () => {
     {
       title: 'Frontend for AI Products',
       icon: Globe,
+      gradient: 'from-primary to-secondary',
       skills: [
         { name: 'React / TypeScript', icon: Layers, description: 'Modern frontend development', detailedDescription: 'Building dynamic, type-safe user interfaces for AI-powered applications with React and TypeScript.', keyProjects: [{ name: 'PocketFit AI Coach', url: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git' }] },
         { name: 'Next.js', icon: Globe, description: 'Full-stack React framework', detailedDescription: 'Server-side rendering and full-stack development with Next.js for production AI applications.', keyProjects: [{ name: 'RoomSplit', url: 'https://github.com/sidddharthhahir/roomsplit' }] },
@@ -134,6 +151,7 @@ const Index = () => {
     {
       title: 'DevOps & Infrastructure',
       icon: Cpu,
+      gradient: 'from-secondary to-accent',
       skills: [
         { name: 'Docker', icon: Server, description: 'Containerized deployments', detailedDescription: 'Containerizing AI applications and development environments for consistent, reproducible deployments.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
         { name: 'GitHub Actions', icon: GitBranch, description: 'CI/CD automation', detailedDescription: 'Automating testing, building, and deployment pipelines with GitHub Actions.', keyProjects: [{ name: 'Game KPI Dashboard', url: 'https://github.com/sidddharthhahir/Dashboard' }] },
@@ -143,20 +161,13 @@ const Index = () => {
     },
   ];
 
-  const [expandedProject, setExpandedProject] = useState<number | null>(null);
-
   const projects = [
     {
       title: '🤖 MovieWise-XAI',
       subtitle: 'Featured AI Project',
       description: 'An explainable movie recommendation system that combines hybrid recommendation models with large language models to generate human-readable explanations.',
       technologies: ['Python', 'Django', 'LightFM', 'Ollama', 'RAG'],
-      features: [
-        'Hybrid recommendation engine (collaborative + content-based)',
-        'Explainable AI using SHAP/LIME concepts',
-        'LLM-generated natural language explanations',
-        'Retrieval-augmented reasoning pipeline'
-      ],
+      features: ['Hybrid recommendation engine (collaborative + content-based)', 'Explainable AI using SHAP/LIME concepts', 'LLM-generated natural language explanations', 'Retrieval-augmented reasoning pipeline'],
       githubUrl: 'https://github.com/sidddharthhahir/MovieWise-XAI',
       metrics: '🧠 XAI-powered recommendations',
       featured: true,
@@ -171,12 +182,7 @@ const Index = () => {
       subtitle: 'AI-Ready System Architecture',
       description: 'A multi-user expense management platform designed with scalable data models and optimized transaction settlement algorithms.',
       technologies: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
-      features: [
-        'Optimized expense settlement algorithm',
-        'Multi-user system architecture',
-        'Scalable relational database design',
-        'Modern dashboard UI'
-      ],
+      features: ['Optimized expense settlement algorithm', 'Multi-user system architecture', 'Scalable relational database design', 'Modern dashboard UI'],
       githubUrl: 'https://github.com/sidddharthhahir/roomsplit',
       metrics: '⚙️ Optimized algorithms',
       caseStudy: {
@@ -190,12 +196,7 @@ const Index = () => {
       subtitle: 'LLM-Powered Tool',
       description: 'An AI-powered tool that customizes resumes automatically based on job descriptions using LLM-based text analysis.',
       technologies: ['Python', 'LLM APIs', 'NLP'],
-      features: [
-        'Resume-job description matching',
-        'AI-powered resume tailoring',
-        'NLP text analysis pipeline',
-        'Automation of job application preparation'
-      ],
+      features: ['Resume-job description matching', 'AI-powered resume tailoring', 'NLP text analysis pipeline', 'Automation of job application preparation'],
       githubUrl: 'https://github.com/sidddharthhahir/ai-resume-customizer',
       metrics: '🤖 AI-automated workflow',
       caseStudy: {
@@ -209,11 +210,7 @@ const Index = () => {
       subtitle: 'Analytics & Data Systems',
       description: 'An analytics dashboard that processes marketing performance data and visualizes KPIs for decision-making.',
       technologies: ['React', 'Node.js', 'Express', 'Supabase', 'Recharts'],
-      features: [
-        'KPI tracking and visualization',
-        'Server-side filtering with cached APIs',
-        'Indexed queries for sub-second analytics'
-      ],
+      features: ['KPI tracking and visualization', 'Server-side filtering with cached APIs', 'Indexed queries for sub-second analytics'],
       githubUrl: 'https://github.com/sidddharthhahir/Dashboard',
       metrics: '⏱️ Sub-second response time',
       caseStudy: {
@@ -227,11 +224,7 @@ const Index = () => {
       subtitle: 'AI-Powered Application',
       description: 'An AI-powered fitness assistant that generates personalized workout and diet plans with natural language meal logging.',
       technologies: ['React', 'TypeScript', 'Supabase', 'AI Integration'],
-      features: [
-        'AI-generated fitness recommendations',
-        'Natural language meal logging',
-        'Progress tracking dashboard'
-      ],
+      features: ['AI-generated fitness recommendations', 'Natural language meal logging', 'Progress tracking dashboard'],
       githubUrl: 'https://github.com/sidddharthhahir/pocketfit-ai-coach.git',
       metrics: '🤖 AI-powered coaching',
       caseStudy: {
@@ -260,11 +253,8 @@ const Index = () => {
     setIsSubmitting(true);
     try {
       emailjs.init('1XEPgOlzfPoTgaput');
-      const result = await emailjs.send('service_5n5oy19', 'template_ixyj8he', {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-        to_name: 'Siddharth Ahir'
+      await emailjs.send('service_5n5oy19', 'template_ixyj8he', {
+        from_name: formData.name, from_email: formData.email, message: formData.message, to_name: 'Siddharth Ahir'
       });
       toast({ title: t('contact.success.title'), description: t('contact.success.desc') });
       setFormData({ name: '', email: '', message: '' });
@@ -303,9 +293,6 @@ const Index = () => {
   const handleSelectMemoryGame = () => { setShowGameSelector(false); setShowMemoryGame(true); };
   const handleSelectTicTacToe = () => { setShowGameSelector(false); setShowTicTacToe(true); };
   const handleSelectEndlessRunner = () => { setShowGameSelector(false); setShowEndlessRunner(true); };
-  const handleMemoryGameComplete = () => setShowMemoryGame(false);
-  const handleTicTacToeComplete = () => setShowTicTacToe(false);
-  const handleEndlessRunnerComplete = () => setShowEndlessRunner(false);
 
   const handleResumeDownload = () => {
     try {
@@ -326,23 +313,15 @@ const Index = () => {
   const handleHintDismiss = () => { setShowHint(false); setHintDismissed(true); localStorage.setItem('hintDismissed', 'true'); };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      <style>{`
-        @keyframes float-up-down { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        @keyframes float-up-down-delayed { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-        .float-animation { animation: float-up-down 3s ease-in-out infinite; }
-        .float-animation-delayed { animation: float-up-down-delayed 3s ease-in-out infinite 1.5s; }
-        @keyframes neural-pulse { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.3; } }
-        .neural-bg { animation: neural-pulse 4s ease-in-out infinite; }
-      `}</style>
-
-      {/* 3D Neural Network Background */}
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Ambient Background Glow */}
       <div className="fixed inset-0 -z-10">
         <Suspense fallback={null}>
           <NeuralNetwork3D />
         </Suspense>
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-full blur-3xl neural-bg"></div>
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl neural-bg" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[120px] animate-glow-pulse" />
+        <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-secondary/8 rounded-full blur-[120px] animate-glow-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[160px] animate-glow-pulse" style={{ animationDelay: '4s' }} />
       </div>
 
       <ParticleTrail />
@@ -355,17 +334,25 @@ const Index = () => {
 
       {/* ═══════════════ HERO SECTION ═══════════════ */}
       <section id="home" className="min-h-screen flex items-center justify-center relative pt-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: 'easeOut' }} className="container mx-auto px-6 text-center">
-          <div className="mb-8">
+        <motion.div 
+          initial="hidden" animate="visible" 
+          variants={staggerContainer}
+          className="container mx-auto px-6 text-center"
+        >
+          <motion.div variants={staggerItem} className="mb-8">
             <MagneticProfile onClick={handleProfileClick}>
-              <div className="relative w-80 h-80 mx-auto mb-8 group p-8">
-                <div className="absolute inset-4 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 animate-spin opacity-75" style={{ animationDuration: '4s' }}></div>
-                <div className="absolute inset-6 rounded-full backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl"></div>
+              <div className="relative w-72 h-72 mx-auto mb-8 group p-6">
+                {/* Outer glow ring */}
+                <div className="absolute inset-2 rounded-full bg-gradient-to-r from-primary via-secondary to-accent opacity-60 blur-md animate-glow-pulse" />
+                {/* Spinning border */}
+                <div className="absolute inset-4 rounded-full bg-gradient-to-r from-primary via-secondary to-accent animate-[spin_6s_linear_infinite] opacity-75" />
+                {/* Inner dark ring */}
+                <div className="absolute inset-6 rounded-full bg-background/90 backdrop-blur-xl border border-border" />
                 <div 
                   data-profile-image
-                  className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 p-3 group-hover:scale-110 transition-all duration-700 shadow-2xl cursor-pointer overflow-hidden"
+                  className="relative w-56 h-56 mx-auto rounded-full bg-gradient-to-r from-primary to-secondary p-[3px] group-hover:scale-110 transition-all duration-700 cursor-pointer overflow-hidden glow-box"
                 >
-                  <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
+                  <div className="w-full h-full rounded-full overflow-hidden bg-background">
                     <img 
                       src="https://i.postimg.cc/P5HS8SsF/FLUX-Playground-Image.png" 
                       alt="Siddharth Ahir — AI Engineer" 
@@ -376,49 +363,47 @@ const Index = () => {
                 </div>
               </div>
             </MagneticProfile>
-          </div>
+          </motion.div>
 
-          <div className="space-y-8">
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-2xl text-gray-300 font-medium">{t('hero.greeting')}</span>
-            </div>
+          <motion.div variants={staggerItem} className="space-y-6">
+            <span className="text-xl text-muted-foreground font-medium tracking-wide">{t('hero.greeting')}</span>
 
-            <h1 className="text-6xl md:text-8xl font-bold mb-8">
-              <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                {t('hero.name')}
-              </span>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight">
+              <span className="glow-text">{t('hero.name')}</span>
             </h1>
 
-            <h2 className="text-2xl md:text-3xl text-gray-200 mb-4 font-medium max-w-4xl mx-auto leading-relaxed">
-              <TypewriterText phrases={[
-                'AI Engineer → LLMs, RAG & Intelligent Systems',
-                'Building Explainable AI Products',
-                'Designing Scalable Data Architectures',
-                'Crafting AI-Powered User Experiences',
-              ]} />
-            </h2>
+            <motion.div variants={staggerItem}>
+              <h2 className="text-xl md:text-2xl text-foreground/80 font-medium max-w-3xl mx-auto leading-relaxed">
+                <TypewriterText phrases={[
+                  'AI Engineer → LLMs, RAG & Intelligent Systems',
+                  'Building Explainable AI Products',
+                  'Designing Scalable Data Architectures',
+                  'Crafting AI-Powered User Experiences',
+                ]} />
+              </h2>
+            </motion.div>
 
-            <div className="max-w-3xl mx-auto space-y-4">
-              <p className="text-lg text-gray-300 leading-relaxed text-center">
+            <motion.div variants={staggerItem} className="max-w-3xl mx-auto space-y-5">
+              <p className="text-base text-muted-foreground leading-relaxed">
                 {t('hero.description')}
               </p>
-              <div className="flex flex-wrap justify-center gap-3 mt-6">
+              <div className="flex flex-wrap justify-center gap-2">
                 {['LLM Integrations', 'RAG Pipelines', 'AI-Powered Features', 'Scalable Data Systems'].map((item) => (
-                  <Badge key={item} className="backdrop-blur-xl bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 px-4 py-1.5 text-sm">
+                  <Badge key={item} className="glass px-4 py-1.5 text-sm text-primary border-primary/20 hover:border-primary/40 transition-colors">
                     {item}
                   </Badge>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="flex justify-center mb-4">
+            <motion.div variants={staggerItem} className="flex justify-center">
               <CurrentlyLearning />
-            </div>
+            </motion.div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+            <motion.div variants={staggerItem} className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button 
                 onClick={() => scrollToSection('portfolio')} 
-                className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/25 backdrop-blur-xl border border-white/20 group"
+                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground px-10 py-6 text-lg rounded-full hover:scale-105 transition-all duration-500 glow-box group"
               >
                 <span className="flex items-center gap-3">
                   {t('hero.viewProjects')}
@@ -427,7 +412,7 @@ const Index = () => {
               </Button>
               <Button 
                 onClick={() => window.open('https://github.com/sidddharthhahir', '_blank')}
-                className="backdrop-blur-xl bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium shadow-xl"
+                className="glass text-foreground hover:border-primary/30 px-10 py-6 text-lg rounded-full hover:scale-105 transition-all duration-500"
               >
                 <span className="flex items-center gap-3">
                   <Github size={20} />
@@ -436,159 +421,167 @@ const Index = () => {
               </Button>
               <Button 
                 onClick={() => scrollToSection('contact')} 
-                className="backdrop-blur-xl bg-white/5 border border-white/15 text-gray-300 hover:bg-white/15 px-10 py-5 text-lg rounded-full hover:scale-110 transition-all duration-500 font-medium"
+                className="glass text-muted-foreground hover:text-foreground px-10 py-6 text-lg rounded-full hover:scale-105 transition-all duration-500"
               >
                 {t('nav.contact')}
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="mt-16">
+          <motion.div variants={staggerItem} className="mt-20">
             <div className="flex flex-col items-center gap-3">
-              <span className="text-sm text-gray-400 animate-pulse">{t('hero.scrollExplore')}</span>
+              <span className="text-sm text-muted-foreground animate-pulse">{t('hero.scrollExplore')}</span>
               <div className="animate-bounce">
-                <ArrowDown size={28} className="text-emerald-400" />
+                <ArrowDown size={24} className="text-primary" />
               </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
+      {/* Section Divider */}
+      <div className="section-divider max-w-4xl" />
+
       {/* ═══════════════ ABOUT SECTION ═══════════════ */}
-      <section id="about" className="py-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
-          <div className="flex items-center justify-center gap-4 mb-16">
-            <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              {t('about.title')}
-            </h2>
-          </div>
+      <section id="about" className="py-28" data-animate>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className="container mx-auto px-6">
+          <motion.h2 variants={staggerItem} className="text-5xl md:text-6xl font-black text-center mb-16 glow-text">
+            {t('about.title')}
+          </motion.h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-start">
-              <div className="space-y-8">
+              <motion.div variants={staggerItem} className="space-y-8">
                 <div>
-                  <h3 className="text-2xl font-bold mb-6 text-emerald-400">{t('about.profileTitle')}</h3>
-                  <p className="text-lg text-gray-300 leading-relaxed mb-6">
+                  <h3 className="text-2xl font-bold mb-6 text-primary">{t('about.profileTitle')}</h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-6">
                     {t('about.description')}
                   </p>
-                  <h4 className="text-lg font-semibold text-gray-200 mb-4">{t('about.experienceTitle')}</h4>
+                  <h4 className="text-lg font-semibold text-foreground/90 mb-4">{t('about.experienceTitle')}</h4>
                   <ul className="space-y-3">
                     {[t('about.experience1'), t('about.experience2'), t('about.experience3'), t('about.experience4'), t('about.experience5')].map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-gray-300">
-                        <span className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mt-2 flex-shrink-0"></span>
+                      <li key={i} className="flex items-start gap-3 text-muted-foreground">
+                        <span className="w-2 h-2 bg-gradient-to-r from-primary to-secondary rounded-full mt-2 flex-shrink-0" />
                         {item}
                       </li>
                     ))}
                   </ul>
-                  <p className="text-emerald-400/80 mt-6 font-medium italic">{t('about.tagline')}</p>
+                  <p className="text-primary/80 mt-6 font-medium italic">{t('about.tagline')}</p>
                 </div>
-              </div>
-              <div>
-                <Card className="backdrop-blur-2xl bg-black/30 border border-white/20 hover:bg-black/40 transition-all duration-700 hover:scale-105">
+              </motion.div>
+              <motion.div variants={staggerItem}>
+                <Card className="glass-hover glow-box">
                   <CardHeader>
-                    <CardTitle className="text-emerald-400 text-2xl">Education</CardTitle>
+                    <CardTitle className="text-primary text-2xl">Education</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">MSc Computer Science</h4>
-                      <p className="text-gray-300">International University of Applied Sciences</p>
-                      <p className="text-gray-300">Berlin, Germany</p>
-                      <p className="text-sm text-emerald-400 font-medium">Sept 2023 – Present</p>
-                    </div>
-                    <div className="p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105">
-                      <h4 className="font-semibold text-gray-200 text-lg">Bachelor of Computer Application</h4>
-                      <p className="text-gray-300">Gujarat University</p>
-                      <p className="text-gray-300">Ahmedabad, India</p>
-                      <p className="text-sm text-emerald-400 font-medium">July 2019 – April 2022</p>
-                    </div>
+                    {[
+                      { degree: 'MSc Computer Science', school: 'International University of Applied Sciences', location: 'Berlin, Germany', date: 'Sept 2023 – Present' },
+                      { degree: 'Bachelor of Computer Application', school: 'Gujarat University', location: 'Ahmedabad, India', date: 'July 2019 – April 2022' },
+                    ].map((edu, i) => (
+                      <div key={i} className="p-5 rounded-xl bg-muted/30 border border-border hover:border-primary/20 transition-all duration-500 hover:scale-[1.02]">
+                        <h4 className="font-semibold text-foreground text-lg">{edu.degree}</h4>
+                        <p className="text-muted-foreground">{edu.school}</p>
+                        <p className="text-muted-foreground">{edu.location}</p>
+                        <p className="text-sm text-primary font-medium mt-1">{edu.date}</p>
+                      </div>
+                    ))}
                   </CardContent>
                 </Card>
-              </div>
+              </motion.div>
             </div>
           </div>
         </motion.div>
       </section>
 
+      <div className="section-divider max-w-4xl" />
+
       {/* ═══════════════ SKILLS SECTION ═══════════════ */}
-      <section id="skills" className="py-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+      <section id="skills" className="py-28" data-animate>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className="container mx-auto px-6">
+          <motion.h2 variants={staggerItem} className="text-5xl md:text-6xl font-black text-center mb-16 glow-text">
             {t('skills.title')}
-          </h2>
-          <div className="max-w-7xl mx-auto space-y-12">
+          </motion.h2>
+          <div className="max-w-7xl mx-auto space-y-14">
             {skillCategories.map((category, catIndex) => (
-              <div key={catIndex}>
+              <motion.div key={catIndex} variants={staggerItem}>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-lg border border-white/10">
-                    <category.icon size={24} className="text-emerald-400" />
+                  <div className={`p-2.5 bg-gradient-to-r ${category.gradient} rounded-xl bg-opacity-20`} style={{ background: `linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--secondary) / 0.15))` }}>
+                    <category.icon size={22} className="text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-200">{category.title}</h3>
+                  <h3 className="text-2xl font-bold text-foreground">{category.title}</h3>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <motion.div 
+                  variants={staggerContainer}
+                  initial="hidden" whileInView="visible" viewport={{ once: true }}
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                >
                   {category.skills.map((skill, index) => (
-                    <Card 
-                      key={index}
-                      className="backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/10 cursor-pointer hover:border-emerald-400/30 group"
-                      onClick={() => handleSkillClick(skill)}
-                    >
-                      <CardContent className="p-5 flex items-start gap-4">
-                        <div className="p-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl group-hover:from-emerald-500/30 group-hover:to-cyan-500/30 transition-all duration-300 border border-white/10 flex-shrink-0">
-                          <skill.icon size={22} className="text-emerald-400 group-hover:text-cyan-400 transition-all duration-300" />
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-semibold text-gray-200 group-hover:text-emerald-400 transition-all duration-300">
-                            {skill.name}
-                          </h4>
-                          <p className="text-xs text-gray-400 mt-1 group-hover:text-gray-300 transition-all duration-300">
-                            {skill.description}
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <motion.div key={index} variants={staggerItem}>
+                      <Card 
+                        className="glass-hover cursor-pointer group h-full"
+                        onClick={() => handleSkillClick(skill)}
+                      >
+                        <CardContent className="p-5 flex items-start gap-4">
+                          <div className="p-2.5 rounded-xl border border-border group-hover:border-primary/30 transition-all duration-300 flex-shrink-0" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1))' }}>
+                            <skill.icon size={20} className="text-primary group-hover:text-secondary transition-colors duration-300" />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
+                              {skill.name}
+                            </h4>
+                            <p className="text-xs text-muted-foreground mt-1 group-hover:text-muted-foreground/80 transition-colors">
+                              {skill.description}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
       </section>
 
+      <div className="section-divider max-w-4xl" />
+
       {/* ═══════════════ PROJECTS SECTION ═══════════════ */}
-      <section id="portfolio" className="py-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
-          <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+      <section id="portfolio" className="py-28" data-animate>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className="container mx-auto px-6">
+          <motion.h2 variants={staggerItem} className="text-5xl md:text-6xl font-black text-center mb-4 glow-text">
             {t('projects.title')}
-          </h2>
-          <p className="text-center text-gray-400 mb-16 text-lg">{t('projects.subtitle')}</p>
+          </motion.h2>
+          <motion.p variants={staggerItem} className="text-center text-muted-foreground mb-16 text-lg">{t('projects.subtitle')}</motion.p>
           <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
             {projects.map((project, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                variants={staggerItem}
                 className={project.featured ? 'md:col-span-2' : ''}
               >
-                <Card 
-                  className={`backdrop-blur-2xl bg-black/30 border hover:bg-black/40 transition-all duration-700 hover:shadow-2xl group transform cursor-pointer ${
-                    project.featured 
-                      ? 'border-emerald-400/40 hover:shadow-emerald-500/20 hover:border-emerald-400/60' 
-                      : 'border-white/15 hover:shadow-cyan-500/15 hover:border-cyan-400/40'
-                  }`}
-                >
+                <Card className={`glass-hover transition-all duration-700 group cursor-pointer ${
+                  project.featured 
+                    ? 'border-primary/30 hover:border-primary/50 glow-box' 
+                    : 'hover:border-secondary/30'
+                }`}>
                   <CardHeader onClick={() => handleProjectClick(project.githubUrl)}>
                     <div className="flex items-center justify-between mb-2">
-                      <Badge className={`text-xs px-3 py-1 ${project.featured ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30' : 'bg-cyan-500/15 text-cyan-300 border-cyan-400/25'}`}>
+                      <Badge className={`text-xs px-3 py-1 ${
+                        project.featured 
+                          ? 'bg-primary/15 text-primary border-primary/25' 
+                          : 'bg-secondary/15 text-secondary border-secondary/25'
+                      }`}>
                         {project.subtitle}
                       </Badge>
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <ExternalLink size={18} className="text-emerald-400" />
+                        <ExternalLink size={18} className="text-primary" />
                       </div>
                     </div>
-                    <CardTitle className="text-gray-200 group-hover:text-emerald-400 transition-all duration-500 text-xl">
+                    <CardTitle className="text-foreground group-hover:text-primary transition-colors duration-500 text-xl">
                       {project.title}
                     </CardTitle>
-                    <CardDescription className="text-gray-300 leading-relaxed text-base">
+                    <CardDescription className="text-muted-foreground leading-relaxed text-base">
                       {project.description}
                     </CardDescription>
                   </CardHeader>
@@ -596,33 +589,28 @@ const Index = () => {
                     <div className="mb-5">
                       <div className="flex flex-wrap gap-2">
                         {project.technologies.map((tech, techIndex) => (
-                          <Badge key={techIndex} className="backdrop-blur-xl bg-emerald-500/15 text-emerald-300 border border-emerald-400/25 hover:bg-emerald-500/25 transition-all duration-500 text-xs">
+                          <Badge key={techIndex} className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-all text-xs">
                             {tech}
                           </Badge>
                         ))}
                       </div>
                     </div>
-                    <div className="mb-4">
-                      <ul className="text-sm text-gray-300 space-y-2">
-                        {project.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-start">
-                            <span className="w-1.5 h-1.5 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <ul className="text-sm text-muted-foreground space-y-2 mb-4">
+                      {project.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-start">
+                          <span className="w-1.5 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mr-3 mt-2 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
                     {project.metrics && (
-                      <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                        <span className="text-sm text-gray-400">{project.metrics}</span>
+                      <div className="mt-4 pt-4 border-t border-border flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">{project.metrics}</span>
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpandedProject(expandedProject === index ? null : index);
-                          }}
-                          className="text-emerald-400 hover:text-cyan-400 hover:bg-white/5 text-xs gap-1.5"
+                          onClick={(e) => { e.stopPropagation(); setExpandedProject(expandedProject === index ? null : index); }}
+                          className="text-primary hover:text-secondary hover:bg-muted/50 text-xs gap-1.5"
                         >
                           <FlaskConical size={14} />
                           {expandedProject === index ? 'Hide Case Study' : 'View Case Study'}
@@ -630,7 +618,6 @@ const Index = () => {
                       </div>
                     )}
 
-                    {/* Expandable Case Study */}
                     <AnimatePresence>
                       {expandedProject === index && project.caseStudy && (
                         <motion.div
@@ -640,21 +627,21 @@ const Index = () => {
                           transition={{ duration: 0.4, ease: 'easeInOut' }}
                           className="overflow-hidden"
                         >
-                          <div className="mt-6 space-y-4 pt-4 border-t border-white/10">
+                          <div className="mt-6 space-y-4 pt-4 border-t border-border">
                             {[
-                              { label: '🔍 Problem', text: project.caseStudy.problem, color: 'from-red-500/20 to-orange-500/20 border-red-400/20' },
-                              { label: '⚡ Approach', text: project.caseStudy.approach, color: 'from-emerald-500/20 to-cyan-500/20 border-emerald-400/20' },
-                              { label: '🎯 Results', text: project.caseStudy.results, color: 'from-cyan-500/20 to-blue-500/20 border-cyan-400/20' },
+                              { label: '🔍 Problem', text: project.caseStudy.problem, bg: 'bg-destructive/5 border-destructive/15' },
+                              { label: '⚡ Approach', text: project.caseStudy.approach, bg: 'bg-primary/5 border-primary/15' },
+                              { label: '🎯 Results', text: project.caseStudy.results, bg: 'bg-secondary/5 border-secondary/15' },
                             ].map((section, i) => (
                               <motion.div
                                 key={i}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.15, duration: 0.3 }}
-                                className={`p-4 rounded-xl bg-gradient-to-r ${section.color} border backdrop-blur-xl`}
+                                className={`p-4 rounded-xl ${section.bg} border backdrop-blur-xl`}
                               >
-                                <h5 className="text-sm font-bold text-gray-200 mb-2">{section.label}</h5>
-                                <p className="text-sm text-gray-300 leading-relaxed">{section.text}</p>
+                                <h5 className="text-sm font-bold text-foreground mb-2">{section.label}</h5>
+                                <p className="text-sm text-muted-foreground leading-relaxed">{section.text}</p>
                               </motion.div>
                             ))}
                           </div>
@@ -669,43 +656,51 @@ const Index = () => {
         </motion.div>
       </section>
 
+      <div className="section-divider max-w-4xl" />
+
       {/* ═══════════════ AI INTERESTS SECTION ═══════════════ */}
-      <section id="interests" className="py-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+      <section id="interests" className="py-28" data-animate>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className="container mx-auto px-6">
+          <motion.h2 variants={staggerItem} className="text-5xl md:text-6xl font-black text-center mb-16 glow-text">
             {t('interests.title')}
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          </motion.h2>
+          <motion.div variants={staggerContainer} className="grid grid-cols-2 md:grid-cols-3 gap-5 max-w-4xl mx-auto">
             {aiInterests.map((interest, index) => (
-              <div key={index} className="flex items-center gap-4 p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 hover:border-emerald-400/30 transition-all duration-500 hover:scale-105 group">
-                <interest.icon size={24} className="text-emerald-400 group-hover:text-cyan-400 transition-colors flex-shrink-0" />
-                <span className="text-gray-300 font-medium text-sm group-hover:text-gray-200">{interest.label}</span>
-              </div>
+              <motion.div 
+                key={index} 
+                variants={staggerItem}
+                className="flex items-center gap-4 p-5 rounded-xl glass-hover group"
+              >
+                <interest.icon size={22} className="text-primary group-hover:text-secondary transition-colors flex-shrink-0" />
+                <span className="text-muted-foreground font-medium text-sm group-hover:text-foreground transition-colors">{interest.label}</span>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
-      {/* ═══════════════ GITHUB / OPEN SOURCE SECTION ═══════════════ */}
-      <section id="github" className="py-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
-          <h2 className="text-5xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+      <div className="section-divider max-w-4xl" />
+
+      {/* ═══════════════ GITHUB SECTION ═══════════════ */}
+      <section id="github" className="py-28" data-animate>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className="container mx-auto px-6">
+          <motion.h2 variants={staggerItem} className="text-5xl md:text-6xl font-black text-center mb-6 glow-text">
             {t('github.title')}
-          </h2>
-          <p className="text-center text-gray-400 mb-12 text-lg">{t('github.subtitle')}</p>
-          <div className="max-w-2xl mx-auto text-center">
-            <Card className="backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 hover:scale-105 hover:border-emerald-400/30">
+          </motion.h2>
+          <motion.p variants={staggerItem} className="text-center text-muted-foreground mb-12 text-lg">{t('github.subtitle')}</motion.p>
+          <motion.div variants={staggerItem} className="max-w-2xl mx-auto text-center">
+            <Card className="glass-hover glow-box">
               <CardContent className="p-10 flex flex-col items-center gap-6">
-                <div className="p-5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-2xl border border-white/10">
-                  <Github size={48} className="text-emerald-400" />
+                <div className="p-5 rounded-2xl border border-border" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--secondary) / 0.15))' }}>
+                  <Github size={48} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-200 mb-2">github.com/sidddharthhahir</h3>
-                  <p className="text-gray-400">Explore my AI projects, experiments, and open-source contributions</p>
+                  <h3 className="text-2xl font-bold text-foreground mb-2">github.com/sidddharthhahir</h3>
+                  <p className="text-muted-foreground">Explore my AI projects, experiments, and open-source contributions</p>
                 </div>
                 <Button 
                   onClick={() => window.open('https://github.com/sidddharthhahir', '_blank')}
-                  className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-8 py-3 rounded-full hover:scale-110 transition-all duration-500"
+                  className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground px-8 py-3 rounded-full hover:scale-105 transition-all duration-500"
                 >
                   <span className="flex items-center gap-2">
                     <Github size={18} />
@@ -714,129 +709,131 @@ const Index = () => {
                 </Button>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
           <GitHubStatsWidget />
         </motion.div>
       </section>
 
+      <div className="section-divider max-w-4xl" />
+
       {/* ═══════════════ TRY MY AI SECTION ═══════════════ */}
-      <section id="try-ai" className="py-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent mb-4">
+      <section id="try-ai" className="py-28" data-animate>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className="container mx-auto px-6">
+          <motion.div variants={staggerItem} className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-black glow-text mb-4">
               Try My AI
             </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Interactive demos showcasing real AI engineering — from recommendation engines to intelligent assistants.
             </p>
-          </div>
+          </motion.div>
 
           <div className="max-w-6xl mx-auto space-y-16">
-            {/* Movie Recommendation Demo */}
-            <div>
+            <motion.div variants={staggerItem}>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 flex items-center justify-center">
-                  <Sparkles size={20} className="text-white" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                  <Sparkles size={20} className="text-primary-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-100">AI Movie Recommendation Engine</h3>
+                <h3 className="text-2xl font-bold text-foreground">AI Movie Recommendation Engine</h3>
               </div>
-              <p className="text-gray-400 mb-6 ml-[52px]">
+              <p className="text-muted-foreground mb-6 ml-[52px]">
                 Enter a movie you like and the AI will recommend similar movies with explanations.
               </p>
               <MovieRecommendationAI />
-            </div>
+            </motion.div>
 
-            {/* Portfolio Chatbot */}
-            <div>
+            <motion.div variants={staggerItem}>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-500 flex items-center justify-center">
-                  <Bot size={20} className="text-white" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-secondary to-accent flex items-center justify-center">
+                  <Bot size={20} className="text-primary-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-100">Ask AI About My Projects</h3>
+                <h3 className="text-2xl font-bold text-foreground">Ask AI About My Projects</h3>
               </div>
-              <p className="text-gray-400 mb-6 ml-[52px]">
+              <p className="text-muted-foreground mb-6 ml-[52px]">
                 You can ask this AI anything about the projects in this portfolio.
               </p>
               <PortfolioAIChat />
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </section>
 
+      <div className="section-divider max-w-4xl" />
+
       {/* ═══════════════ CONTACT SECTION ═══════════════ */}
-      <section id="contact" className="py-24" data-animate>
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="container mx-auto px-6">
-          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+      <section id="contact" className="py-28" data-animate>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer} className="container mx-auto px-6">
+          <motion.h2 variants={staggerItem} className="text-5xl md:text-6xl font-black text-center mb-16 glow-text">
             {t('contact.title')}
-          </h2>
+          </motion.h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16">
-              <div>
-                <h3 className="text-3xl font-bold mb-6 text-gray-200">{t('contact.subtitle')}</h3>
-                <p className="text-gray-300 mb-6 leading-relaxed text-lg">
+              <motion.div variants={staggerItem}>
+                <h3 className="text-3xl font-bold mb-6 text-foreground">{t('contact.subtitle')}</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed text-lg">
                   {t('contact.lookingFor')}
                 </p>
                 <ul className="space-y-3 mb-8">
                   {[t('contact.role1'), t('contact.role2'), t('contact.role3')].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-gray-300 text-lg">
-                      <span className="w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0"></span>
+                    <li key={i} className="flex items-center gap-3 text-muted-foreground text-lg">
+                      <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
                       {item}
                     </li>
                   ))}
                 </ul>
-                <div className="space-y-3 mb-10 p-5 rounded-xl bg-white/5 border border-white/10">
-                  <div className="flex items-center gap-3 text-gray-300">
-                    <MapPin size={18} className="text-emerald-400" />
+                <div className="space-y-3 mb-10 p-5 rounded-xl bg-muted/30 border border-border">
+                  <div className="flex items-center gap-3 text-muted-foreground">
+                    <MapPin size={18} className="text-primary" />
                     <span>{t('contact.location')}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-gray-300">
-                    <Calendar size={18} className="text-emerald-400" />
+                  <div className="flex items-center gap-3 text-muted-foreground">
+                    <Calendar size={18} className="text-primary" />
                     <span>{t('contact.availability')}</span>
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <a href="mailto:sidahir25820@gmail.com" className="flex items-center p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
-                    <Mail className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
-                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">Email</span>
-                  </a>
-                  <a href="https://linkedin.com/in/siddharth-ahir-798754262" target="_blank" rel="noopener noreferrer" className="flex items-center p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
-                    <Linkedin className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
-                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">LinkedIn</span>
-                  </a>
-                  <a href="https://github.com/sidddharthhahir" target="_blank" rel="noopener noreferrer" className="flex items-center p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
-                    <Github className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
-                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">GitHub</span>
-                  </a>
-                  <button onClick={handleResumeDownload} className="flex items-center w-full p-5 rounded-xl backdrop-blur-2xl bg-black/30 border border-white/15 hover:bg-black/40 transition-all duration-500 group hover:scale-105">
-                    <User className="text-emerald-400 mr-4 group-hover:scale-125 transition-transform duration-500" size={22} />
-                    <span className="text-gray-200 hover:text-emerald-400 transition-colors duration-500 font-medium">{t('contact.resume')}</span>
+                <div className="space-y-3">
+                  {[
+                    { href: 'mailto:sidahir25820@gmail.com', icon: Mail, label: 'Email' },
+                    { href: 'https://linkedin.com/in/siddharth-ahir-798754262', icon: Linkedin, label: 'LinkedIn', external: true },
+                    { href: 'https://github.com/sidddharthhahir', icon: Github, label: 'GitHub', external: true },
+                  ].map((link) => (
+                    <a key={link.label} href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noopener noreferrer' : undefined} className="flex items-center p-5 rounded-xl glass-hover group">
+                      <link.icon className="text-primary mr-4 group-hover:scale-110 transition-transform duration-500" size={22} />
+                      <span className="text-foreground/80 group-hover:text-primary transition-colors duration-500 font-medium">{link.label}</span>
+                    </a>
+                  ))}
+                  <button onClick={handleResumeDownload} className="flex items-center w-full p-5 rounded-xl glass-hover group">
+                    <User className="text-primary mr-4 group-hover:scale-110 transition-transform duration-500" size={22} />
+                    <span className="text-foreground/80 group-hover:text-primary transition-colors duration-500 font-medium">{t('contact.resume')}</span>
                   </button>
                 </div>
-              </div>
-              <Card className="backdrop-blur-2xl bg-black/30 border border-white/15 shadow-2xl hover:shadow-emerald-500/10 transition-all duration-700 hover:scale-105">
-                <CardHeader>
-                  <CardTitle className="text-gray-200 text-2xl">{t('contact.form.title')}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <Input type="text" name="name" placeholder={t('contact.form.name')} value={formData.name} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
-                    <Input type="email" name="email" placeholder={t('contact.form.email')} value={formData.email} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 focus:bg-black/60 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
-                    <Textarea name="message" placeholder={t('contact.form.message')} value={formData.message} onChange={handleInputChange} className="backdrop-blur-xl bg-black/40 border border-white/20 text-gray-200 placeholder-gray-400 min-h-[150px] focus:bg-black/60 transition-all duration-500 text-lg" required disabled={isSubmitting} />
-                    <Button type="submit" className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-medium hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/30 py-4 text-lg" disabled={isSubmitting}>
-                      {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              </motion.div>
+              <motion.div variants={staggerItem}>
+                <Card className="glass-hover glow-box">
+                  <CardHeader>
+                    <CardTitle className="text-foreground text-2xl">{t('contact.form.title')}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <Input type="text" name="name" placeholder={t('contact.form.name')} value={formData.name} onChange={handleInputChange} className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                      <Input type="email" name="email" placeholder={t('contact.form.email')} value={formData.email} onChange={handleInputChange} className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 transition-all duration-500 text-lg py-3" required disabled={isSubmitting} />
+                      <Textarea name="message" placeholder={t('contact.form.message')} value={formData.message} onChange={handleInputChange} className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground min-h-[150px] focus:border-primary/50 transition-all duration-500 text-lg" required disabled={isSubmitting} />
+                      <Button type="submit" className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground font-medium hover:scale-[1.02] transition-all duration-500 glow-box py-4 text-lg" disabled={isSubmitting}>
+                        {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </div>
           </div>
         </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="py-10 backdrop-blur-2xl bg-black/30 border-t border-white/15">
+      <footer className="py-10 border-t border-border bg-background/50 backdrop-blur-xl">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-400 font-medium">
+          <p className="text-muted-foreground font-medium">
             {t('footer.copyright')}
           </p>
         </div>
@@ -844,9 +841,9 @@ const Index = () => {
 
       <VisitorGreeting />
       <GameSelector isOpen={showGameSelector} onClose={handleGameSelectorClose} onSelectMemoryGame={handleSelectMemoryGame} onSelectTicTacToe={handleSelectTicTacToe} onSelectEndlessRunner={handleSelectEndlessRunner} />
-      <MemoryGame isActive={showMemoryGame} onComplete={handleMemoryGameComplete} />
-      <TicTacToeGame isActive={showTicTacToe} onComplete={handleTicTacToeComplete} />
-      <EndlessRunnerGame isActive={showEndlessRunner} onComplete={handleEndlessRunnerComplete} />
+      <MemoryGame isActive={showMemoryGame} onComplete={() => setShowMemoryGame(false)} />
+      <TicTacToeGame isActive={showTicTacToe} onComplete={() => setShowTicTacToe(false)} />
+      <EndlessRunnerGame isActive={showEndlessRunner} onComplete={() => setShowEndlessRunner(false)} />
       <SkillModal isOpen={isSkillModalOpen} onClose={() => setIsSkillModalOpen(false)} skill={selectedSkill} />
     </div>
   );
