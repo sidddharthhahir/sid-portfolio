@@ -39,6 +39,20 @@
     --glow-secondary: 190 90% 50%;
     --surface-glass: 222 47% 10%;
     --surface-elevated: 222 40% 12%;
+    --villa-lobby: 160 84% 39%;
+    --villa-lobby-2: 190 90% 50%;
+    --villa-gym: 18 90% 58%;
+    --villa-gym-2: 38 94% 60%;
+    --villa-pool: 197 90% 53%;
+    --villa-pool-2: 184 88% 57%;
+    --villa-library: 42 94% 58%;
+    --villa-library-2: 52 92% 62%;
+    --villa-theater: 285 75% 62%;
+    --villa-theater-2: 329 84% 65%;
+    --villa-garden: 145 65% 46%;
+    --villa-garden-2: 165 72% 48%;
+    --villa-gameroom: 334 82% 61%;
+    --villa-gameroom-2: 354 88% 67%;
 
     --sidebar-background: 222 47% 6%;
     --sidebar-foreground: 210 40% 96%;
@@ -95,6 +109,95 @@
     @apply w-full h-px mx-auto;
     background: linear-gradient(90deg, transparent, hsl(var(--glow-primary) / 0.3), hsl(var(--glow-secondary) / 0.3), transparent);
   }
+
+  .villa-shell {
+    @apply relative overflow-hidden rounded-[2rem] border;
+    border-color: hsl(var(--border) / 0.75);
+    background:
+      radial-gradient(circle at top, hsl(var(--primary) / 0.14), transparent 36%),
+      linear-gradient(180deg, hsl(var(--surface-glass) / 0.98), hsl(var(--surface-elevated) / 0.9));
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.06),
+      0 30px 80px -40px hsl(var(--glow-primary) / 0.45),
+      0 0 0 1px hsl(var(--foreground) / 0.02);
+  }
+
+  .villa-shell::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background:
+      radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.18), transparent 24%),
+      radial-gradient(circle at 78% 18%, hsl(var(--secondary) / 0.16), transparent 18%),
+      radial-gradient(circle at 50% 85%, hsl(var(--foreground) / 0.05), transparent 20%);
+    filter: blur(26px);
+    animation: villa-aurora 18s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .villa-blueprint {
+    background-image:
+      linear-gradient(hsl(var(--primary) / 0.14) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.14) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+
+  .villa-header-panel {
+    @apply rounded-[1.35rem] border backdrop-blur-2xl;
+    border-color: hsl(var(--border) / 0.8);
+    background: linear-gradient(180deg, hsl(var(--surface-glass) / 0.82), hsl(var(--surface-elevated) / 0.72));
+    box-shadow: 0 18px 40px -28px hsl(var(--glow-primary) / 0.4);
+  }
+
+  .villa-card {
+    @apply relative isolate overflow-hidden rounded-[1.6rem] border;
+    border-color: hsl(var(--border) / 0.72);
+    background: linear-gradient(180deg, hsl(var(--surface-glass) / 0.94), hsl(var(--surface-elevated) / 0.82));
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.06),
+      0 24px 54px -36px hsl(var(--background) / 0.95);
+  }
+
+  .villa-card::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at top left, hsl(var(--room-accent) / 0.16), transparent 30%),
+      linear-gradient(180deg, hsl(var(--foreground) / 0.02), transparent 55%);
+    pointer-events: none;
+  }
+
+  .villa-card::after {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: linear-gradient(115deg, transparent 42%, hsl(var(--foreground) / 0.16) 50%, transparent 58%);
+    opacity: 0;
+    transform: translateX(-40%) rotate(9deg);
+    pointer-events: none;
+  }
+
+  .villa-card:hover::after {
+    opacity: 1;
+    animation: villa-sheen 1.35s ease;
+  }
+
+  .villa-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(22px);
+    background: radial-gradient(circle, hsl(var(--room-accent) / 0.42), transparent 68%);
+    pointer-events: none;
+  }
+
+  .villa-room-pill {
+    @apply inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em];
+    border-color: hsl(var(--foreground) / 0.08);
+    background: hsl(var(--foreground) / 0.04);
+    color: hsl(var(--muted-foreground));
+  }
 }
 
 @keyframes shimmer {
@@ -115,4 +218,22 @@
 @keyframes slide-up-fade {
   0% { opacity: 0; transform: translateY(30px); }
   100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes villa-aurora {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(3%, -2%, 0) scale(1.05); }
+  66% { transform: translate3d(-4%, 3%, 0) scale(0.98); }
+}
+
+@keyframes villa-sheen {
+  0% { transform: translateX(-45%) rotate(9deg); }
+  100% { transform: translateX(45%) rotate(9deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .villa-shell::before,
+  .villa-card:hover::after {
+    animation: none;
+  }
 }
