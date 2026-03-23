@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Home, Dumbbell, Waves, BookOpen, Clapperboard, TreePine, Gamepad2 } from 'lucide-react';
+import { ArrowLeft, Home, Dumbbell, Waves, BookOpen, Clapperboard, TreePine, Gamepad2, Activity } from 'lucide-react';
 
 interface RoomViewProps {
   roomId: string;
@@ -35,63 +35,75 @@ const RoomView = ({ roomId, onBack, children }: RoomViewProps) => {
       className="min-h-screen relative overflow-hidden"
       style={roomStyle}
     >
+      {/* Background layers */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-background" />
-        <div
-          className="absolute inset-0 opacity-90"
+        <div className="absolute inset-0"
           style={{
-            background: 'radial-gradient(circle at 18% 22%, hsl(var(--room-accent) / 0.16), transparent 22%), radial-gradient(circle at 82% 18%, hsl(var(--room-accent-2) / 0.14), transparent 18%), linear-gradient(180deg, hsl(var(--background)), hsl(var(--surface-elevated)))',
+            background: `
+              radial-gradient(circle at 15% 20%, hsl(var(--room-accent) / 0.1), transparent 25%),
+              radial-gradient(circle at 85% 15%, hsl(var(--room-accent-2) / 0.08), transparent 20%),
+              linear-gradient(180deg, hsl(var(--background)), hsl(var(--surface-elevated)))
+            `,
           }}
         />
-        <div className="villa-blueprint absolute inset-0 opacity-[0.06]" />
+        <div className="cyber-grid absolute inset-0 opacity-20" />
+        <div className="data-stream absolute inset-0 opacity-20" />
+        
         <motion.div
           animate={{ x: [0, 18, -10, 0], y: [0, -14, 10, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -left-12 top-20 h-72 w-72 rounded-full blur-[120px]"
-          style={{ background: 'hsl(var(--room-accent) / 0.2)' }}
+          className="absolute -left-12 top-20 h-72 w-72 rounded-full blur-[140px]"
+          style={{ background: 'hsl(var(--room-accent) / 0.15)' }}
         />
         <motion.div
           animate={{ x: [0, -16, 8, 0], y: [0, 10, -14, 0] }}
           transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute bottom-0 right-0 h-80 w-80 rounded-full blur-[140px]"
-          style={{ background: 'hsl(var(--room-accent-2) / 0.18)' }}
+          style={{ background: 'hsl(var(--room-accent-2) / 0.12)' }}
         />
       </div>
 
+      {/* HUD Header */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="fixed top-0 left-0 right-0 z-50 px-4 pt-4"
+        className="fixed top-0 left-0 right-0 z-50 px-3 pt-3 md:px-4 md:pt-4"
       >
         <div className="container mx-auto">
-          <div className="villa-header-panel px-4 py-3 md:px-6 md:py-4 flex items-center justify-between gap-4">
+          <div className="villa-header-panel px-4 py-3 md:px-6 md:py-3 flex items-center justify-between gap-4">
             <button
               onClick={onBack}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 group"
+              className="flex items-center gap-2 group transition-colors duration-300"
+              style={{ color: 'hsl(var(--muted-foreground))' }}
             >
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform duration-300" />
-              <span className="text-sm font-medium">Back to Villa</span>
+              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-300" />
+              <span className="text-xs font-orbitron font-semibold uppercase tracking-[0.15em]">Back to Villa</span>
             </button>
 
-            <div className="flex items-center gap-3 text-center">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center"
                 style={{
-                  backgroundImage: 'linear-gradient(135deg, hsl(var(--room-accent)), hsl(var(--room-accent-2)))',
-                  boxShadow: '0 16px 30px -18px hsl(var(--room-accent) / 0.85)',
+                  background: `linear-gradient(135deg, hsl(var(--room-accent) / 0.2), hsl(var(--room-accent-2) / 0.1))`,
+                  border: '1px solid hsl(var(--room-accent) / 0.3)',
+                  boxShadow: '0 0 16px -6px hsl(var(--room-accent) / 0.6)',
                 }}
               >
-                <Icon size={18} className="text-primary-foreground" />
+                <Icon size={16} style={{ color: 'hsl(var(--room-accent))' }} />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground/70">{meta.eyebrow}</p>
-                <span className="font-bold text-foreground text-lg">{meta.label}</span>
+                <p className="text-[8px] font-orbitron uppercase tracking-[0.3em]"
+                  style={{ color: 'hsl(var(--room-accent) / 0.6)' }}>
+                  ▸ {meta.eyebrow}
+                </p>
+                <span className="font-bold font-orbitron text-foreground text-sm tracking-wide">{meta.label}</span>
               </div>
             </div>
 
-            <div className="hidden md:inline-flex villa-room-pill">
-              Immersive Room
+            <div className="hidden md:flex items-center gap-2">
+              <Activity size={10} style={{ color: 'hsl(var(--neon-cyan) / 0.5)' }} />
+              <span className="hud-badge text-[8px]">Room Active</span>
             </div>
           </div>
         </div>
@@ -101,7 +113,7 @@ const RoomView = ({ roomId, onBack, children }: RoomViewProps) => {
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.5 }}
-        className="pt-28 pb-10 relative z-10"
+        className="pt-24 pb-10 relative z-10"
       >
         {children}
       </motion.div>

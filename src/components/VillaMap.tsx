@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Home, Dumbbell, Waves, BookOpen, Clapperboard, TreePine, Gamepad2,
-  ArrowRight, Sparkles, Map
+  ArrowRight, Sparkles, Map, Scan, Hexagon, Activity
 } from 'lucide-react';
 
 interface VillaMapProps {
@@ -12,157 +12,160 @@ interface VillaMapProps {
 
 const rooms = [
   { 
-    id: 'lobby', 
-    label: 'Lobby', 
-    subtitle: 'About Me', 
-    icon: Home,
-    accent: 'var(--villa-lobby)',
-    accent2: 'var(--villa-lobby-2)',
-    position: 'col-span-2 row-span-2',
-    description: 'Welcome — learn who I am',
-    eyebrow: 'Grand Entry',
+    id: 'lobby', label: 'Lobby', subtitle: 'About Me', icon: Home,
+    accent: 'var(--villa-lobby)', accent2: 'var(--villa-lobby-2)',
+    description: 'Welcome — learn who I am', eyebrow: 'GRAND ENTRY',
+    status: 'ONLINE', size: 'large',
   },
   { 
-    id: 'gym', 
-    label: 'Gym', 
-    subtitle: 'Skills & Training', 
-    icon: Dumbbell,
-    accent: 'var(--villa-gym)',
-    accent2: 'var(--villa-gym-2)',
-    position: 'col-span-1 row-span-1',
-    description: 'Technical skills & expertise',
-    eyebrow: 'Power Zone',
+    id: 'gym', label: 'Gym', subtitle: 'Skills & Training', icon: Dumbbell,
+    accent: 'var(--villa-gym)', accent2: 'var(--villa-gym-2)',
+    description: 'Technical skills & expertise', eyebrow: 'POWER ZONE',
+    status: 'ACTIVE',
   },
   { 
-    id: 'pool', 
-    label: 'Pool', 
-    subtitle: 'Projects', 
-    icon: Waves,
-    accent: 'var(--villa-pool)',
-    accent2: 'var(--villa-pool-2)',
-    position: 'col-span-1 row-span-2',
-    description: 'Dive into my work',
-    eyebrow: 'Deep Dive',
+    id: 'pool', label: 'Pool', subtitle: 'Projects', icon: Waves,
+    accent: 'var(--villa-pool)', accent2: 'var(--villa-pool-2)',
+    description: 'Dive into my work', eyebrow: 'DEEP DIVE',
+    status: 'LOADED', size: 'tall',
   },
   { 
-    id: 'library', 
-    label: 'Library', 
-    subtitle: 'Education & Research', 
-    icon: BookOpen,
-    accent: 'var(--villa-library)',
-    accent2: 'var(--villa-library-2)',
-    position: 'col-span-1 row-span-1',
-    description: 'Academic background',
-    eyebrow: 'Knowledge Wing',
+    id: 'library', label: 'Library', subtitle: 'Education & Research', icon: BookOpen,
+    accent: 'var(--villa-library)', accent2: 'var(--villa-library-2)',
+    description: 'Academic background', eyebrow: 'KNOWLEDGE WING',
+    status: 'INDEXED',
   },
   { 
-    id: 'theater', 
-    label: 'Theater', 
-    subtitle: 'AI Demos', 
-    icon: Clapperboard,
-    accent: 'var(--villa-theater)',
-    accent2: 'var(--villa-theater-2)',
-    position: 'col-span-1 row-span-1',
-    description: 'Interactive AI showcases',
-    eyebrow: 'Showcase Hall',
+    id: 'theater', label: 'Theater', subtitle: 'AI Demos', icon: Clapperboard,
+    accent: 'var(--villa-theater)', accent2: 'var(--villa-theater-2)',
+    description: 'Interactive AI showcases', eyebrow: 'SHOWCASE HALL',
+    status: 'LIVE',
   },
   { 
-    id: 'garden', 
-    label: 'Garden', 
-    subtitle: 'Contact & GitHub', 
-    icon: TreePine,
-    accent: 'var(--villa-garden)',
-    accent2: 'var(--villa-garden-2)',
-    position: 'col-span-1 row-span-1',
-    description: 'Connect with me',
-    eyebrow: 'Open Air',
+    id: 'garden', label: 'Garden', subtitle: 'Contact & GitHub', icon: TreePine,
+    accent: 'var(--villa-garden)', accent2: 'var(--villa-garden-2)',
+    description: 'Connect with me', eyebrow: 'OPEN AIR',
+    status: 'READY',
   },
   { 
-    id: 'gameroom', 
-    label: 'Game Room', 
-    subtitle: 'Play Games', 
-    icon: Gamepad2,
-    accent: 'var(--villa-gameroom)',
-    accent2: 'var(--villa-gameroom-2)',
-    position: 'col-span-1 row-span-1',
-    description: 'Fun easter eggs',
-    eyebrow: 'Fun Corner',
+    id: 'gameroom', label: 'Game Room', subtitle: 'Play Games', icon: Gamepad2,
+    accent: 'var(--villa-gameroom)', accent2: 'var(--villa-gameroom-2)',
+    description: 'Fun easter eggs', eyebrow: 'FUN CORNER',
+    status: 'PLAY',
   },
 ];
 
-const VillaMap = ({ onRoomSelect, activeRoom }: VillaMapProps) => {
+const VillaMap = ({ onRoomSelect }: VillaMapProps) => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative overflow-hidden">
+      {/* Cyber grid background */}
+      <div className="absolute inset-0 cyber-grid opacity-40 -z-10" />
+
+      {/* Ambient neon orbs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <motion.div
-          animate={{ x: [0, 30, -10, 0], y: [0, -20, 10, 0] }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-24 left-[8%] h-72 w-72 rounded-full blur-[120px]"
-          style={{ background: 'hsl(var(--primary) / 0.16)' }}
+          animate={{ x: [0, 40, -20, 0], y: [0, -30, 15, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-32 left-[5%] h-96 w-96 rounded-full blur-[160px]"
+          style={{ background: 'hsl(var(--neon-cyan) / 0.12)' }}
         />
         <motion.div
-          animate={{ x: [0, -24, 16, 0], y: [0, 16, -12, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute bottom-0 right-[6%] h-80 w-80 rounded-full blur-[140px]"
-          style={{ background: 'hsl(var(--secondary) / 0.18)' }}
+          animate={{ x: [0, -30, 20, 0], y: [0, 20, -15, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute bottom-0 right-[3%] h-80 w-80 rounded-full blur-[140px]"
+          style={{ background: 'hsl(var(--neon-magenta) / 0.1)' }}
+        />
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.06, 0.12, 0.06] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full blur-[200px]"
+          style={{ background: 'hsl(var(--neon-blue) / 0.08)' }}
         />
       </div>
 
+      {/* Scan line overlay */}
+      <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden opacity-30">
+        <div className="absolute inset-0 data-stream" />
+      </div>
+
+      {/* Hero */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="text-center mb-12 max-w-3xl"
+        className="text-center mb-14 max-w-3xl relative z-10"
       >
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
-          <span className="villa-room-pill">
-            <Sparkles size={12} className="mr-2" />
+        {/* HUD badges */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+          <span className="hud-badge">
+            <Scan size={10} />
             Interactive AI Portfolio
           </span>
-          <span className="villa-room-pill">
-            <Map size={12} className="mr-2" />
-            7 immersive rooms
+          <span className="hud-badge">
+            <Hexagon size={10} />
+            7 Immersive Rooms
+          </span>
+          <span className="hud-badge">
+            <Activity size={10} />
+            System Online
           </span>
         </div>
+
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-sm uppercase tracking-[0.3em] text-muted-foreground mb-4"
+          className="hud-label mb-4"
         >
-          Welcome to
+          ▸ Initializing Experience
         </motion.p>
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight">
-          <span className="glow-text">Sid's Villa</span>
+
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight font-orbitron">
+          <span className="holo-text">SID'S VILLA</span>
         </h1>
+
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="h-px w-64 mx-auto mt-6 mb-6"
+          style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--neon-cyan) / 0.6), transparent)' }}
+        />
+
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto leading-relaxed"
+          className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed font-rajdhani"
         >
           Explore a cinematic villa where every room reveals a different layer of my work — projects, skills, AI demos, research, and more.
         </motion.p>
       </motion.div>
 
+      {/* Room Grid */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.4 }}
-        className="w-full max-w-5xl mx-auto"
+        className="w-full max-w-5xl mx-auto relative z-10"
       >
-        <div className="villa-shell p-6 md:p-8 lg:p-10">
-          <div className="villa-blueprint absolute inset-0 rounded-[2rem] opacity-[0.12]" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/70"
-            style={{
-              borderColor: 'hsl(var(--foreground) / 0.08)',
-              background: 'hsl(var(--foreground) / 0.03)',
-            }}
+        <div className="villa-shell p-5 md:p-8 lg:p-10 scan-line">
+          <div className="cyber-grid-dense absolute inset-0 rounded-[2rem] opacity-30" />
+
+          {/* Center nexus */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
           >
-            Central Hall
+            <div className="absolute inset-0 rounded-full border border-dashed animate-[spin_20s_linear_infinite]"
+              style={{ borderColor: 'hsl(var(--neon-cyan) / 0.15)' }} />
+            <div className="absolute inset-2 rounded-full"
+              style={{ background: 'radial-gradient(circle, hsl(var(--neon-cyan) / 0.08), transparent)' }} />
+            <span className="text-[8px] font-orbitron font-bold uppercase tracking-[0.2em]"
+              style={{ color: 'hsl(var(--neon-cyan) / 0.5)' }}>
+              HUB
+            </span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 relative z-10">
             {rooms.map((room, index) => {
               const Icon = room.icon;
               const roomStyle = {
@@ -175,70 +178,76 @@ const VillaMap = ({ onRoomSelect, activeRoom }: VillaMapProps) => {
                   key={room.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
-                  whileHover={{ scale: 1.035, y: -8 }}
+                  transition={{ delay: 0.5 + index * 0.08, duration: 0.5 }}
+                  whileHover={{ scale: 1.03, y: -6 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => onRoomSelect(room.id)}
-                  className={`${room.id === 'lobby' ? 'col-span-2 row-span-2' : room.id === 'pool' ? 'md:row-span-2' : ''} 
-                    villa-card group cursor-pointer text-left transition-all duration-500
-                    ${room.id === 'lobby' ? 'min-h-[200px] md:min-h-[280px]' : 'min-h-[120px] md:min-h-[140px]'}
+                  className={`${room.size === 'large' ? 'col-span-2 row-span-2' : room.size === 'tall' ? 'md:row-span-2' : ''} 
+                    villa-card group cursor-pointer text-left
+                    ${room.size === 'large' ? 'min-h-[180px] md:min-h-[260px]' : 'min-h-[110px] md:min-h-[130px]'}
                   `}
                   style={roomStyle}
                 >
-                  <div className="villa-orb -right-8 top-0 h-24 w-24 opacity-80 transition-transform duration-700 group-hover:scale-125" />
-                  <div
-                    className="absolute inset-x-0 top-0 h-px"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent, hsl(var(--room-accent) / 0.8), transparent)',
-                    }}
-                  />
-                  <div
-                    className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                    style={{
-                      boxShadow: 'inset 0 0 80px -28px hsl(var(--room-accent) / 0.55), 0 0 60px -35px hsl(var(--room-accent-2) / 0.55)',
-                    }}
-                  />
-                  <div
-                    className="absolute inset-x-6 bottom-5 h-px opacity-40"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent, hsl(var(--room-accent-2) / 0.7), transparent)',
-                    }}
-                  />
-                  <motion.div
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 5 + index, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute right-4 top-4 h-2 w-2 rounded-full"
-                    style={{ background: 'hsl(var(--room-accent-2))', boxShadow: '0 0 18px hsl(var(--room-accent-2) / 0.9)' }}
+                  {/* Orb */}
+                  <div className="villa-orb -right-6 top-0 h-20 w-20 opacity-60 transition-all duration-700 group-hover:scale-150 group-hover:opacity-90" />
+                  
+                  {/* Top accent line */}
+                  <div className="absolute inset-x-0 top-0 h-px"
+                    style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--room-accent) / 0.7), transparent)' }}
                   />
 
-                  <div className="relative z-10 h-full flex flex-col justify-between p-5 md:p-6">
+                  {/* Hover glow */}
+                  <div
+                    className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 rounded-2xl"
+                    style={{ boxShadow: 'inset 0 0 60px -20px hsl(var(--room-accent) / 0.4)' }}
+                  />
+
+                  {/* Floating status dot */}
+                  <motion.div
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ duration: 4 + index, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute right-3 top-3 flex items-center gap-1.5"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full animate-flicker"
+                      style={{ background: 'hsl(var(--room-accent-2))', boxShadow: '0 0 12px hsl(var(--room-accent-2) / 0.8)' }}
+                    />
+                    <span className="text-[8px] font-orbitron font-bold tracking-[0.15em] hidden md:inline"
+                      style={{ color: 'hsl(var(--room-accent-2) / 0.7)' }}>
+                      {room.status}
+                    </span>
+                  </motion.div>
+
+                  <div className="relative z-10 h-full flex flex-col justify-between p-4 md:p-5">
                     <div>
-                      <span className="villa-room-pill mb-4">
-                        {room.eyebrow}
+                      <span className="hud-label mb-3 block text-[8px]"
+                        style={{ color: 'hsl(var(--room-accent) / 0.7)', textShadow: 'none' }}>
+                        ▸ {room.eyebrow}
                       </span>
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 
-                        group-hover:scale-110 transition-transform duration-500 shadow-lg"
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3
+                        group-hover:scale-110 transition-transform duration-500"
                         style={{
-                          backgroundImage: 'linear-gradient(135deg, hsl(var(--room-accent)), hsl(var(--room-accent-2)))',
-                          boxShadow: '0 18px 30px -18px hsl(var(--room-accent) / 0.8)',
+                          background: `linear-gradient(135deg, hsl(var(--room-accent) / 0.2), hsl(var(--room-accent-2) / 0.1))`,
+                          border: '1px solid hsl(var(--room-accent) / 0.3)',
+                          boxShadow: '0 0 20px -8px hsl(var(--room-accent) / 0.5)',
                         }}
                       >
-                        <Icon size={22} className="text-primary-foreground" />
+                        <Icon size={18} style={{ color: 'hsl(var(--room-accent))' }} />
                       </div>
-                      <h3 className="text-lg md:text-xl font-bold text-foreground transition-colors duration-300">
+                      <h3 className="text-base md:text-lg font-bold font-orbitron text-foreground transition-colors duration-300 tracking-wide">
                         {room.label}
                       </h3>
-                      <p className="text-xs text-muted-foreground mt-0.5 transition-colors">
+                      <p className="text-[11px] text-muted-foreground mt-0.5 font-rajdhani font-medium">
                         {room.subtitle}
                       </p>
                     </div>
-                    <div className="flex items-end justify-between gap-3 mt-6">
-                      <p className="text-xs text-muted-foreground/80 transition-colors hidden md:block max-w-[14rem] leading-relaxed">
+                    <div className="flex items-end justify-between gap-3 mt-4">
+                      <p className="text-[11px] text-muted-foreground/60 hidden md:block max-w-[13rem] leading-relaxed font-rajdhani">
                         {room.description}
                       </p>
-                      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
-                        Explore
-                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-all duration-300" />
+                      <div className="flex items-center gap-1.5 text-[9px] font-orbitron font-bold uppercase tracking-[0.2em]"
+                        style={{ color: 'hsl(var(--room-accent) / 0.6)' }}>
+                        Enter
+                        <ArrowRight size={12} className="group-hover:translate-x-1 transition-all duration-300" />
                       </div>
                     </div>
                   </div>
@@ -249,14 +258,20 @@ const VillaMap = ({ onRoomSelect, activeRoom }: VillaMapProps) => {
         </div>
       </motion.div>
 
-      <motion.p
+      {/* Bottom HUD */}
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="text-xs text-muted-foreground/60 mt-8 text-center uppercase tracking-[0.24em]"
+        className="mt-10 text-center relative z-10"
       >
-        Tap a room to enter the experience • crafted for immersive storytelling
-      </motion.p>
+        <div className="flex items-center justify-center gap-4 text-[9px] font-orbitron uppercase tracking-[0.3em]"
+          style={{ color: 'hsl(var(--neon-cyan) / 0.35)' }}>
+          <span className="h-px w-8" style={{ background: 'hsl(var(--neon-cyan) / 0.2)' }} />
+          Select a room to begin exploration
+          <span className="h-px w-8" style={{ background: 'hsl(var(--neon-cyan) / 0.2)' }} />
+        </div>
+      </motion.div>
     </div>
   );
 };
