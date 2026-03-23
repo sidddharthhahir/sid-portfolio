@@ -47,8 +47,10 @@ const Index = () => {
         <Suspense fallback={null}>
           <NeuralNetwork3D />
         </Suspense>
-        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[120px] animate-glow-pulse" />
-        <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-secondary/8 rounded-full blur-[120px] animate-glow-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full blur-[140px] animate-glow-pulse"
+          style={{ background: 'hsl(var(--neon-cyan) / 0.06)' }} />
+        <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] rounded-full blur-[140px] animate-glow-pulse"
+          style={{ background: 'hsl(var(--neon-magenta) / 0.05)', animationDelay: '2s' }} />
       </div>
 
       <ParticleTrail />
@@ -64,10 +66,12 @@ const Index = () => {
       </AnimatePresence>
 
       {/* Footer */}
-      <footer className="py-8 border-t border-border bg-background/50 backdrop-blur-xl">
+      <footer className="py-6 border-t relative z-10"
+        style={{ borderColor: 'hsl(var(--neon-cyan) / 0.08)', background: 'hsl(var(--background) / 0.8)' }}>
         <div className="container mx-auto px-6 text-center">
-          <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} Siddharth Ahir. Built with ❤️
+          <p className="text-[11px] font-orbitron uppercase tracking-[0.25em]"
+            style={{ color: 'hsl(var(--muted-foreground) / 0.5)' }}>
+            © {new Date().getFullYear()} Siddharth Ahir • Built with precision
           </p>
         </div>
       </footer>

@@ -19,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				orbitron: ['Orbitron', 'sans-serif'],
+				rajdhani: ['Rajdhani', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -60,6 +64,11 @@ export default {
 				surface: {
 					glass: 'hsl(var(--surface-glass))',
 					elevated: 'hsl(var(--surface-elevated))',
+				},
+				neon: {
+					cyan: 'hsl(var(--neon-cyan))',
+					blue: 'hsl(var(--neon-blue))',
+					magenta: 'hsl(var(--neon-magenta))',
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
@@ -106,6 +115,18 @@ export default {
 					'0%, 100%': { transform: 'translateY(0px)' },
 					'50%': { transform: 'translateY(-12px)' }
 				},
+				'flicker': {
+					'0%, 100%': { opacity: '1' },
+					'92%': { opacity: '1' },
+					'93%': { opacity: '0.6' },
+					'94%': { opacity: '1' },
+					'96%': { opacity: '0.7' },
+					'97%': { opacity: '1' },
+				},
+				'scan': {
+					'0%': { top: '-4px' },
+					'100%': { top: '100%' }
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -115,6 +136,8 @@ export default {
 				'shimmer': 'shimmer 2s linear infinite',
 				'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
+				'flicker': 'flicker 4s ease-in-out infinite',
+				'scan': 'scan 4s linear infinite',
 			}
 		}
 	},
