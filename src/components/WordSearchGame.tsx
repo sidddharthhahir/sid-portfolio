@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { RotateCcw, Search, Timer, X } from 'lucide-react';
+import { RotateCcw, Search, Timer, Trophy, X, Sparkles } from 'lucide-react';
 import { VibrationManager } from '@/utils/vibrationUtils';
 
 interface WordSearchGameProps {
@@ -68,7 +68,6 @@ const WORD_CONFIGS: WordConfig[] = [
 ];
 
 const randomLetter = () => String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
 const getCellKey = ({ row, col }: Position) => `${row}-${col}`;
 
 const getWordPositions = ({ start, direction, word }: WordConfig) =>
@@ -115,6 +114,15 @@ const getPathBetween = (start: Position, end: Position): Position[] => {
   }));
 };
 
+const ACCENT_COLORS = [
+  'hsl(var(--villa-gameroom))',
+  'hsl(var(--villa-theater))',
+  'hsl(var(--villa-gym))',
+  'hsl(var(--primary))',
+  'hsl(var(--villa-library))',
+  'hsl(var(--villa-pool))',
+];
+
 const WordSearchGame = ({ isActive, onComplete }: WordSearchGameProps) => {
   const [puzzle, setPuzzle] = useState<PuzzleData>(() => buildPuzzle());
   const [selectionStart, setSelectionStart] = useState<Position | null>(null);
@@ -124,21 +132,17 @@ const WordSearchGame = ({ isActive, onComplete }: WordSearchGameProps) => {
   const [isSelecting, setIsSelecting] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [timerStarted, setTimerStarted] = useState(false);
+  const [lastFound, setLastFound] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isActive || !timerStarted || foundWords.length === puzzle.words.length) return;
-
-    const interval = window.setInterval(() => {
-      setTimeElapsed((current) => current + 1);
-    }, 1000);
-
+    const interval = window.setInterval(() => setTimeElapsed((c) => c + 1), 1000);
     return () => window.clearInterval(interval);
   }, [isActive, timerStarted, foundWords.length, puzzle.words.length]);
 
   useEffect(() => {
     if (isActive) {
-      const freshPuzzle = buildPuzzle();
-      setPuzzle(freshPuzzle);
+      setPuzzle(buildPuzzle());
       setSelectionStart(null);
       setSelectedPath([]);
       setFoundWords([]);
@@ -146,8 +150,16 @@ const WordSearchGame = ({ isActive, onComplete }: WordSearchGameProps) => {
       setIsSelecting(false);
       setTimeElapsed(0);
       setTimerStarted(false);
+      setLastFound(null);
     }
   }, [isActive]);
+
+  useEffect(() => {
+    if (lastFound) {
+      const timeout = setTimeout(() => setLastFound(null), 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [lastFound]);
 
   const foundCellKeys = useMemo(() => {
     const keys = new Set<string>();
@@ -161,9 +173,11 @@ const WordSearchGame = ({ isActive, onComplete }: WordSearchGameProps) => {
 
   const selectedCellKeys = useMemo(() => new Set(selectedPath.map(getCellKey)), [selectedPath]);
 
+  const isComplete = foundWords.length === puzzle.words.length;
+  const progress = (foundWords.length / puzzle.words.length) * 100;
+
   const resetGame = () => {
-    const freshPuzzle = buildPuzzle();
-    setPuzzle(freshPuzzle);
+    setPuzzle(buildPuzzle());
     setSelectionStart(null);
     setSelectedPath([]);
     setFoundWords([]);
@@ -171,22 +185,21 @@ const WordSearchGame = ({ isActive, onComplete }: WordSearchGameProps) => {
     setIsSelecting(false);
     setTimeElapsed(0);
     setTimerStarted(false);
+    setLastFound(null);
   };
 
   const resolveSelection = (path: Position[]) => {
     if (!path.length) return;
-
-    const selectedWord = path.map((position) => puzzle.board[position.row][position.col]).join('');
+    const selectedWord = path.map((p) => puzzle.board[p.row][p.col]).join('');
     const reverseWord = selectedWord.split('').reverse().join('');
-
     const matchedWord = puzzle.words.find(
-      (wordData) => !foundWords.includes(wordData.word) && (wordData.word === selectedWord || wordData.word === reverseWord),
+      (w) => !foundWords.includes(w.word) && (w.word === selectedWord || w.word === reverseWord),
     );
-
     if (matchedWord) {
       VibrationManager.correctMatch();
-      setFoundWords((current) => [...current, matchedWord.word]);
-      setStoryFeed((current) => [...current, { word: matchedWord.word, story: matchedWord.story }]);
+      setFoundWords((c) => [...c, matchedWord.word]);
+      setStoryFeed((c) => [...c, { word: matchedWord.word, story: matchedWord.story }]);
+      setLastFound(matchedWord.word);
     } else {
       VibrationManager.incorrectMatch();
     }
@@ -212,51 +225,144 @@ const WordSearchGame = ({ isActive, onComplete }: WordSearchGameProps) => {
     setSelectedPath([]);
   };
 
+  const formatTime = (s: number) => {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  };
+
   if (!isActive) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/85 p-4 backdrop-blur-xl animate-fade-in">
-      <div
-        className="w-full max-w-6xl overflow-y-auto rounded-[2rem] border border-border bg-card/95 p-6 shadow-2xl md:p-8"
-        style={{ boxShadow: '0 30px 80px -35px hsl(var(--villa-gameroom) / 0.55)' }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6"
+      style={{ background: 'radial-gradient(ellipse at center, hsl(var(--villa-gameroom) / 0.08) 0%, hsl(var(--background) / 0.95) 70%)' }}
+    >
+      {/* Backdrop blur */}
+      <div className="absolute inset-0 backdrop-blur-2xl" onClick={onComplete} />
+
+      <motion.div
+        initial={{ scale: 0.92, opacity: 0, y: 30 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+        className="relative z-10 w-full max-w-5xl overflow-hidden rounded-3xl border border-border/60"
+        style={{
+          background: 'linear-gradient(145deg, hsl(var(--card) / 0.97), hsl(var(--background) / 0.95))',
+          boxShadow: '0 40px 100px -30px hsl(var(--villa-gameroom) / 0.4), 0 0 0 1px hsl(var(--villa-gameroom) / 0.08)',
+        }}
       >
-        <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-              <Search size={12} />
-              Hidden Stories
-            </div>
-            <h3 className="text-3xl font-black tracking-tight text-foreground md:text-4xl">Word Search Challenge</h3>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-              Drag across the grid to find project keywords. Every solved word unlocks a quick story about my work.
-            </p>
-          </div>
+        {/* Top accent bar */}
+        <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${ACCENT_COLORS.join(', ')})` }} />
 
-          <div className="flex items-center gap-2 self-start">
-            <Button variant="outline" className="gap-2" onClick={resetGame}>
-              <RotateCcw size={16} />
-              Reset
-            </Button>
-            <Button variant="outline" size="icon" onClick={onComplete} aria-label="Close word search">
-              <X size={18} />
-            </Button>
-          </div>
-        </div>
-
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-          <Card className="border-border bg-background/50">
-            <CardContent className="p-4 md:p-6">
-              <div className="mb-5 flex flex-wrap items-center gap-3">
-                <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-3 py-1 text-sm text-foreground">
-                  <Timer size={14} />
-                  {timeElapsed}s
-                </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-3 py-1 text-sm text-foreground">
-                  {foundWords.length}/{puzzle.words.length} found
-                </div>
+        {/* Scrollable content */}
+        <div className="max-h-[90vh] overflow-y-auto p-5 md:p-8">
+          {/* Header */}
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div>
+              <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground"
+                style={{ background: 'hsl(var(--villa-gameroom) / 0.06)' }}>
+                <Search size={10} />
+                Hidden Stories
               </div>
+              <h3 className="text-2xl font-black tracking-tight text-foreground md:text-3xl">
+                Word Search
+              </h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" onClick={resetGame} className="h-9 w-9 rounded-xl hover:bg-muted/60">
+                <RotateCcw size={16} />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={onComplete} className="h-9 w-9 rounded-xl hover:bg-muted/60">
+                <X size={16} />
+              </Button>
+            </div>
+          </div>
 
-              <div className="grid grid-cols-10 gap-1.5 select-none touch-none" onPointerLeave={handlePointerEnd}>
+          {/* Stats bar */}
+          <div className="mb-5 flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-semibold"
+              style={{ background: 'hsl(var(--muted) / 0.5)', color: 'hsl(var(--foreground))' }}>
+              <Timer size={14} className="text-muted-foreground" />
+              {formatTime(timeElapsed)}
+            </div>
+            <div className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-semibold"
+              style={{ background: 'hsl(var(--villa-gameroom) / 0.1)', color: 'hsl(var(--foreground))' }}>
+              <Trophy size={14} style={{ color: 'hsl(var(--villa-gameroom))' }} />
+              {foundWords.length} / {puzzle.words.length}
+            </div>
+
+            {/* Progress bar */}
+            <div className="ml-auto hidden h-2 w-32 overflow-hidden rounded-full md:block"
+              style={{ background: 'hsl(var(--muted) / 0.5)' }}>
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: `linear-gradient(90deg, hsl(var(--villa-gameroom)), hsl(var(--villa-gameroom-2)))` }}
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ type: 'spring', damping: 20 }}
+              />
+            </div>
+          </div>
+
+          {/* Word chips */}
+          <div className="mb-5 flex flex-wrap gap-2">
+            {puzzle.words.map((wordData, i) => {
+              const found = foundWords.includes(wordData.word);
+              return (
+                <motion.span
+                  key={wordData.word}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-widest transition-all duration-300"
+                  style={{
+                    background: found ? 'hsl(var(--villa-gameroom) / 0.18)' : 'hsl(var(--muted) / 0.3)',
+                    color: found ? 'hsl(var(--villa-gameroom))' : 'hsl(var(--muted-foreground) / 0.6)',
+                    border: `1px solid ${found ? 'hsl(var(--villa-gameroom) / 0.4)' : 'hsl(var(--border) / 0.4)'}`,
+                    textDecoration: found ? 'line-through' : 'none',
+                    boxShadow: found ? '0 0 16px -4px hsl(var(--villa-gameroom) / 0.3)' : 'none',
+                  }}
+                >
+                  {found && <Sparkles size={10} className="mr-1 inline" />}
+                  {wordData.word}
+                </motion.span>
+              );
+            })}
+          </div>
+
+          {/* Flash notification */}
+          <AnimatePresence>
+            {lastFound && (
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                className="mb-4 flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold"
+                style={{
+                  background: 'hsl(var(--villa-gameroom) / 0.12)',
+                  border: '1px solid hsl(var(--villa-gameroom) / 0.3)',
+                  color: 'hsl(var(--foreground))',
+                }}
+              >
+                <Sparkles size={14} style={{ color: 'hsl(var(--villa-gameroom))' }} />
+                Found <span className="font-black">{lastFound}</span> — story unlocked!
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+            {/* Grid */}
+            <div className="rounded-2xl p-3 md:p-4" style={{
+              background: 'hsl(var(--background) / 0.6)',
+              border: '1px solid hsl(var(--border) / 0.4)',
+            }}>
+              <div
+                className="grid grid-cols-10 gap-1 select-none touch-none md:gap-1.5"
+                onPointerLeave={handlePointerEnd}
+              >
                 {puzzle.board.map((row, rowIndex) =>
                   row.map((letter, colIndex) => {
                     const position = { row: rowIndex, col: colIndex };
@@ -265,81 +371,107 @@ const WordSearchGame = ({ isActive, onComplete }: WordSearchGameProps) => {
                     const isSelected = selectedCellKeys.has(cellKey);
 
                     return (
-                      <button
+                      <motion.button
                         key={cellKey}
                         type="button"
                         onPointerDown={() => handlePointerStart(position)}
                         onPointerEnter={() => handlePointerEnter(position)}
                         onPointerUp={handlePointerEnd}
-                        className="aspect-square rounded-xl border text-sm font-bold transition-all duration-200 md:text-base"
+                        whileTap={{ scale: 0.9 }}
+                        className="aspect-square rounded-lg text-xs font-bold transition-colors duration-150 md:rounded-xl md:text-sm"
                         style={{
-                          borderColor: isFound || isSelected ? 'hsl(var(--villa-gameroom) / 0.7)' : 'hsl(var(--border))',
+                          border: `1.5px solid ${
+                            isFound ? 'hsl(var(--villa-gameroom) / 0.6)' :
+                            isSelected ? 'hsl(var(--primary) / 0.5)' :
+                            'hsl(var(--border) / 0.3)'
+                          }`,
                           background: isFound
-                            ? 'linear-gradient(135deg, hsl(var(--villa-gameroom) / 0.28), hsl(var(--villa-gameroom-2) / 0.18))'
+                            ? 'linear-gradient(135deg, hsl(var(--villa-gameroom) / 0.25), hsl(var(--villa-gameroom-2) / 0.15))'
                             : isSelected
-                              ? 'linear-gradient(135deg, hsl(var(--primary) / 0.22), hsl(var(--secondary) / 0.16))'
-                              : 'hsl(var(--muted) / 0.4)',
-                          color: 'hsl(var(--foreground))',
-                          boxShadow: isFound ? '0 0 0 1px hsl(var(--villa-gameroom) / 0.18), 0 12px 24px -16px hsl(var(--villa-gameroom) / 0.7)' : 'none',
+                              ? 'linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(var(--secondary) / 0.12))'
+                              : 'hsl(var(--muted) / 0.25)',
+                          color: isFound
+                            ? 'hsl(var(--villa-gameroom))'
+                            : isSelected
+                              ? 'hsl(var(--primary))'
+                              : 'hsl(var(--foreground) / 0.7)',
+                          boxShadow: isFound
+                            ? '0 0 12px -2px hsl(var(--villa-gameroom) / 0.35), inset 0 1px 2px hsl(var(--villa-gameroom) / 0.1)'
+                            : isSelected
+                              ? '0 0 8px -2px hsl(var(--primary) / 0.3)'
+                              : 'none',
                         }}
                       >
                         {letter}
-                      </button>
+                      </motion.button>
                     );
                   }),
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
 
-          <div className="space-y-4">
-            <Card className="border-border bg-background/50">
-              <CardContent className="p-5">
-                <h4 className="mb-3 text-lg font-bold text-foreground">Find these words</h4>
-                <div className="flex flex-wrap gap-2">
-                  {puzzle.words.map((wordData) => {
-                    const found = foundWords.includes(wordData.word);
-                    return (
-                      <span
-                        key={wordData.word}
-                        className="rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]"
-                        style={{
-                          borderColor: found ? 'hsl(var(--villa-gameroom) / 0.6)' : 'hsl(var(--border))',
-                          background: found ? 'hsl(var(--villa-gameroom) / 0.14)' : 'hsl(var(--muted) / 0.35)',
-                          color: found ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))',
-                        }}
-                      >
-                        {wordData.word}
-                      </span>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Stories panel */}
+            <div className="space-y-3">
+              <h4 className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                <Sparkles size={12} />
+                Unlocked Stories
+              </h4>
 
-            <Card className="border-border bg-background/50">
-              <CardContent className="p-5">
-                <h4 className="mb-3 text-lg font-bold text-foreground">Unlocked stories</h4>
-                {storyFeed.length ? (
-                  <div className="space-y-3">
-                    {storyFeed.map((entry) => (
-                      <div key={entry.word} className="rounded-2xl border border-border bg-muted/30 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{entry.word}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-foreground">{entry.story}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    Start finding words to reveal mini stories behind the projects and systems in this portfolio.
-                  </p>
+              {storyFeed.length === 0 && (
+                <p className="rounded-xl p-4 text-sm leading-relaxed text-muted-foreground/60"
+                  style={{ background: 'hsl(var(--muted) / 0.15)', border: '1px dashed hsl(var(--border) / 0.3)' }}>
+                  Find words in the grid to reveal stories behind my projects…
+                </p>
+              )}
+
+              <AnimatePresence>
+                {storyFeed.map((entry, i) => (
+                  <motion.div
+                    key={entry.word}
+                    initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    transition={{ type: 'spring', damping: 24, delay: 0.05 }}
+                    className="rounded-xl p-4"
+                    style={{
+                      background: `linear-gradient(135deg, ${ACCENT_COLORS[i % ACCENT_COLORS.length]}10, hsl(var(--muted) / 0.15))`,
+                      border: `1px solid ${ACCENT_COLORS[i % ACCENT_COLORS.length]}25`,
+                    }}
+                  >
+                    <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.25em]"
+                      style={{ color: ACCENT_COLORS[i % ACCENT_COLORS.length] }}>
+                      {entry.word}
+                    </p>
+                    <p className="text-sm leading-relaxed text-foreground/80">{entry.story}</p>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+
+              {/* Completion */}
+              <AnimatePresence>
+                {isComplete && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="rounded-xl p-5 text-center"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(var(--villa-gameroom) / 0.15), hsl(var(--villa-gameroom-2) / 0.1))',
+                      border: '1px solid hsl(var(--villa-gameroom) / 0.3)',
+                    }}
+                  >
+                    <Trophy size={28} className="mx-auto mb-2" style={{ color: 'hsl(var(--villa-gameroom))' }} />
+                    <p className="text-lg font-black text-foreground">All Found!</p>
+                    <p className="mt-1 text-sm text-muted-foreground">Completed in {formatTime(timeElapsed)}</p>
+                    <Button onClick={resetGame} variant="outline" className="mt-3 gap-2">
+                      <RotateCcw size={14} /> Play Again
+                    </Button>
+                  </motion.div>
                 )}
-              </CardContent>
-            </Card>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
