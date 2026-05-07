@@ -44,12 +44,13 @@ const GardenRoom = () => {
   };
 
   const handleResumeDownload = () => {
-    let url = RESUME_CONFIG.url;
-    if (url.includes('drive.google.com')) {
-      const fileId = url.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
-      if (fileId) url = `https://drive.google.com/uc?export=download&id=${fileId}`;
-    }
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const a = document.createElement('a');
+    a.href = RESUME_CONFIG.url;
+    a.download = RESUME_CONFIG.fileName;
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
