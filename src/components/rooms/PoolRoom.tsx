@@ -69,7 +69,7 @@ const projects = [
     }
   },
   {
-    title: '🏋️ PocketFit AI Coach', subtitle: 'AI-Powered Application',
+    title: '🏋️ BoomStart AI', subtitle: 'AI-Powered Application',
     description: 'AI fitness assistant generating personalized workout and diet plans with NL meal logging.',
     technologies: ['React', 'TypeScript', 'Supabase', 'AI Integration'],
     features: ['AI-generated recommendations', 'Natural language meal logging', 'Progress tracking'],

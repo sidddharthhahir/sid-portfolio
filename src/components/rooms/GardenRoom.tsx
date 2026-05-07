@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Mail, Linkedin, Github, User, MapPin, Calendar } from 'lucide-react';
+import { Mail, Linkedin, Github, User, MapPin } from 'lucide-react';
 
 import { useToast } from '@/hooks/use-toast';
 import { RESUME_CONFIG } from '@/config/resume';
@@ -44,12 +44,13 @@ const GardenRoom = () => {
   };
 
   const handleResumeDownload = () => {
-    let url = RESUME_CONFIG.url;
-    if (url.includes('drive.google.com')) {
-      const fileId = url.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
-      if (fileId) url = `https://drive.google.com/uc?export=download&id=${fileId}`;
-    }
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const a = document.createElement('a');
+    a.href = RESUME_CONFIG.url;
+    a.download = RESUME_CONFIG.fileName;
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
@@ -100,7 +101,6 @@ const GardenRoom = () => {
               </ul>
               <div className="space-y-2 mb-8 p-4 rounded-xl bg-muted/30 border border-border">
                 <div className="flex items-center gap-3 text-muted-foreground"><MapPin size={16} className="text-emerald-400" />Berlin, Germany</div>
-                <div className="flex items-center gap-3 text-muted-foreground"><Calendar size={16} className="text-emerald-400" />Student work (20h/week) · Full-time from April 2026</div>
               </div>
               <div className="space-y-2">
                 {[
