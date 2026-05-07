@@ -10,7 +10,6 @@ import TheaterRoom from '@/components/rooms/TheaterRoom';
 import GardenRoom from '@/components/rooms/GardenRoom';
 import GameRoom from '@/components/rooms/GameRoom';
 import ParticleTrail from '@/components/ParticleTrail';
-import VisitorGreeting from '@/components/VisitorGreeting';
 
 const NeuralNetwork3D = lazy(() => import('@/components/NeuralNetwork3D'));
 
@@ -76,7 +75,6 @@ const Index = () => {
         </div>
       </footer>
 
-      <VisitorGreeting />
     </div>
   );
 };

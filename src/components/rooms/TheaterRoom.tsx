@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Bot } from 'lucide-react';
-import MovieRecommendationAI from '@/components/MovieRecommendationAI';
+import { Bot } from 'lucide-react';
 import PortfolioAIChat from '@/components/PortfolioAIChat';
 
 const stagger = {
@@ -24,18 +23,7 @@ const TheaterRoom = () => {
           <p className="text-muted-foreground mt-4 max-w-lg mx-auto">Interactive AI demos — try them out live</p>
         </motion.div>
 
-        <div className="max-w-6xl mx-auto space-y-16">
-          <motion.div variants={item}>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                <Sparkles size={20} className="text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-foreground">AI Movie Recommendation Engine</h3>
-            </div>
-            <p className="text-muted-foreground mb-6 ml-[52px]">Enter a movie you like and the AI will recommend similar movies.</p>
-            <MovieRecommendationAI />
-          </motion.div>
-
+        <div className="max-w-6xl mx-auto">
           <motion.div variants={item}>
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center">
