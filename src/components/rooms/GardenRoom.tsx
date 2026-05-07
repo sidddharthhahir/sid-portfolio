@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Mail, Linkedin, Github, User, MapPin, Calendar } from 'lucide-react';
+import { Mail, Linkedin, Github, User, MapPin } from 'lucide-react';
 
 import { useToast } from '@/hooks/use-toast';
 import { RESUME_CONFIG } from '@/config/resume';
