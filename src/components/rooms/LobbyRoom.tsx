@@ -6,7 +6,7 @@ import { Brain, Github, MapPin, Calendar } from 'lucide-react';
 import MagneticProfile from '@/components/MagneticProfile';
 import TypewriterText from '@/components/TypewriterText';
 import CurrentlyLearning from '@/components/CurrentlyLearning';
-import { useLanguage } from '@/contexts/LanguageContext';
+
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -22,7 +22,7 @@ interface LobbyRoomProps {
 }
 
 const LobbyRoom = ({ onNavigate }: LobbyRoomProps) => {
-  const { t } = useLanguage();
+  
 
   return (
     <motion.div initial="hidden" animate="visible" variants={stagger} className="container mx-auto px-6 py-16">
@@ -49,9 +49,9 @@ const LobbyRoom = ({ onNavigate }: LobbyRoomProps) => {
         </motion.div>
 
         <motion.div variants={item} className="space-y-4">
-          <span className="text-lg text-muted-foreground">{t('hero.greeting')}</span>
+          <span className="text-lg text-muted-foreground">Hello, I'm</span>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight">
-            <span className="glow-text">{t('hero.name')}</span>
+            <span className="glow-text">Siddharth Ahir</span>
           </h1>
           <h2 className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
             <TypewriterText phrases={[
@@ -71,20 +71,26 @@ const LobbyRoom = ({ onNavigate }: LobbyRoomProps) => {
 
       {/* About */}
       <motion.div variants={item} className="max-w-5xl mx-auto">
-        <h2 className="text-4xl font-black mb-10 glow-text text-center">{t('about.title')}</h2>
+        <h2 className="text-4xl font-black mb-10 glow-text text-center">About Me</h2>
         <div className="grid md:grid-cols-2 gap-12">
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-primary">{t('about.profileTitle')}</h3>
-            <p className="text-muted-foreground leading-relaxed">{t('about.description')}</p>
+            <h3 className="text-xl font-bold text-primary">AI Engineer Profile</h3>
+            <p className="text-muted-foreground leading-relaxed">I am a Computer Science Master's student in Berlin specializing in AI-powered software systems. My work combines machine learning, large language models, and modern full-stack engineering to build intelligent applications.</p>
             <ul className="space-y-2">
-              {[t('about.experience1'), t('about.experience2'), t('about.experience3'), t('about.experience4'), t('about.experience5')].map((exp, i) => (
+              {[
+                'Recommendation systems using hybrid ML models',
+                'Explainable AI systems using SHAP/LIME',
+                'LLM-powered applications using Ollama',
+                'Retrieval-Augmented Generation pipelines',
+                'Scalable backend systems for AI products',
+              ].map((exp, i) => (
                 <li key={i} className="flex items-start gap-3 text-muted-foreground">
                   <span className="w-2 h-2 bg-gradient-to-r from-primary to-secondary rounded-full mt-2 flex-shrink-0" />
                   {exp}
                 </li>
               ))}
             </ul>
-            <p className="text-primary/80 font-medium italic">{t('about.tagline')}</p>
+            <p className="text-primary/80 font-medium italic">I enjoy building real-world AI products — not just training models.</p>
           </div>
 
           <Card className="glass-hover glow-box">

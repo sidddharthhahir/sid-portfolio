@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, FlaskConical } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -84,7 +84,7 @@ const projects = [
 ];
 
 const PoolRoom = () => {
-  const { t } = useLanguage();
+  
   const [expandedProject, setExpandedProject] = useState<number | null>(null);
 
   return (
