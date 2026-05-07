@@ -101,7 +101,6 @@ const GardenRoom = () => {
               </ul>
               <div className="space-y-2 mb-8 p-4 rounded-xl bg-muted/30 border border-border">
                 <div className="flex items-center gap-3 text-muted-foreground"><MapPin size={16} className="text-emerald-400" />Berlin, Germany</div>
-                <div className="flex items-center gap-3 text-muted-foreground"><Calendar size={16} className="text-emerald-400" />Student work (20h/week) · Full-time from April 2026</div>
               </div>
               <div className="space-y-2">
                 {[
