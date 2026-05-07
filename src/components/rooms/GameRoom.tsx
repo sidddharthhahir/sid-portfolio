@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Brain, Grid3X3, Search, Zap } from 'lucide-react';
+import { Brain, Search } from 'lucide-react';
 import MemoryGame from '@/components/MemoryGame';
-import TicTacToeGame from '@/components/TicTacToeGame';
-import EndlessRunnerGame from '@/components/EndlessRunnerGame';
 import WordSearchGame from '@/components/WordSearchGame';
 
 const stagger = {
@@ -27,28 +25,12 @@ const games = [
     accentSecondary: 'hsl(var(--villa-gameroom-2) / 0.9)',
   },
   {
-    id: 'tictactoe',
-    label: 'Tic Tac Toe',
-    icon: Grid3X3,
-    description: 'Classic strategy game vs AI',
-    accent: 'hsl(var(--villa-theater) / 0.82)',
-    accentSecondary: 'hsl(var(--villa-theater-2) / 0.9)',
-  },
-  {
     id: 'wordsearch',
     label: 'Word Search',
     icon: Search,
     description: 'Find hidden project words and unlock the story behind each one',
     accent: 'hsl(var(--primary) / 0.85)',
     accentSecondary: 'hsl(var(--secondary) / 0.9)',
-  },
-  {
-    id: 'runner',
-    label: 'Endless Runner',
-    icon: Zap,
-    description: 'How far can you go?',
-    accent: 'hsl(var(--villa-gym) / 0.84)',
-    accentSecondary: 'hsl(var(--villa-library-2) / 0.92)',
   },
 ];
 
@@ -66,7 +48,7 @@ const GameRoom = () => {
           <p className="text-muted-foreground mt-4 max-w-lg mx-auto">Take a break and play some games 🎮</p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 max-w-6xl mx-auto">
+        <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
           {games.map((game) => (
             <motion.div key={game.id} variants={item}>
               <Card className="glass-hover cursor-pointer group h-full" onClick={() => setActiveGame(game.id)}>
@@ -93,9 +75,7 @@ const GameRoom = () => {
       </motion.div>
 
       <MemoryGame isActive={activeGame === 'memory'} onComplete={() => setActiveGame(null)} />
-      <TicTacToeGame isActive={activeGame === 'tictactoe'} onComplete={() => setActiveGame(null)} />
       <WordSearchGame isActive={activeGame === 'wordsearch'} onComplete={() => setActiveGame(null)} />
-      <EndlessRunnerGame isActive={activeGame === 'runner'} onComplete={() => setActiveGame(null)} />
     </div>
   );
 };

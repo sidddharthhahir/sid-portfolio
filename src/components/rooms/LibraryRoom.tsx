@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Bot, Lightbulb, Sparkles, Rocket, Database, Globe } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+
 import { RESUME_CONFIG } from '@/config/resume';
 import { useToast } from '@/hooks/use-toast';
 
@@ -25,7 +25,7 @@ const aiInterests = [
 ];
 
 const LibraryRoom = () => {
-  const { t } = useLanguage();
+  
   const { toast } = useToast();
 
   const handleResumeDownload = () => {

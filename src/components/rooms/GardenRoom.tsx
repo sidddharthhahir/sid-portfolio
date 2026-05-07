@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Mail, Linkedin, Github, User, MapPin, Calendar } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+
 import { useToast } from '@/hooks/use-toast';
 import { RESUME_CONFIG } from '@/config/resume';
 import GitHubStatsWidget from '@/components/GitHubStatsWidget';
@@ -21,7 +21,7 @@ const item = {
 };
 
 const GardenRoom = () => {
-  const { t } = useLanguage();
+  
   const { toast } = useToast();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,10 +34,10 @@ const GardenRoom = () => {
       await emailjs.send('service_5n5oy19', 'template_ixyj8he', {
         from_name: formData.name, from_email: formData.email, message: formData.message, to_name: 'Siddharth Ahir'
       });
-      toast({ title: t('contact.success.title'), description: t('contact.success.desc') });
+      toast({ title: 'Message Sent!', description: "Thank you for your message. I'll get back to you soon!" });
       setFormData({ name: '', email: '', message: '' });
     } catch {
-      toast({ title: t('contact.error.title'), description: t('contact.error.desc'), variant: 'destructive' });
+      toast({ title: 'Error', description: 'Failed to send message. Please try again later.', variant: 'destructive' });
     } finally {
       setIsSubmitting(false);
     }
@@ -85,18 +85,22 @@ const GardenRoom = () => {
           {/* Contact */}
           <div className="grid md:grid-cols-2 gap-12">
             <motion.div variants={item}>
-              <h3 className="text-2xl font-bold mb-6 text-foreground">{t('contact.subtitle')}</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">{t('contact.lookingFor')}</p>
+              <h3 className="text-2xl font-bold mb-6 text-foreground">Let's Build Something Intelligent</h3>
+              <p className="text-muted-foreground mb-6 leading-relaxed">I am currently looking for:</p>
               <ul className="space-y-2 mb-6">
-                {[t('contact.role1'), t('contact.role2'), t('contact.role3')].map((r, i) => (
+                {[
+                  'AI Engineer roles',
+                  'Machine Learning Engineer internships',
+                  'AI product engineering opportunities',
+                ].map((r, i) => (
                   <li key={i} className="flex items-center gap-3 text-muted-foreground">
                     <span className="w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0" />{r}
                   </li>
                 ))}
               </ul>
               <div className="space-y-2 mb-8 p-4 rounded-xl bg-muted/30 border border-border">
-                <div className="flex items-center gap-3 text-muted-foreground"><MapPin size={16} className="text-emerald-400" />{t('contact.location')}</div>
-                <div className="flex items-center gap-3 text-muted-foreground"><Calendar size={16} className="text-emerald-400" />{t('contact.availability')}</div>
+                <div className="flex items-center gap-3 text-muted-foreground"><MapPin size={16} className="text-emerald-400" />Berlin, Germany</div>
+                <div className="flex items-center gap-3 text-muted-foreground"><Calendar size={16} className="text-emerald-400" />Student work (20h/week) · Full-time from April 2026</div>
               </div>
               <div className="space-y-2">
                 {[
@@ -112,28 +116,28 @@ const GardenRoom = () => {
                 ))}
                 <button onClick={handleResumeDownload} className="flex items-center w-full p-4 rounded-xl glass-hover group">
                   <User className="text-emerald-400 mr-3 group-hover:scale-110 transition-transform" size={20} />
-                  <span className="text-foreground/80 group-hover:text-emerald-400 transition-colors font-medium">{t('contact.resume')}</span>
+                  <span className="text-foreground/80 group-hover:text-emerald-400 transition-colors font-medium">Download Resume</span>
                 </button>
               </div>
             </motion.div>
 
             <motion.div variants={item}>
               <Card className="glass-hover">
-                <CardHeader><CardTitle className="text-foreground text-xl">{t('contact.form.title')}</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-foreground text-xl">Send Message</CardTitle></CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input type="text" name="name" placeholder={t('contact.form.name')} value={formData.name}
+                    <Input type="text" name="name" placeholder="Your Name" value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})} required disabled={isSubmitting}
                       className="bg-muted/30 border-border focus:border-emerald-500/50" />
-                    <Input type="email" name="email" placeholder={t('contact.form.email')} value={formData.email}
+                    <Input type="email" name="email" placeholder="Your Email" value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})} required disabled={isSubmitting}
                       className="bg-muted/30 border-border focus:border-emerald-500/50" />
-                    <Textarea name="message" placeholder={t('contact.form.message')} value={formData.message}
+                    <Textarea name="message" placeholder="Your Message" value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})} required disabled={isSubmitting}
                       className="bg-muted/30 border-border min-h-[120px] focus:border-emerald-500/50" />
                     <Button type="submit" disabled={isSubmitting}
                       className="w-full bg-gradient-to-r from-emerald-500 to-green-500 hover:opacity-90 text-background font-medium py-4">
-                      {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
                 </CardContent>
