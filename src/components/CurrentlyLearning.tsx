@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
+import { PORTFOLIO } from '@/config/portfolio';
 
-const learningItems = [
-  { topic: 'Multi-Agent Systems', emoji: '🤖' },
-  { topic: 'Fine-tuning LLMs', emoji: '🧠' },
-  { topic: 'Vector Databases (Pinecone)', emoji: '📌' },
-  { topic: 'LangChain & LangGraph', emoji: '🔗' },
-  { topic: 'MLOps & Model Serving', emoji: '🚀' },
-  { topic: 'Transformer Architectures', emoji: '⚡' },
-];
+const learningItems = PORTFOLIO.currentlyLearning;
 
 const CurrentlyLearning = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

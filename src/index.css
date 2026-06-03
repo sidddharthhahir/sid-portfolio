@@ -454,7 +454,40 @@
 @media (prefers-reduced-motion: reduce) {
   .villa-shell::before,
   .villa-card:hover::after,
-  .scan-line::after {
+  .scan-line::after,
+  .rain-container {
     animation: none;
   }
+}
+
+/* ============ CITY ============ */
+.rain-container {
+  background-image: repeating-linear-gradient(
+    transparent 0%, transparent 95%,
+    rgba(147, 197, 253, 0.06) 95%,
+    rgba(147, 197, 253, 0.06) 100%
+  );
+  background-size: 1px 50px;
+  animation: rain 1s linear infinite;
+}
+@keyframes rain {
+  from { background-position: 0 0; }
+  to   { background-position: 0 50px; }
+}
+.city-skyline {
+  background: linear-gradient(to top, rgba(147,197,253,0.15), transparent);
+  clip-path: polygon(
+    0% 100%, 0% 60%, 3% 60%, 3% 40%, 6% 40%, 6% 55%,
+    10% 55%, 10% 30%, 13% 30%, 13% 50%, 16% 50%, 16% 25%,
+    19% 25%, 19% 45%, 22% 45%, 22% 35%, 25% 35%, 25% 55%,
+    28% 55%, 28% 20%, 31% 20%, 31% 40%, 34% 40%, 34% 30%,
+    37% 30%, 37% 50%, 40% 50%, 40% 15%, 43% 15%, 43% 35%,
+    46% 35%, 46% 45%, 49% 45%, 49% 25%, 52% 25%, 52% 40%,
+    55% 40%, 55% 30%, 58% 30%, 58% 50%, 61% 50%, 61% 20%,
+    64% 20%, 64% 40%, 67% 40%, 67% 35%, 70% 35%, 70% 55%,
+    73% 55%, 73% 25%, 76% 25%, 76% 45%, 79% 45%, 79% 35%,
+    82% 35%, 82% 50%, 85% 50%, 85% 30%, 88% 30%, 88% 55%,
+    91% 55%, 91% 40%, 94% 40%, 94% 60%, 97% 60%, 97% 50%,
+    100% 50%, 100% 100%
+  );
 }
