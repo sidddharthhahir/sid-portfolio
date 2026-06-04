@@ -299,17 +299,6 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes villa-aurora {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  33% { transform: translate3d(3%, -2%, 0) scale(1.05); }
-  66% { transform: translate3d(-4%, 3%, 0) scale(0.98); }
-}
-
-@keyframes villa-sheen {
-  0% { transform: translateX(-45%) rotate(9deg); }
-  100% { transform: translateX(45%) rotate(9deg); }
-}
-
 @keyframes scan-sweep {
   0% { top: -4px; }
   100% { top: 100%; }
@@ -340,13 +329,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .villa-shell::before,
-  .villa-card:hover::after,
   .scan-line::after,
   .rain-container {
     animation: none;
   }
 }
+
 
 /* ============ CITY ============ */
 .rain-container {
