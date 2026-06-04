@@ -8,7 +8,6 @@ import { ExperienceSection } from '@/components/sections/ExperienceSection';
 import { SkillsSection } from '@/components/sections/SkillsSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { EducationSection } from '@/components/sections/EducationSection';
-import { ContactSection } from '@/components/sections/ContactSection';
 
 const Index = () => (
   <div className="relative min-h-screen text-foreground overflow-x-hidden">
@@ -16,7 +15,7 @@ const Index = () => (
     <CommandPalette />
     <CityProgressBar />
 
-    <div className="relative z-10">
+    <div className="relative z-10 space-y-0">
       <HeroSection />
       <AboutSection />
       <NowSection />
@@ -24,7 +23,6 @@ const Index = () => (
       <SkillsSection />
       <ProjectsSection />
       <EducationSection />
-      <ContactSection />
 
       <footer className="relative py-12 px-6 text-center border-t border-white/5">
         <div className="max-w-5xl mx-auto">

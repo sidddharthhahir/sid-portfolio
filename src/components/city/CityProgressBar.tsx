@@ -33,8 +33,8 @@ export const CityProgressBar = () => {
           </span>
           <div className={`rounded-full transition-all duration-300 ${
             active === id
-              ? 'w-2.5 h-2.5 bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.9)]'
-              : 'w-1.5 h-1.5 bg-white/40'
+              ? 'w-3 h-3 bg-blue-400 shadow-[0_0_12px_rgba(96,165,250,1)]'
+              : 'w-2 h-2 bg-white/30 hover:bg-white/50'
           }`} />
         </button>
       ))}

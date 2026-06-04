@@ -8,13 +8,14 @@ interface StreetSectionProps {
   subtitle: string;
   side: 'left' | 'right';
   accentColor: string;
+  neonClass: string;
   children: React.ReactNode;
 }
 
-export const StreetSection = ({ id, emoji, buildingName, subtitle, side, accentColor, children }: StreetSectionProps) => (
-  <section id={id} className="relative py-20 px-6">
+export const StreetSection = ({ id, emoji, buildingName, subtitle, side, accentColor, neonClass, children }: StreetSectionProps) => (
+  <section id={id} className="relative py-14 px-6">
     <div className="max-w-5xl mx-auto">
-      <BuildingLabel emoji={emoji} name={buildingName} subtitle={subtitle} side={side} accentColor={accentColor} />
+      <BuildingLabel emoji={emoji} name={buildingName} subtitle={subtitle} side={side} accentColor={accentColor} neonClass={neonClass} />
       <motion.div
         initial={{ opacity: 0, x: side === 'left' ? -50 : 50 }}
         whileInView={{ opacity: 1, x: 0 }}
