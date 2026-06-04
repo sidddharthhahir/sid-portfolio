@@ -12,15 +12,15 @@ export const ProjectsSection = () => {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   return (
-    <StreetSection id="projects" emoji="🏗️" buildingName="The Workshop" subtitle="Projects" side="right" accentColor="text-cyan-400">
+    <StreetSection id="projects" emoji="🏗️" buildingName="The Workshop" subtitle="Projects" side="right" accentColor="text-cyan-400" neonClass="neon-cyan">
       <div className="grid md:grid-cols-2 gap-5">
         {projects.map((project, i) => (
           <Card
             key={i}
             className={`glass-hover group cursor-pointer transition-all duration-500 ${
               project.featured
-                ? 'md:col-span-2 border-cyan-500/25 hover:border-cyan-500/45'
-                : 'hover:border-cyan-400/25'
+                ? 'md:col-span-2 border-cyan-400/30 hover:border-cyan-400/50 shadow-[0_0_30px_rgba(34,211,238,0.08)]'
+                : 'hover:border-cyan-400/20'
             }`}
           >
             <CardHeader onClick={() => project.githubUrl && window.open(project.githubUrl, '_blank')}>
@@ -30,7 +30,10 @@ export const ProjectsSection = () => {
                 </Badge>
                 <ExternalLink size={15} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <CardTitle className="group-hover:text-cyan-400 transition-colors text-lg">{project.title}</CardTitle>
+              <CardTitle className={`group-hover:text-cyan-400 transition-colors ${project.featured ? 'text-2xl' : 'text-lg'}`}>
+                {project.title}
+                {project.featured && <span className="ml-3 text-xs font-normal text-cyan-400/60 font-mono">★ thesis</span>}
+              </CardTitle>
               <CardDescription className="text-sm">{project.description}</CardDescription>
             </CardHeader>
             <CardContent>

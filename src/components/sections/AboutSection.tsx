@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 export const AboutSection = () => {
   const { personal, aboutBullets, social } = PORTFOLIO;
   return (
-    <StreetSection id="about" emoji="🏢" buildingName="HQ Tower" subtitle="About Me" side="left" accentColor="text-blue-400">
+    <StreetSection id="about" emoji="🏢" buildingName="HQ Tower" subtitle="About Me" side="left" accentColor="text-blue-400" neonClass="neon-blue">
       <div className="grid md:grid-cols-2 gap-10">
         <div className="space-y-5">
           <h3 className="text-xl font-bold text-blue-400">AI Engineer Profile</h3>
