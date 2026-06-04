@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 export const ExperienceSection = () => {
   const { experience } = PORTFOLIO;
   return (
-    <StreetSection id="experience" emoji="💼" buildingName="The Office" subtitle="Work Experience" side="right" accentColor="text-amber-400">
+    <StreetSection id="experience" emoji="💼" buildingName="The Office" subtitle="Work Experience" side="right" accentColor="text-amber-400" neonClass="neon-amber">
       <div className="space-y-6">
         {experience.map((job, i) => (
           <Card key={i} className="glass-hover border-amber-500/10 hover:border-amber-500/25 transition-all">
