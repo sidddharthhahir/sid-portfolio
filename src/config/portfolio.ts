@@ -10,41 +10,29 @@ export const PORTFOLIO = {
     email: 'sidahir25820@gmail.com',
     phone: '+49 17657938787',
     photo: 'https://i.postimg.cc/P5HS8SsF/FLUX-Playground-Image.png',
-    bio: 'Started as a full-stack developer, moved into AI engineering by building systems that connect language models to real products. Now working on LLM microservices and observability at a Frankfurt tech company, while deepening my foundations in data science. Motivated by problems that require both technical depth and practical thinking. Excited to join a team that builds AI with purpose.',
+    bio: 'Started as a full-stack developer, moved into AI engineering by building systems that connect language models to real products. Now working on LLM microservices and observability at Firmway GmbH while deepening foundations in data science. Motivated by problems that require both technical depth and practical thinking — excited to join a team that builds AI with purpose.',
     tagline: 'I enjoy building real-world AI products — not just training models.',
   },
 
   now: {
-    status: 'AI Engineer Working Student @ Firmway GmbH, Frankfurt',
-    focus: 'Building LLM microservices and observability systems',
+    status: 'AI Engineer Working Student @ Firmway GmbH',
+    focus: 'Distributed tracing, prompt systems, LLM evaluation',
     available: true,
-    availableText: 'Open to AI Engineer roles',
   },
 
   typewriterPhrases: [
-    'AI Engineer → LLMs, RAG & Intelligent Systems',
-    'Building Observable AI Microservices',
-    'Designing Scalable Data Architectures',
-    'Working Student @ Firmway GmbH, Frankfurt',
-  ],
-
-  heroBadges: ['LLM Integrations', 'RAG Pipelines', 'AI Observability'],
-
-  currentlyLearning: [
-    { topic: 'Multi-Agent Systems', emoji: '🤖' },
-    { topic: 'Fine-tuning LLMs', emoji: '🧠' },
-    { topic: 'Vector Databases (Pinecone)', emoji: '📌' },
-    { topic: 'LangChain & LangGraph', emoji: '🔗' },
-    { topic: 'MLOps & Model Serving', emoji: '🚀' },
-    { topic: 'OpenTelemetry & Langfuse', emoji: '📡' },
+    'AI Engineer — LLMs, RAG & Intelligent Systems',
+    'Working Student @ Firmway GmbH',
+    'Building Observable Microservices',
+    'Connecting Language Models to Real Products',
   ],
 
   aboutBullets: [
-    'LLM microservices with distributed tracing (OpenTelemetry)',
+    'Distributed tracing across AI microservices (OpenTelemetry)',
     'Centralised prompt management systems',
-    'Provider-agnostic AI search layer architecture',
+    'Provider-agnostic model integration architecture',
     'RAG pipelines grounded in live business data',
-    'Explainable AI systems using SHAP/LIME',
+    'Explainable AI with SHAP and LIME',
   ],
 
   social: {
@@ -52,19 +40,6 @@ export const PORTFOLIO = {
     githubHandle: 'github.com/sidddharthhahir',
     linkedin: 'https://linkedin.com/in/siddharth-ahir-798754262',
     linkedinHandle: 'linkedin.com/in/siddharth-ahir',
-  },
-
-  lookingFor: [
-    'AI Engineer roles',
-    'LLM / RAG product teams',
-    'Working student or full-time in Berlin / Frankfurt / Remote',
-  ],
-
-  emailjs: {
-    serviceId: 'service_5n5oy19',
-    templateId: 'template_ixyj8he',
-    publicKey: '1XEPgOlzfPoTgaput',
-    toName: 'Siddharth Ahir',
   },
 
   resume: {
@@ -79,11 +54,11 @@ export const PORTFOLIO = {
       location: 'Frankfurt, Germany',
       date: 'Mar 2026 – Present',
       bullets: [
-        'Rolled out distributed tracing across 8 microservices using OpenTelemetry — giving the team full visibility into every AI request for the first time',
-        'Built a centralised prompt management system — prompts were buried in the codebase and nobody could change them easily; fixed that entirely',
-        'Designed a provider-agnostic AI search layer so the team is not locked into any one LLM provider',
-        'Connected language models to live supply chain data, grounding AI responses in real business context',
-        'Ran a structured evaluation of GPT-4o, Claude, and Gemini — presented findings clearly to the team; used to make real product decisions',
+        'Rolled out distributed tracing across 8 microservices — giving the team visibility into every AI request for the first time',
+        'Built a centralised prompt management system from scratch — prompts were buried in the codebase and nobody could update them easily',
+        'Designed a provider-agnostic search layer so the team can swap models without touching application code',
+        'Connected language models to live supply chain data so responses reflect what is actually happening in the business',
+        'Ran a structured comparison of GPT-4o, Claude, and Gemini — wrote it up and presented to the team; shaped the product decision',
       ],
     },
   ],
@@ -120,65 +95,51 @@ export const PORTFOLIO = {
   skills: [
     {
       category: 'AI & LLM',
-      gradient: 'from-red-500/20 to-orange-500/20',
-      borderColor: 'border-red-500/20',
+      color: 'red',
       items: [
-        { name: 'LLM Integration', description: 'Connecting LLMs to real products and pipelines' },
-        { name: 'Prompt Engineering', description: 'Centralised, manageable prompt systems' },
+        { name: 'LLM Integration', description: 'Connecting language models to real products' },
+        { name: 'Prompt Engineering', description: 'Centralised, maintainable prompt systems' },
         { name: 'RAG Pipelines', description: 'Retrieval-Augmented Generation with live data' },
-        { name: 'Explainable AI (SHAP/LIME)', description: 'Making AI decisions transparent and auditable' },
+        { name: 'Explainable AI (SHAP/LIME)', description: 'Making model decisions transparent' },
         { name: 'LightFM', description: 'Hybrid collaborative + content-based recommendation' },
       ],
     },
     {
       category: 'Observability',
-      gradient: 'from-purple-500/20 to-pink-500/20',
-      borderColor: 'border-purple-500/20',
+      color: 'purple',
       items: [
-        { name: 'OpenTelemetry (OTEL)', description: 'Distributed tracing across microservices' },
-        { name: 'Langfuse', description: 'LLM observability and evaluation' },
-        { name: 'Distributed Tracing', description: 'End-to-end request visibility in AI systems' },
+        { name: 'OpenTelemetry', description: 'Distributed tracing across microservices' },
+        { name: 'Langfuse', description: 'Evaluation and monitoring for LLM systems' },
+        { name: 'Distributed Tracing', description: 'End-to-end visibility into AI request flows' },
       ],
     },
     {
       category: 'Backend',
-      gradient: 'from-amber-500/20 to-yellow-500/20',
-      borderColor: 'border-amber-500/20',
+      color: 'amber',
       items: [
-        { name: 'Python', description: 'Core language for AI/ML and backend systems' },
+        { name: 'Python', description: 'Core language for AI/ML and backend work' },
         { name: 'Django / DRF', description: 'REST APIs and backend services' },
         { name: 'Node.js', description: 'Fast API services and tooling' },
-        { name: 'REST APIs', description: 'Designing and building clean API layers' },
         { name: 'Redis', description: 'Caching and session management' },
-        { name: 'Docker', description: 'Containerising AI applications' },
+        { name: 'Docker', description: 'Containerising applications for deployment' },
       ],
     },
     {
       category: 'Frontend',
-      gradient: 'from-emerald-500/20 to-green-500/20',
-      borderColor: 'border-emerald-500/20',
+      color: 'emerald',
       items: [
-        { name: 'React', description: 'Dynamic UIs for AI-powered products' },
+        { name: 'React / TypeScript', description: 'Dynamic, type-safe interfaces' },
         { name: 'Next.js', description: 'Full-stack React with SSR' },
-        { name: 'TypeScript', description: 'Type-safe frontend development' },
         { name: 'Tailwind CSS', description: 'Utility-first styling' },
       ],
     },
     {
-      category: 'Databases',
-      gradient: 'from-blue-500/20 to-cyan-500/20',
-      borderColor: 'border-blue-500/20',
+      category: 'Data',
+      color: 'blue',
       items: [
         { name: 'PostgreSQL', description: 'Relational DB design and query optimisation' },
         { name: 'Supabase', description: 'Managed Postgres with real-time features' },
-      ],
-    },
-    {
-      category: 'Tools',
-      gradient: 'from-gray-500/20 to-slate-500/20',
-      borderColor: 'border-gray-500/20',
-      items: [
-        { name: 'Git / GitHub / GitLab', description: 'Version control and collaboration' },
+        { name: 'REST APIs', description: 'Designing and consuming API layers' },
       ],
     },
   ],
@@ -297,23 +258,22 @@ export const PORTFOLIO = {
   ],
 
   aiInterests: [
-    'Large Language Model Applications',
+    'Large Language Model Systems',
     'Explainable AI & Model Transparency',
-    'Recommendation Systems',
+    'Recommendation Engines',
     'AI Observability & Evaluation',
     'RAG & Knowledge Grounding',
-    'AI-powered SaaS Products',
+    'AI-first Product Engineering',
   ],
 
   buildings: [
     { id: 'hero',       label: 'City Entrance',  emoji: '🌆' },
     { id: 'about',      label: 'HQ Tower',        emoji: '🏢' },
-    { id: 'now',        label: 'Status Board',    emoji: '📋' },
+    { id: 'now',        label: 'Status',          emoji: '📋' },
     { id: 'experience', label: 'The Office',      emoji: '💼' },
     { id: 'skills',     label: 'The Lab',         emoji: '🔬' },
     { id: 'projects',   label: 'The Workshop',    emoji: '🏗️' },
     { id: 'education',  label: 'The Archive',     emoji: '📚' },
-    { id: 'contact',    label: 'Signal Tower',    emoji: '📡' },
   ],
 };
 
