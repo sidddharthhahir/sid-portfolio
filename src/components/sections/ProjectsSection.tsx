@@ -17,6 +17,7 @@ export const ProjectsSection = () => {
         {projects.map((project, i) => (
           <Card
             key={i}
+            data-project-title={project.title}
             className={`glass-hover group cursor-pointer transition-all duration-500 ${
               project.featured
                 ? 'md:col-span-2 border-cyan-400/30 hover:border-cyan-400/50 shadow-[0_0_30px_rgba(34,211,238,0.08)]'
