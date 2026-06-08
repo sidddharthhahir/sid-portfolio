@@ -214,7 +214,7 @@ The interesting engineering problem was the chain: Step 1 outputs structured JSO
         'Strict Zod schemas — one bad output halts the chain cleanly',
         '24-hour deduplication cache — same idea never runs twice in a day',
       ],
-      githubUrl: 'https://github.com/sidddharthhahir/startup-intelligence',
+      githubUrl: 'https://github.com/sidddharthhahir/startup-intelligence-agent',
       metrics: '⚡ Research → plan → landing page in under 60 seconds',
       caseStudy: {
         problem: 'Most people evaluate startup ideas informally. Proper due diligence takes days. Most skip it entirely.',
