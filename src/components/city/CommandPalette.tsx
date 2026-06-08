@@ -45,6 +45,9 @@ export const CommandPalette = () => {
           onClick={() => setOpen(false)}
         >
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigate the city"
             initial={{ opacity: 0, y: -20, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10 }}
@@ -53,26 +56,30 @@ export const CommandPalette = () => {
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
-              <span className="text-muted-foreground text-sm">🏙️</span>
+              <span aria-hidden="true" className="text-muted-foreground text-sm">🏙️</span>
               <input
                 ref={inputRef}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Navigate the city..."
+                aria-label="Search sections"
                 className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground font-mono"
               />
               <kbd className="text-[10px] text-muted-foreground bg-white/5 px-1.5 py-0.5 rounded border border-white/10">ESC</kbd>
             </div>
-            <div className="py-2 max-h-64 overflow-y-auto">
+            <div className="py-2 max-h-64 overflow-y-auto" role="listbox">
               {filtered.length === 0 ? (
                 <p className="text-center text-muted-foreground text-sm py-6">No buildings found</p>
               ) : filtered.map(({ id, emoji, label }) => (
                 <button
                   key={id}
+                  type="button"
+                  role="option"
+                  aria-selected="false"
                   onClick={() => navigate(id)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 transition-colors text-left group"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none transition-colors text-left group"
                 >
-                  <span>{emoji}</span>
+                  <span aria-hidden="true">{emoji}</span>
                   <span className="text-sm text-foreground group-hover:text-blue-400 transition-colors">{label}</span>
                 </button>
               ))}
