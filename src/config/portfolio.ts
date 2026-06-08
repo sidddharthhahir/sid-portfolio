@@ -189,7 +189,7 @@ You type an idea, you get Create, Improve, or Drop in under 10 seconds, with a f
         'Generates production-ready script structures with [VISUAL], [CUT TO], [RETENTION HOOK] markers',
         'PostgreSQL caching — same idea and niche returns instantly, zero API cost',
       ],
-      githubUrl: 'https://github.com/sidddharthhahir/ai-content-intelligence',
+      githubUrl: 'https://github.com/sidddharthhahir/content-intelligence-agent',
       metrics: '⚡ Verdict, 5 sub-scores, full script structure in under 10 seconds',
       caseStudy: {
         problem: 'Creators invest hours in content that underperforms. There was no structured, fast way to evaluate an idea before committing to it.',
