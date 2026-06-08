@@ -27,7 +27,7 @@ export const ProjectsSection = () => {
             className={project.featured ? 'md:col-span-2' : ''}
           >
             <Card
-              className={`glass-hover group cursor-pointer transition-all duration-500 h-full ${
+              className={`glass-hover group transition-all duration-500 h-full ${
                 project.featured
                   ? 'border-cyan-400/30 hover:border-cyan-400/50 shadow-[0_0_30px_rgba(34,211,238,0.06)]'
                   : 'hover:border-cyan-400/20'
