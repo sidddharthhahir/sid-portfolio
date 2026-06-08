@@ -12,7 +12,7 @@ interface StreetSectionProps {
   children: React.ReactNode;
 }
 
-const SNAP = [0.16, 1, 0.3, 1];
+const SNAP = [0.16, 1, 0.3, 1] as const;
 
 export const StreetSection = ({ id, emoji, buildingName, subtitle, side, accentColor, neonClass, children }: StreetSectionProps) => (
   <section id={id} className="relative py-14 px-6">
