@@ -33,15 +33,27 @@ export const ProjectsSection = () => {
                   : 'hover:border-cyan-400/20'
               }`}
             >
-              <CardHeader onClick={() => project.githubUrl && window.open(project.githubUrl, '_blank')}>
+              <CardHeader>
                 <div className="flex items-center justify-between mb-2">
                   <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 text-xs">
-                    {project.emoji} {project.subtitle}
+                    <span aria-hidden="true">{project.emoji}</span> {project.subtitle}
                   </Badge>
-                  <ExternalLink size={15} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  {project.githubUrl && (
+                    <ExternalLink aria-hidden="true" size={15} className="text-muted-foreground opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" />
+                  )}
                 </div>
-                <CardTitle className={`group-hover:text-cyan-400 transition-colors ${project.featured ? 'text-2xl' : 'text-lg'}`}>
-                  {project.title}
+                <CardTitle className={`${project.featured ? 'text-2xl' : 'text-lg'}`}>
+                  {project.githubUrl ? (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${project.title} — open GitHub repository in a new tab`}
+                      className="hover:text-cyan-400 focus-visible:text-cyan-400 focus-visible:outline-none focus-visible:underline transition-colors"
+                    >
+                      {project.title}
+                    </a>
+                  ) : project.title}
                   {project.featured && <span className="ml-3 text-xs font-normal text-cyan-400/60 font-mono">★ thesis</span>}
                 </CardTitle>
                 <CardDescription className="text-sm whitespace-pre-line">{project.description}</CardDescription>
