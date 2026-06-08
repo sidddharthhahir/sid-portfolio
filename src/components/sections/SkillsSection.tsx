@@ -4,12 +4,14 @@ import { StreetSection } from '@/components/city/StreetSection';
 import { motion } from 'framer-motion';
 
 const COLOR_MAP: Record<string, { dot: string; tag: string; border: string; label: string }> = {
-  red:     { dot: 'bg-red-400',     tag: 'bg-red-500/8 hover:bg-red-500/18',       border: 'border-red-500/20',     label: 'text-red-400'     },
+  red:     { dot: 'bg-red-400',     tag: 'bg-red-500/8 hover:bg-red-500/18',        border: 'border-red-500/20',     label: 'text-red-400'     },
   purple:  { dot: 'bg-purple-400',  tag: 'bg-purple-500/8 hover:bg-purple-500/18',  border: 'border-purple-500/20',  label: 'text-purple-400'  },
   amber:   { dot: 'bg-amber-400',   tag: 'bg-amber-500/8 hover:bg-amber-500/18',    border: 'border-amber-500/20',   label: 'text-amber-400'   },
   emerald: { dot: 'bg-emerald-400', tag: 'bg-emerald-500/8 hover:bg-emerald-500/18',border: 'border-emerald-500/20', label: 'text-emerald-400' },
   blue:    { dot: 'bg-blue-400',    tag: 'bg-blue-500/8 hover:bg-blue-500/18',      border: 'border-blue-500/20',    label: 'text-blue-400'    },
 };
+
+const SNAP = [0.16, 1, 0.3, 1] as const;
 
 export const SkillsSection = () => {
   const { skills } = PORTFOLIO;
@@ -37,11 +39,12 @@ export const SkillsSection = () => {
         {skills.map((category, i) => {
           const c = COLOR_MAP[category.color] ?? COLOR_MAP.blue;
           return (
-            <motion.div key={i}
-              initial={{ opacity: 0, x: -15 }}
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-20px' }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
+              transition={{ duration: 0.5, delay: i * 0.08, ease: SNAP }}
             >
               <div className="flex items-center gap-3 mb-3">
                 <span className={`w-2 h-2 rounded-full flex-shrink-0 ${c.dot}`} />
@@ -50,23 +53,31 @@ export const SkillsSection = () => {
               </div>
               <div className="flex flex-wrap gap-2">
                 {category.items.map((skill, j) => (
-                  <button key={j}
-                    onClick={() => handleSkillClick(skill.linkedProject)}
-                    title={skill.linkedProject ? `Used in: ${skill.linkedProject}` : skill.description}
-                    className={`group relative px-4 py-2 rounded-full border text-left transition-all duration-200 ${
-                      skill.linkedProject
-                        ? `${c.tag} ${c.border} cursor-pointer hover:scale-105 active:scale-95`
-                        : 'bg-white/3 border-white/8 cursor-default opacity-60'
-                    }`}
+                  <motion.div
+                    key={j}
+                    initial={{ opacity: 0, scale: 0.8, y: 8 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: i * 0.06 + j * 0.04, ease: SNAP }}
                   >
-                    <span className="text-sm font-medium text-foreground/85">{skill.name}</span>
-                    {skill.linkedProject && (
-                      <span className={`ml-1 text-[10px] opacity-0 group-hover:opacity-50 transition-opacity ${c.label}`}>→</span>
-                    )}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-black/90 border border-white/10 text-xs text-muted-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
-                      {skill.linkedProject ? `→ ${skill.linkedProject}` : skill.description}
-                    </div>
-                  </button>
+                    <button
+                      onClick={() => handleSkillClick(skill.linkedProject)}
+                      title={skill.linkedProject ? `Used in: ${skill.linkedProject}` : skill.description}
+                      className={`group relative px-4 py-2 rounded-full border text-left transition-all duration-200 ${
+                        skill.linkedProject
+                          ? `${c.tag} ${c.border} cursor-pointer hover:scale-105 active:scale-95`
+                          : 'bg-white/3 border-white/8 cursor-default opacity-60'
+                      }`}
+                    >
+                      <span className="text-sm font-medium text-foreground/85">{skill.name}</span>
+                      {skill.linkedProject && (
+                        <span className={`ml-1 text-[10px] opacity-0 group-hover:opacity-50 transition-opacity ${c.label}`}>→</span>
+                      )}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-black/90 border border-white/10 text-xs text-muted-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
+                        {skill.linkedProject ? `→ ${skill.linkedProject}` : skill.description}
+                      </div>
+                    </button>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
