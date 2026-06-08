@@ -26,10 +26,11 @@ export const BuildingLabel = ({ emoji, name, subtitle, side, accentColor, neonCl
       transition={{ duration: 0.5, ease: SNAP }}
       className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border bg-black/40 backdrop-blur-sm border-current/15 ${accentColor} flex-shrink-0`}
     >
-      <span className="text-sm">{emoji}</span>
+      <span aria-hidden="true" className="text-sm">{emoji}</span>
       <span className={`text-[10px] uppercase tracking-[0.3em] font-mono opacity-70 ${neonClass}`}>{subtitle}</span>
     </motion.div>
     <motion.div
+      aria-hidden="true"
       initial={{ scaleX: 0 }}
       whileInView={{ scaleX: 1 }}
       viewport={{ once: true }}
