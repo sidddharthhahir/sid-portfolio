@@ -3,7 +3,7 @@ import { PORTFOLIO } from '@/config/portfolio';
 
 export const CityProgressBar = () => {
   const [active, setActive] = useState('hero');
-  const sections = PORTFOLIO.buildings;
+  const sections = PORTFOLIO.sections;
 
   useEffect(() => {
     const observers = sections.map(({ id }) => {
@@ -21,7 +21,7 @@ export const CityProgressBar = () => {
 
   return (
     <nav aria-label="Section navigation" className="fixed right-5 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-3 items-end">
-      {sections.map(({ id, emoji, label }) => {
+      {sections.map(({ id, label }) => {
         const isActive = active === id;
         return (
           <button
@@ -30,16 +30,12 @@ export const CityProgressBar = () => {
             onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })}
             aria-label={`Jump to ${label}`}
             aria-current={isActive ? 'true' : undefined}
-            className={`group flex items-center gap-2 transition-all duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${isActive ? 'opacity-100' : 'opacity-40 hover:opacity-80'}`}
+            className={`group flex items-center gap-2 rounded-full transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${isActive ? 'opacity-100' : 'opacity-35 hover:opacity-75'}`}
           >
-            <span className="text-[10px] hidden group-hover:block group-focus-visible:block bg-black/80 backdrop-blur px-2 py-1 rounded text-white whitespace-nowrap font-mono">
-              {emoji} {label}
+            <span className="text-[10px] hidden group-hover:block group-focus-visible:block bg-black/80 backdrop-blur px-2 py-1 rounded text-foreground whitespace-nowrap font-mono">
+              {label}
             </span>
-            <div aria-hidden="true" className={`rounded-full transition-all duration-300 ${
-              isActive
-                ? 'w-3 h-3 bg-blue-400 shadow-[0_0_12px_rgba(96,165,250,1)]'
-                : 'w-2 h-2 bg-white/40 group-hover:bg-white/70'
-            }`} />
+            <div aria-hidden="true" className={`rounded-full transition-all duration-300 ${isActive ? 'w-2.5 h-2.5 bg-blue-400' : 'w-1.5 h-1.5 bg-muted-foreground'}`} />
           </button>
         );
       })}
