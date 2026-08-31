@@ -1,84 +1,107 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { PORTFOLIO } from '@/config/portfolio';
 import TypewriterText from '@/components/TypewriterText';
 
-const SNAP = [0.16, 1, 0.3, 1] as const;
-
-const DELAYS = {
-  city: 0,
-  photo: 0.15,
-  hello: 0.35,
-  name: 0.5,
-  typewriter: 0.7,
-  scroll: 1.1,
-};
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 export const HeroSection = () => {
-  const { personal, typewriterPhrases } = PORTFOLIO;
+  const { personal, typewriterPhrases, social } = PORTFOLIO;
+  const [imgFailed, setImgFailed] = useState(false);
+
+  const initials = personal.name.split(' ').map(n => n[0]).join('');
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center py-20 px-6">
-      <div className="text-center max-w-4xl mx-auto">
+    <section id="hero" className="relative min-h-[88vh] flex items-center justify-center py-24 px-6">
+      <div className="text-center max-w-2xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: DELAYS.city, ease: SNAP }}
-          className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-blue-400/50"
-        >
-          Welcome to the City of
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
+          initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: DELAYS.photo, ease: SNAP }}
-          className="relative w-36 h-36 mx-auto mb-8"
+          transition={{ duration: 0.6, ease: EASE }}
+          className="relative w-28 h-28 mx-auto mb-8 rounded-full border border-border bg-muted overflow-hidden"
         >
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 opacity-60 blur-lg animate-pulse" />
-          <div className="absolute inset-[3px] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 opacity-70 animate-[spin_12s_linear_infinite]" />
-          <div className="absolute inset-[5px] rounded-full bg-[#0a0f1e]" />
-          <img
-            src={personal.photo}
-            alt={personal.name}
-            className="absolute inset-[7px] rounded-full object-cover w-[calc(100%-14px)] h-[calc(100%-14px)] filter brightness-110"
-            style={{ objectPosition: 'center 15%' }}
-          />
+          {imgFailed ? (
+            <span className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+              {initials}
+            </span>
+          ) : (
+            <img
+              src={personal.photo}
+              alt={`Portrait of ${personal.name}`}
+              width={112}
+              height={112}
+              loading="eager"
+              decoding="async"
+              onError={() => setImgFailed(true)}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: 'center 15%' }}
+            />
+          )}
         </motion.div>
-        <motion.span
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: DELAYS.hello, ease: SNAP }}
-          className="text-base text-muted-foreground block mb-1"
-        >
-          Hello, I'm
-        </motion.span>
+
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: DELAYS.name, ease: SNAP }}
-          className="text-5xl md:text-7xl font-black tracking-tight mb-5"
+          transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
+          className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-3"
         >
-          <span className="glow-text">{personal.name}</span>
+          {personal.name}
         </motion.h1>
-        <motion.h2
+
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: DELAYS.typewriter }}
-          className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto mb-0 min-h-[28px]"
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="text-base md:text-lg text-muted-foreground min-h-[28px]"
         >
           <TypewriterText phrases={typewriterPhrases} />
-        </motion.h2>
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mt-3 text-sm text-muted-foreground/70"
+        >
+          {personal.title} · {personal.location}
+        </motion.p>
+
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: DELAYS.scroll }}
+          transition={{ duration: 0.5, delay: 0.45, ease: EASE }}
+          className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm"
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
-            className="mt-20 text-muted-foreground/30 text-xs font-mono"
+          <a
+            href={`mailto:${personal.email}`}
+            className="px-4 py-2 rounded-full border border-blue-400/30 text-blue-400 hover:bg-blue-500/10 transition-colors"
           >
-            ↓ scroll
-          </motion.div>
+            Email
+          </a>
+          <a
+            href={social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+          >
+            GitHub
+          </a>
+          <a
+            href={social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+          >
+            LinkedIn
+          </a>
+        </motion.div>
+
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 2.6, ease: 'easeInOut' }}
+          className="mt-16 text-muted-foreground/30 text-xs font-mono"
+        >
+          ↓ scroll
         </motion.div>
       </div>
     </section>
