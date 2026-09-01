@@ -45,16 +45,7 @@ const Index = () => {
         <ProjectsSection />
         <GoalsSection />
         <EducationSection />
-        <footer className="relative py-14 px-6 text-center border-t border-white/5">
-          <div className="max-w-5xl mx-auto">
-            <p className="text-muted-foreground text-sm font-mono">
-              Built by Siddharth Ahir · {new Date().getFullYear()}
-            </p>
-            <p className="text-muted-foreground/40 text-[10px] mt-2 font-mono">
-              Press <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-[10px]">⌘K</kbd> to navigate
-            </p>
-          </div>
-        </footer>
+        <footer className="relative py-14 px-6 border-t border-white/5" aria-hidden="true" />
       </main>
     </div>
   );
