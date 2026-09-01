@@ -70,7 +70,7 @@ export const CommandPalette = () => {
             <div className="py-2 max-h-64 overflow-y-auto" role="listbox">
               {filtered.length === 0 ? (
                 <p className="text-center text-muted-foreground text-sm py-6">No buildings found</p>
-              ) : filtered.map(({ id, emoji, label }) => (
+              ) : filtered.map(({ id, label }) => (
                 <button
                   key={id}
                   type="button"
