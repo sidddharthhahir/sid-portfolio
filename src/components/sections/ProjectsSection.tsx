@@ -14,7 +14,7 @@ export const ProjectsSection = () => {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   return (
-    <StreetSection id="projects" emoji="🏗️" buildingName="The Workshop" subtitle="Projects" side="right" accentColor="text-cyan-400" neonClass="neon-cyan">
+    <StreetSection id="projects" label="Projects">
       <div className="grid md:grid-cols-2 gap-5">
         {projects.map((project, i) => (
           <motion.div

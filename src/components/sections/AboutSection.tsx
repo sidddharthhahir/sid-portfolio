@@ -13,7 +13,7 @@ export const AboutSection = () => {
   ];
 
   return (
-    <StreetSection id="about" emoji="🏢" buildingName="HQ Tower" subtitle="About" side="left" accentColor="text-blue-400" neonClass="neon-blue">
+    <StreetSection id="about" label="About">
       <div className="grid md:grid-cols-2 gap-10">
         <div className="space-y-6">
           {personal.bio.split('\n\n').map((paragraph, i) => (
