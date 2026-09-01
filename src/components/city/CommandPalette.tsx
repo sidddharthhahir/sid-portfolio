@@ -6,7 +6,7 @@ export const CommandPalette = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const sections = PORTFOLIO.buildings;
+  const sections = PORTFOLIO.sections;
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
