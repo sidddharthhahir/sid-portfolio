@@ -30,22 +30,11 @@ export const EducationSection = () => {
             ))}
           </CardContent>
         </Card>
-        <div className="flex gap-3">
-          {languages.map((lang, i) => (
-            <div key={i} className="px-4 py-2 rounded-lg glass-hover border border-border text-sm">
-              <span className="font-medium text-foreground">{lang.language}</span>
-              <span className="text-muted-foreground ml-2 text-xs">{lang.level}</span>
-            </div>
-          ))}
-        </div>
         <div className="pt-2">
           <Button onClick={handleDownload}
             className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:opacity-90 text-background px-8 py-5 rounded-full hover:scale-105 transition-all text-sm font-semibold">
             📄 Download Resume
           </Button>
-          <p className="text-xs text-muted-foreground/40 mt-3 font-mono">
-            The resume is the filtered version — this portfolio is the full story.
-          </p>
         </div>
       </div>
     </StreetSection>
