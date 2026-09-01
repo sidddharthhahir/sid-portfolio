@@ -14,7 +14,7 @@ export const EducationSection = () => {
   };
 
   return (
-    <StreetSection id="education" emoji="📚" buildingName="The Archive" subtitle="Education" side="left" accentColor="text-amber-400" neonClass="neon-amber">
+    <StreetSection id="education" label="Education">
       <div className="space-y-8">
         <Card className="glass-hover">
           <CardHeader><CardTitle className="text-amber-400 text-base">Education</CardTitle></CardHeader>

@@ -10,7 +10,7 @@ export const ExperienceSection = () => {
   const { experience } = PORTFOLIO;
 
   return (
-    <StreetSection id="experience" emoji="💼" buildingName="The Office" subtitle="Experience" side="right" accentColor="text-amber-400" neonClass="neon-amber">
+    <StreetSection id="experience" label="Experience">
       <div className="space-y-6">
         {experience.map((job, i) => (
           <motion.div

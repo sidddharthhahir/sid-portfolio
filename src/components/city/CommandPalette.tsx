@@ -6,7 +6,7 @@ export const CommandPalette = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const sections = PORTFOLIO.buildings;
+  const sections = PORTFOLIO.sections;
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -70,7 +70,7 @@ export const CommandPalette = () => {
             <div className="py-2 max-h-64 overflow-y-auto" role="listbox">
               {filtered.length === 0 ? (
                 <p className="text-center text-muted-foreground text-sm py-6">No buildings found</p>
-              ) : filtered.map(({ id, emoji, label }) => (
+              ) : filtered.map(({ id, label }) => (
                 <button
                   key={id}
                   type="button"
@@ -79,7 +79,7 @@ export const CommandPalette = () => {
                   onClick={() => navigate(id)}
                   className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none transition-colors text-left group"
                 >
-                  <span aria-hidden="true">{emoji}</span>
+                  
                   <span className="text-sm text-foreground group-hover:text-blue-400 transition-colors">{label}</span>
                 </button>
               ))}

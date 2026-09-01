@@ -8,7 +8,7 @@ export const GoalsSection = () => {
   const { goals } = PORTFOLIO;
 
   return (
-    <StreetSection id="goals" emoji="🎯" buildingName="Vision" subtitle="Next 5 Years" side="right" accentColor="text-cyan-400" neonClass="neon-cyan">
+    <StreetSection id="goals" label="Goals">
       <div className="space-y-8 max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -34,7 +34,7 @@ export const SkillsSection = () => {
   }, []);
 
   return (
-    <StreetSection id="skills" emoji="🔬" buildingName="The Lab" subtitle="Skills" side="left" accentColor="text-red-400" neonClass="neon-red">
+    <StreetSection id="skills" label="Skills">
       <div className="space-y-8">
         {skills.map((category, i) => {
           const c = COLOR_MAP[category.color] ?? COLOR_MAP.blue;
