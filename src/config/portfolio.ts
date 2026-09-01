@@ -1,6 +1,7 @@
 // ============================================================
 // PORTFOLIO CONFIG — single source of truth for all content.
-// Keep the voice plain and human. Short sentences. No hype.
+// Voice rule: nothing here is copied from the resume or LinkedIn.
+// Same facts, different words. Personal, specific, hooky.
 // ============================================================
 
 export const PORTFOLIO = {
@@ -13,18 +14,21 @@ export const PORTFOLIO = {
     phone: '+49 17657938787',
     photo: '/__l5e/assets-v1/ad4f1d2a-f86a-4d84-869c-0da320ed0313/siddharth-photo.png',
 
-    bio: `I started as a full-stack developer, curious about how AI could actually work inside real products. That curiosity is what led me here. Today I build LLM-powered backend systems and work across observability and semantic search.
+    bio: `Twice, our AI cost tracker lied to us. Both times I was the one who noticed. That is the part of this job nobody puts in a job ad, and it is the part I turned out to be good at.
 
-I'm deepening that curiosity with an MSc in Data Science in Berlin, because I want to understand AI at its foundations, not just use it. What I'm looking for next is a team that takes engineering seriously and treats AI as more than a buzzword.`,
+I came into AI from full-stack work, expecting the hard part to be the model. It was not. The hard part was proving what a system actually costs, where it actually spends its time, and whether an answer is actually grounded in something real. So that is what I build: LLM backends with receipts — traced, priced, and cited.
 
-    tagline: `I care more about systems being observable than being fast.`,
+Right now I am doing an MSc in Data Science in Berlin, mostly to stop taking the maths on faith. Next, I want a team where "we use AI" is followed by a diagram, not a slide.`,
+
+    tagline: `Ask me about the API call that was quietly eating 88% of our request time.`,
   },
 
   typewriterPhrases: [
-    'AI Engineer — LLM systems in production',
-    'RAG, semantic search, observability',
-    'Python · FastAPI · TypeScript',
-    'MSc Data Science, Berlin',
+    'I build LLM systems that can prove what they did',
+    'Caught two cost-tracking bugs before they hit the invoice',
+    'Traced 8 microservices — found the 88% bottleneck',
+    'RAG with verified citations, not confident guesses',
+    'Python · FastAPI · TypeScript · OpenTelemetry',
   ],
 
   social: {
@@ -40,10 +44,11 @@ I'm deepening that curiosity with an MSc in Data Science in Berlin, because I wa
   },
 
   howIWork: [
-    'I usually start by building the thing that is frustrating me',
-    'I care more about systems being observable than fast',
-    'I read implementation code more than I read papers',
-    'I am more useful in the second week than the first',
+    'My best projects started as something that was annoying me personally',
+    'Before I optimise anything, I make it visible — guessing is expensive',
+    'I read library source code more often than I read papers',
+    'I would rather delete a clever abstraction than defend it',
+    'Week one I ask a lot of questions. Week two I am useful.',
   ],
 
   experience: [
@@ -53,15 +58,17 @@ I'm deepening that curiosity with an MSc in Data Science in Berlin, because I wa
       location: 'Frankfurt, Germany',
       date: 'Mar 2026 – Aug 2026',
       story: [
-        `This role taught me how real companies track and control AI costs at scale — mostly because I ended up building that system myself.`,
-        `Working with embeddings and semantic search for the first time showed me a side of AI I had only read about. Turning that understanding into a working pipeline was my favourite part of the job.`,
-        `Rolling out distributed tracing across 8 microservices taught me to think about the system as a whole rather than only the part I was working on. Refactoring a core piece of the codebase into a cleaner architecture taught me that good engineering is as much about what you remove as what you add.`,
+        `I joined without a clear idea of what "production AI" meant. I left knowing it means being the person who spots the problem before the invoice or the user does.`,
+        `My main build was a cost-tracking layer for every LLM call. It caught itself twice: once reporting zero output tokens, once about to undercount spend by a third after a pricing change. Small catches, real money, and the moment I stopped second-guessing my instincts.`,
+        `Then I rolled OpenTelemetry tracing across 8 services in Python and Java. After weeks of everyone guessing why requests felt slow, one waterfall view showed a single API call consuming 88% of the time. I also shipped an embeddings + semantic search pipeline (Voyage, Exa, Bright Data), a PostHog consent flow, and refactored a core module — mostly by removing code.`,
+        `Not glamorous work. All of it real, and it is why I now argue for observability before features.`,
       ],
       highlights: [
-        'AI cost tracking and control system',
-        'Embeddings + semantic search pipeline',
-        'Distributed tracing across 8 microservices (OpenTelemetry)',
-        'Core codebase refactor into cleaner architecture',
+        'LLM cost tracking that caught two real billing bugs',
+        '88% latency hotspot found via distributed tracing',
+        'OpenTelemetry across 8 Python + Java services',
+        'Embeddings & semantic search pipeline (Voyage, Exa, Bright Data)',
+        'Core module refactor — smaller, not bigger',
       ],
     },
   ],
@@ -72,14 +79,14 @@ I'm deepening that curiosity with an MSc in Data Science in Berlin, because I wa
       school: 'Arden University',
       location: 'Berlin, Germany',
       date: 'May 2026 – Present',
-      note: '',
+      note: 'Taking the maths seriously so I stop trusting it blindly',
     },
     {
       degree: 'MSc Computer Science',
       school: 'IU International University of Applied Sciences',
       location: 'Berlin, Germany',
       date: 'Sep 2023 – May 2026',
-      note: 'Thesis: MovieWise XAI — graded 1.3',
+      note: 'Thesis: MovieWise XAI — graded 1.3 (94/100)',
     },
     {
       degree: 'Bachelor of Computer Application',
@@ -92,7 +99,7 @@ I'm deepening that curiosity with an MSc in Data Science in Berlin, because I wa
 
   languages: [
     { language: 'English', level: 'Fluent' },
-    { language: 'German', level: 'Basic' },
+    { language: 'German', level: 'Basic (A2, improving weekly)' },
   ],
 
   skills: [
@@ -100,53 +107,53 @@ I'm deepening that curiosity with an MSc in Data Science in Berlin, because I wa
       category: 'AI & LLM',
       color: 'red',
       items: [
-        { name: 'LLM Integration', description: 'Connecting language models to real products', linkedProject: 'Pulse' },
-        { name: 'Prompt Engineering', description: 'Maintainable, versioned prompt systems', linkedProject: 'Pulse' },
-        { name: 'RAG', description: 'Retrieval-augmented answers with citations', linkedProject: 'Madhav' },
-        { name: 'Semantic Search', description: 'Embeddings-based retrieval pipelines', linkedProject: 'Madhav' },
-        { name: 'Ollama', description: 'Running local models for private inference', linkedProject: 'MovieWise XAI' },
-        { name: 'Claude', description: 'Reasoning-heavy tasks and evaluation', linkedProject: 'Startup Intelligence Agent' },
+        { name: 'LLM Integration', description: 'Model calls wrapped in cost, retry and trace context', linkedProject: 'Pulse' },
+        { name: 'Prompt Engineering', description: 'Versioned prompts, structured outputs, diffable changes', linkedProject: 'Pulse' },
+        { name: 'RAG', description: 'Answers that must cite a verse that really exists', linkedProject: 'Madhav' },
+        { name: 'Semantic Search', description: 'Embedding pipelines shipped in production at Firmway', linkedProject: 'Madhav' },
+        { name: 'Ollama', description: 'Local inference when data cannot leave the machine', linkedProject: 'MovieWise XAI' },
+        { name: 'Claude', description: 'Reasoning chains and evaluation of generated output', linkedProject: 'Startup Intelligence Agent' },
       ],
     },
     {
       category: 'Backend',
       color: 'emerald',
       items: [
-        { name: 'Python', description: 'Primary language for AI services', linkedProject: 'Madhav' },
-        { name: 'FastAPI', description: 'Lightweight APIs for retrieval services', linkedProject: 'Madhav' },
-        { name: 'Java', description: 'Used across university and backend work', linkedProject: null },
-        { name: 'Django', description: 'Full-stack Python applications', linkedProject: null },
-        { name: 'Node.js', description: 'Backend services and API layers', linkedProject: 'AI Resume Customizer' },
-        { name: 'REST APIs', description: 'Service boundaries that stay predictable', linkedProject: 'Startup Intelligence Agent' },
-        { name: 'Docker', description: 'Reproducible local and deployed environments', linkedProject: null },
+        { name: 'Python', description: 'Where most of my AI services live', linkedProject: 'Madhav' },
+        { name: 'FastAPI', description: 'Thin, typed APIs in front of retrieval', linkedProject: 'Madhav' },
+        { name: 'Java', description: 'Production backend work at Firmway — filtering logic and evidence pipeline services', linkedProject: null },
+        { name: 'Django', description: 'Earlier full-stack Python products, end to end', linkedProject: null },
+        { name: 'Node.js', description: 'API layers and document-processing jobs', linkedProject: 'AI Resume Customizer' },
+        { name: 'REST APIs', description: 'Boring, predictable contracts on purpose', linkedProject: 'Startup Intelligence Agent' },
+        { name: 'Docker', description: 'If it runs on my laptop, it runs on yours', linkedProject: null },
       ],
     },
     {
       category: 'Frontend',
       color: 'blue',
       items: [
-        { name: 'React', description: 'Application UI', linkedProject: 'AI Resume Customizer' },
-        { name: 'Next.js', description: 'Full-stack React apps', linkedProject: 'Startup Intelligence Agent' },
-        { name: 'TypeScript', description: 'Types as documentation', linkedProject: 'AI Resume Customizer' },
-        { name: 'Tailwind CSS', description: 'Fast, consistent styling', linkedProject: null },
+        { name: 'React', description: 'Interfaces for the systems I build', linkedProject: 'AI Resume Customizer' },
+        { name: 'Next.js', description: 'Full-stack apps with server-side LLM calls', linkedProject: 'Startup Intelligence Agent' },
+        { name: 'TypeScript', description: 'Types as the documentation I will actually read', linkedProject: 'AI Resume Customizer' },
+        { name: 'Tailwind CSS', description: 'Ship the UI without inventing a design system', linkedProject: null },
       ],
     },
     {
       category: 'Databases',
       color: 'purple',
       items: [
-        { name: 'PostgreSQL', description: 'Relational data for production apps', linkedProject: 'Startup Intelligence Agent' },
-        { name: 'Supabase', description: 'Auth, storage, and Postgres in one', linkedProject: null },
-        { name: 'MySQL', description: 'Relational storage', linkedProject: 'AI Resume Customizer' },
+        { name: 'PostgreSQL', description: 'Default choice until something proves otherwise', linkedProject: 'Startup Intelligence Agent' },
+        { name: 'Supabase', description: 'Auth, storage and Postgres without the setup tax', linkedProject: null },
+        { name: 'MySQL', description: 'Relational storage for earlier products', linkedProject: 'AI Resume Customizer' },
       ],
     },
     {
       category: 'Observability',
       color: 'amber',
       items: [
-        { name: 'OpenTelemetry', description: 'Distributed tracing across microservices', linkedProject: null },
-        { name: 'Langfuse', description: 'LLM tracing and evaluation', linkedProject: null },
-        { name: 'Distributed Tracing', description: 'End-to-end visibility into AI requests', linkedProject: null },
+        { name: 'OpenTelemetry', description: 'Rolled out across 8 services — the 88% discovery', linkedProject: null },
+        { name: 'Langfuse', description: 'Tracing and evaluating LLM calls, not just logging them', linkedProject: null },
+        { name: 'Distributed Tracing', description: 'Replacing "it feels slow" with a waterfall chart', linkedProject: null },
       ],
     },
   ],
@@ -154,103 +161,103 @@ I'm deepening that curiosity with an MSc in Data Science in Berlin, because I wa
   projects: [
     {
       title: 'MovieWise XAI',
-      subtitle: "Master's thesis",
+      subtitle: "Master's thesis · graded 1.3",
       emoji: '🎬',
       featured: true,
-      description: `A hybrid movie recommender that explains itself. Every recommendation comes with a natural language explanation generated by a local LLM over TF-IDF retrieval, so the reason is visible instead of hidden in a score.`,
+      description: `A recommender that has to justify itself. Every suggestion arrives with a sentence explaining why, written by a local LLM from the evidence that actually drove the ranking — no black box, no external API, no data leaving the machine.`,
       technologies: ['Python', 'LightFM', 'TF-IDF', 'Local LLM (Ollama)', 'Streamlit'],
       features: [
-        'Hybrid collaborative + content-based recommendations',
-        'Natural language explanation for every recommendation',
-        'Local LLM inference — no external API calls',
+        'Hybrid collaborative + content ranking',
+        'Evidence-grounded explanation per recommendation',
+        'Fully local inference for privacy',
         'Graded 1.3 (94/100)',
       ],
       githubUrl: 'https://github.com/sidddharthhahir/MovieWise-XAI',
-      metrics: '🎓 Thesis graded 1.3 · Dec 2025',
+      metrics: '🎓 Graded 1.3 (94/100) · Dec 2025',
       caseStudy: {
-        problem: 'Recommenders are accurate but opaque. People do not trust a ranking they cannot understand.',
-        approach: 'Hybrid model for ranking, TF-IDF retrieval over movie metadata for evidence, and a locally hosted LLM to turn that evidence into a short explanation.',
-        results: 'Every recommendation ships with a readable reason. Thesis graded 1.3 (94/100).',
+        problem: 'People do not act on a ranking they cannot interrogate. Accuracy without a reason is a dead end.',
+        approach: 'Rank with a hybrid model, retrieve supporting metadata with TF-IDF, then let a locally hosted LLM turn that evidence — and only that evidence — into a short explanation.',
+        results: 'Every recommendation ships with a readable, checkable reason. Graded 1.3 (94/100).',
       },
     },
     {
       title: 'Madhav',
-      subtitle: 'RAG question answering',
+      subtitle: 'RAG that refuses to bluff',
       emoji: '📖',
       featured: false,
-      description: `A retrieval-augmented question answering system over the Bhagavad Gita. It combines keyword and semantic search with citation verification, so every answer is grounded in a real, retrievable verse instead of a hallucinated reference.`,
+      description: `Question answering over the Bhagavad Gita where a citation is a promise. Hybrid keyword + semantic retrieval finds candidate verses, then a verification step throws out any answer whose citation cannot be resolved back to a real verse.`,
       technologies: ['Python', 'FastAPI', 'Embeddings', 'Hybrid Search'],
       features: [
         'Hybrid keyword + semantic retrieval',
-        'Citation verification before an answer is returned',
+        'Citation verified before the answer is returned',
         'Verse-level grounding, no invented references',
       ],
       githubUrl: 'https://github.com/sidddharthhahir/madhav',
       metrics: '📅 Aug 2026',
       caseStudy: {
-        problem: 'RAG systems confidently cite sources that do not exist. On a text people care about, that is unacceptable.',
-        approach: 'Keyword and semantic retrieval run together, then a verification step checks that each cited verse actually exists in the corpus before the answer is served.',
-        results: 'Answers are traceable to a real verse, which makes the system safe to trust.',
+        problem: 'RAG systems hallucinate sources with total confidence. On a text people hold sacred, that is not a rough edge — it is a dealbreaker.',
+        approach: 'Run lexical and vector retrieval together, then gate the response on a verification pass that checks each cited verse exists in the corpus.',
+        results: 'Every answer is traceable to a verse you can open yourself.',
       },
     },
     {
       title: 'Pulse',
-      subtitle: 'Multi-agent pipeline',
+      subtitle: 'Five agents, one human veto',
       emoji: '⚡',
       featured: false,
-      description: `A multi-agent content pipeline that researches topics, ranks ideas, and drafts LinkedIn posts in a specific voice. Nothing publishes without human approval, and a performance-learning loop feeds results back into idea ranking.`,
+      description: `A content pipeline that researches a topic, ranks the ideas, and drafts LinkedIn posts in my voice — then stops and waits for me. Post performance flows back in, so next week's ranking is informed by last week's reality.`,
       technologies: ['Python', 'Multi-agent orchestration', 'LLM APIs'],
       features: [
-        'Five specialised agents coordinated through one pipeline',
-        'Human approval gate before anything publishes',
-        'Performance-learning loop that improves ranking over time',
+        'Five specialised agents in one coordinated pipeline',
+        'Hard human approval gate before anything publishes',
+        'Performance feedback loop that reshapes idea ranking',
       ],
       githubUrl: 'https://github.com/sidddharthhahir/Pulse-',
       metrics: '📅 Jun 2026',
       caseStudy: {
-        problem: 'Single-prompt content tools produce generic output and give you no control over what goes out.',
-        approach: 'Split the work across five agents — research, ideation, ranking, drafting, review — with an explicit approval step and feedback from post performance.',
-        results: 'Drafts that sound like a person, with a human still deciding what ships.',
+        problem: 'One-shot prompting produces content that sounds like everyone else and gives you no control over what ships.',
+        approach: 'Split the job into research, ideation, ranking, drafting and review agents, with an explicit approval step and metrics fed back into ranking.',
+        results: 'Drafts that sound like a person, with a person still deciding.',
       },
     },
     {
       title: 'Startup Intelligence Agent',
-      subtitle: 'Idea validation',
+      subtitle: 'Kill bad ideas faster',
       emoji: '🧭',
       featured: false,
-      description: `A multi-agent system that validates startup ideas through a three-step chain-of-thought pipeline: market size, competitive landscape, execution feasibility. It then generates a go-to-market plan and a production-ready landing page.`,
+      description: `Feed it an idea, get back an honest verdict. Three reasoning passes — market size, competitive landscape, execution feasibility — each with a strict output schema, followed by a go-to-market plan and a landing page you can put in front of real people the same day.`,
       technologies: ['Next.js', 'PostgreSQL', 'TypeScript', 'Structured LLM output'],
       features: [
         'Three-step reasoning pipeline with structured outputs',
-        'Market, competition, and feasibility analysis',
-        'Generated go-to-market plan and landing page',
+        'Market, competition and feasibility scored separately',
+        'Generated GTM plan and deployable landing page',
       ],
       githubUrl: 'https://github.com/sidddharthhahir/startup-intelligence-agent',
       metrics: '📅 May 2026',
       caseStudy: {
-        problem: 'Idea validation usually means a week of scattered research with no consistent output.',
-        approach: 'Each analysis step is its own LLM call with a strict output schema, so results are comparable across ideas and safe to store.',
-        results: 'A repeatable validation report plus a landing page you can actually put in front of people.',
+        problem: 'Validating an idea usually means a week of scattered tabs and an answer you cannot compare to anything.',
+        approach: 'Each analysis stage is its own LLM call with a strict schema, so results are storable, comparable across ideas, and cheap to re-run.',
+        results: 'A repeatable validation report plus a landing page to test demand for real.',
       },
     },
     {
       title: 'AI Resume Customizer',
-      subtitle: 'Job application tool',
+      subtitle: 'It wrote the resume that got me hired',
       emoji: '📄',
       featured: false,
-      description: `Parses a resume and a job description, then tailors the resume to match in one click — without fabricating skills. Includes ATS optimisation, application tracking, and PDF/DOCX export.`,
+      description: `Parses a resume and a job description, then rewrites emphasis and phrasing to match — and never invents a skill. Includes ATS checks, application tracking, and PDF/DOCX export. I built it because I was tired of the process, then it landed me the job.`,
       technologies: ['React', 'Node.js', 'MySQL', 'LLM APIs'],
       features: [
-        'One-click tailoring with no invented experience',
+        'One-click tailoring with zero fabricated experience',
         'ATS optimisation checks',
         'Application tracking and PDF/DOCX export',
       ],
       githubUrl: 'https://github.com/sidddharthhahir/ai-resume-customizer',
       metrics: '📅 Sep 2025',
       caseStudy: {
-        problem: 'Rewriting a resume for every application is slow, and most AI tools solve it by making things up.',
-        approach: 'Parse both documents, match real experience to job requirements, and rewrite only phrasing and emphasis — never claims.',
-        results: 'Faster applications with a resume that still tells the truth.',
+        problem: 'Tailoring a resume per application is slow, and most AI tools "solve" it by lying on your behalf.',
+        approach: 'Match real experience against the job requirements and rewrite only wording and ordering — claims stay untouched.',
+        results: 'Faster applications, and a resume that still holds up in the interview.',
       },
     },
   ],
@@ -261,30 +268,30 @@ I'm deepening that curiosity with an MSc in Data Science in Berlin, because I wa
     story: [
       {
         year: 'Now — 2026',
-        title: 'Doing the real work',
-        content: 'Production AI engineering rather than demos: tracing requests across services, controlling cost, building retrieval that holds up outside a notebook.',
+        title: 'Production, not prototypes',
+        content: 'Tracing requests across services, keeping AI spend honest, and building retrieval that survives contact with real users instead of a curated notebook demo.',
         icon: '🔧',
       },
       {
         year: '2027',
-        title: 'Getting good at the hard parts',
-        content: 'Evaluation frameworks that measure what matters, RAG that does not fall apart on edge cases, and multi-agent systems that stay coherent when one agent fails.',
+        title: 'Getting good at the unglamorous parts',
+        content: 'Evaluation that measures something a user would care about, RAG that holds on the ugly edge cases, and agent systems that degrade gracefully when one link fails.',
         icon: '🧠',
       },
       {
         year: '2028',
-        title: 'Taking ownership',
-        content: 'Becoming the person a team turns to when deciding how to build its AI layer — a technical lead who makes architecture decisions and can explain them clearly.',
+        title: 'Owning the AI layer',
+        content: 'Being the engineer a team pulls into the room when the question is "how should we actually build this" — and being able to defend the answer in plain language.',
         icon: '🏗️',
       },
       {
         year: '2029 — 2030',
-        title: 'Building something that lasts',
-        content: 'Every project I have built started as something I needed myself. Eventually I want to take what I have learned in production and build something people depend on.',
+        title: 'Building something people depend on',
+        content: 'Every project here began as a problem I had. Eventually I want to take what production taught me and build the one that outlives my own need for it.',
         icon: '🚀',
       },
     ],
-    closing: 'The direction matters more than the exact path: reliable, observable AI systems that are genuinely useful.',
+    closing: 'The direction matters more than the exact path: AI systems that are observable, honest about cost, and genuinely useful.',
   },
 
   sections: [
