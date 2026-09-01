@@ -30,7 +30,7 @@ export const AboutSection = () => {
               ))}
             </ul>
           </div>
-          <p className="text-blue-400/70 text-sm italic">{personal.tagline}</p>
+          
         </div>
         <Card className="glass-hover glow-box h-fit">
           <CardContent className="p-6 space-y-3">
