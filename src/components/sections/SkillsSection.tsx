@@ -62,7 +62,7 @@ export const SkillsSection = () => {
                   >
                     <button
                       onClick={() => handleSkillClick(skill.linkedProject)}
-                      title={skill.linkedProject ? `Used in: ${skill.linkedProject}` : skill.description}
+                      aria-label={`${skill.name} — ${skill.description}`}
                       className={`group relative px-4 py-2 rounded-full border text-left transition-all duration-200 ${
                         skill.linkedProject
                           ? `${c.tag} ${c.border} cursor-pointer hover:scale-105 active:scale-95`
@@ -73,9 +73,6 @@ export const SkillsSection = () => {
                       {skill.linkedProject && (
                         <span className={`ml-1 text-[10px] opacity-0 group-hover:opacity-50 transition-opacity ${c.label}`}>→</span>
                       )}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-black/90 border border-white/10 text-xs text-muted-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
-                        {skill.linkedProject ? `→ ${skill.linkedProject}` : skill.description}
-                      </div>
                     </button>
                   </motion.div>
                 ))}
