@@ -32,7 +32,7 @@ Alongside an MSc in Data Science in Berlin, I keep building my own projects — 
   social: {
     github: 'https://github.com/sidddharthhahir',
     githubHandle: 'github.com/sidddharthhahir',
-    linkedin: 'https://linkedin.com/in/siddharth-ahir-798754262',
+    linkedin: 'https://www.linkedin.com/in/siddharth-ahir-798754262/',
     linkedinHandle: 'linkedin.com/in/siddharth-ahir',
   },
 
