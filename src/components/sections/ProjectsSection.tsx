@@ -39,21 +39,19 @@ export const ProjectsSection = () => {
                     <span aria-hidden="true">{project.emoji}</span> {project.subtitle}
                   </Badge>
                   {project.githubUrl && (
-                    <ExternalLink aria-hidden="true" size={15} className="text-muted-foreground opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" />
-                  )}
-                </div>
-                <CardTitle className={`${project.featured ? 'text-2xl' : 'text-lg'}`}>
-                  {project.githubUrl ? (
                     <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`${project.title} — open GitHub repository in a new tab`}
-                      className="hover:text-cyan-400 focus-visible:text-cyan-400 focus-visible:outline-none focus-visible:underline transition-colors"
+                      aria-label={`Open the ${project.title} GitHub repository in a new tab`}
+                      className="p-1.5 -m-1.5 rounded-md text-muted-foreground hover:text-cyan-400 focus-visible:text-cyan-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/50 transition-colors"
                     >
-                      {project.title}
+                      <ExternalLink aria-hidden="true" size={15} />
                     </a>
-                  ) : project.title}
+                  )}
+                </div>
+                <CardTitle className={`${project.featured ? 'text-2xl' : 'text-lg'}`}>
+                  {project.title}
                   {project.featured && <span className="ml-3 text-xs font-normal text-cyan-400/60 font-mono">★ thesis</span>}
                 </CardTitle>
                 <CardDescription className="text-sm whitespace-pre-line">{project.description}</CardDescription>
