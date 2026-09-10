@@ -37,7 +37,17 @@ export const SkillsSection = () => {
   return (
     <StreetSection id="skills" label="Skills">
       <SkillGraph onSkillClick={handleSkillClick} />
-      <div className="space-y-8">
+      <p className="hidden lg:block text-[11px] text-muted-foreground/45 font-mono -mt-2 mb-6">
+        Hover a node for details, click a colored one to jump to the project that used it.
+      </p>
+      {/*
+        The graph above is the visual summary on large screens. This list is
+        the same 23 skills again, so showing both at once just reads as
+        duplication — it's visually hidden (not removed) from lg+ and stays
+        in the DOM and tab order for keyboard users and screen readers,
+        and is the only version mobile visitors see at all.
+      */}
+      <div className="space-y-8 lg:sr-only">
         {skills.map((category, i) => {
           const c = COLOR_MAP[category.color] ?? COLOR_MAP.blue;
           return (

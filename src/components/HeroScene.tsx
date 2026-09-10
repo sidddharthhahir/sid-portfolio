@@ -6,6 +6,10 @@ const NODE_COUNT = 90;
 const CONNECT_DIST = 1.05;
 const RADIUS = 2.3;
 const COLOR = '#6fe0ff';
+// Same category palette as the Skills graph, weighted toward the brand cyan
+// so it reads as "mostly cyan, with colorful accents" rather than a flat
+// wireframe or a chaotic rainbow — alive, still cohesive.
+const PALETTE = [COLOR, COLOR, COLOR, '#f87171', '#34d399', '#fbbf24', '#c084fc', '#60a5fa'];
 
 /**
  * A sparse cloud of glowing nodes, connected to their near neighbours —
@@ -16,7 +20,7 @@ function Constellation() {
   const groupRef = useRef<THREE.Group>(null);
   const pointer = useRef({ x: 0, y: 0 });
 
-  const { nodePositions, linePositions } = useMemo(() => {
+  const { nodePositions, nodeColors, linePositions } = useMemo(() => {
     const pts: THREE.Vector3[] = [];
     for (let i = 0; i < NODE_COUNT; i++) {
       // sample roughly uniformly inside a sphere
@@ -35,6 +39,13 @@ function Constellation() {
     const nodePositions = new Float32Array(pts.length * 3);
     pts.forEach((p, i) => p.toArray(nodePositions, i * 3));
 
+    const nodeColors = new Float32Array(pts.length * 3);
+    const c = new THREE.Color();
+    for (let i = 0; i < pts.length; i++) {
+      c.set(PALETTE[Math.floor(Math.random() * PALETTE.length)]);
+      c.toArray(nodeColors, i * 3);
+    }
+
     const lines: number[] = [];
     for (let i = 0; i < pts.length; i++) {
       for (let j = i + 1; j < pts.length; j++) {
@@ -44,7 +55,7 @@ function Constellation() {
       }
     }
 
-    return { nodePositions, linePositions: new Float32Array(lines) };
+    return { nodePositions, nodeColors, linePositions: new Float32Array(lines) };
   }, []);
 
   useEffect(() => {
@@ -85,13 +96,19 @@ function Constellation() {
             array={nodePositions}
             itemSize={3}
           />
+          <bufferAttribute
+            attach="attributes-color"
+            count={nodeColors.length / 3}
+            array={nodeColors}
+            itemSize={3}
+          />
         </bufferGeometry>
         <pointsMaterial
-          color={COLOR}
-          size={0.055}
+          vertexColors
+          size={0.06}
           sizeAttenuation
           transparent
-          opacity={0.9}
+          opacity={0.95}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />

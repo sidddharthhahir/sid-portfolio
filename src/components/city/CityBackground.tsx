@@ -10,8 +10,9 @@ export const CityBackground = () => {
   return (
     <div aria-hidden="true" className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
       <div className="absolute inset-0 bg-gradient-to-b from-[#070b14] via-[#080d18] to-[#060a12]" />
-      <motion.div style={{ y: glowA }} className="absolute -top-24 left-1/4 w-[32rem] h-[32rem] rounded-full bg-blue-500/[0.06] blur-3xl" />
-      <motion.div style={{ y: glowB }} className="absolute bottom-0 right-1/5 w-96 h-96 rounded-full bg-cyan-500/[0.05] blur-3xl" />
+      <motion.div style={{ y: glowA }} className="absolute -top-24 left-1/4 w-[32rem] h-[32rem] rounded-full bg-blue-500/[0.10] blur-3xl" />
+      <motion.div style={{ y: glowB }} className="absolute bottom-0 right-1/5 w-96 h-96 rounded-full bg-cyan-500/[0.09] blur-3xl" />
+      <motion.div style={{ y: glowA }} className="absolute top-[60%] right-1/4 w-[28rem] h-[28rem] rounded-full bg-purple-500/[0.05] blur-3xl" />
     </div>
   );
 };

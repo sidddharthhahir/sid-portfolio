@@ -32,14 +32,14 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
   const { skills } = PORTFOLIO;
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const layout = useMemo(() => {
+  const { layout: categories, viewBox } = useMemo(() => {
     const categories = skills.map((cat, i) => {
       const angle = -90 + i * (360 / skills.length);
       const rad = (angle * Math.PI) / 180;
       const cx = CX + CATEGORY_RADIUS * Math.cos(rad);
       const cy = CY + CATEGORY_RADIUS * Math.sin(rad);
 
-      const spread = Math.min(120, cat.items.length * 22);
+      const spread = Math.min(150, cat.items.length * 24);
       const nodes = cat.items.map((skill, j) => {
         const t = cat.items.length === 1 ? 0.5 : j / (cat.items.length - 1);
         const nodeAngle = angle - spread / 2 + t * spread;
@@ -51,14 +51,33 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
 
       return { ...cat, cx, cy, nodes, color: COLOR_HEX[cat.color] ?? COLOR_HEX.blue };
     });
-    return categories;
+
+    // Fixed W/H×constants above were a guess — some fan angles (a 6-item
+    // category pointed straight up, for instance) pushed nodes past that
+    // fixed box and off-canvas entirely. Compute the real bounding box of
+    // every point instead, so nothing can ever clip regardless of how many
+    // skills end up in a category or which direction it points.
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    const bound = (x: number, y: number) => {
+      minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+      minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+    };
+    bound(CX, CY);
+    categories.forEach(cat => {
+      bound(cat.cx, cat.cy);
+      cat.nodes.forEach(n => bound(n.x, n.y));
+    });
+    const PAD = 75; // clears the widest label text plus its offset from the node
+    const viewBox = `${minX - PAD} ${minY - PAD} ${maxX - minX + PAD * 2} ${maxY - minY + PAD * 2}`;
+
+    return { layout: categories, viewBox };
   }, [skills]);
 
   return (
     <div className="hidden lg:block w-full mb-6">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-hidden="true">
+      <svg viewBox={viewBox} className="w-full h-auto" role="img" aria-hidden="true">
         {/* hub -> category lines */}
-        {layout.map((cat, i) => (
+        {categories.map((cat, i) => (
           <line
             key={`hub-${i}`}
             x1={CX} y1={CY} x2={cat.cx} y2={cat.cy}
@@ -66,7 +85,7 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
           />
         ))}
         {/* category -> skill lines */}
-        {layout.map(cat =>
+        {categories.map(cat =>
           cat.nodes.map((n, j) => (
             <line
               key={`${cat.category}-line-${j}`}
@@ -87,14 +106,14 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
         </text>
 
         {/* category anchors */}
-        {layout.map((cat, i) => (
+        {categories.map((cat, i) => (
           <g key={`cat-${i}`}>
             <circle cx={cat.cx} cy={cat.cy} r={3.5} fill={cat.color} fillOpacity={0.8} />
           </g>
         ))}
 
         {/* skill nodes */}
-        {layout.map(cat =>
+        {categories.map(cat =>
           cat.nodes.map((n, j) => {
             const isHovered = hovered === n.name;
             const clickable = !!n.linkedProject;
@@ -116,13 +135,13 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
                 />
                 <text
                   x={n.x}
-                  y={n.y + (n.y > CY ? 16 : -10)}
+                  y={n.y + (n.y > CY ? 16 + (j % 2) * 13 : -10 - (j % 2) * 13)}
                   textAnchor="middle"
                   style={{
                     fontSize: 10,
                     fontFamily: 'monospace',
                     fill: isHovered ? n.color : 'hsl(var(--muted-foreground))',
-                    opacity: isHovered ? 1 : 0.55,
+                    opacity: isHovered ? 1 : 0.7,
                     transition: 'opacity 150ms, fill 150ms',
                   }}
                 >
