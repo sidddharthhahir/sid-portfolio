@@ -52,7 +52,7 @@ export const HeroSection = () => {
               decoding="async"
               onError={() => setImgFailed(true)}
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center 15%' }}
+              style={{ objectPosition: 'center 25%' }}
             />
           )}
         </motion.div>
