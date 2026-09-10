@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { PORTFOLIO } from '@/config/portfolio';
 import TypewriterText from '@/components/TypewriterText';
+import { Magnetic } from '@/components/Magnetic';
 
 // three.js + fiber + drei are ~300kB gzipped — load them only after the
 // critical hero content (name, bio, links) has already painted.
@@ -89,28 +90,34 @@ export const HeroSection = () => {
           transition={{ duration: 0.5, delay: 0.45, ease: EASE }}
           className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm"
         >
-          <a
-            href={`mailto:${personal.email}`}
-            className="px-4 py-2 rounded-full border border-blue-400/30 text-blue-400 hover:bg-blue-500/10 transition-colors"
-          >
-            Email
-          </a>
-          <a
-            href={social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
-          >
-            GitHub
-          </a>
-          <a
-            href={social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
-          >
-            LinkedIn
-          </a>
+          <Magnetic>
+            <a
+              href={`mailto:${personal.email}`}
+              className="inline-block px-4 py-2 rounded-full border border-blue-400/30 text-blue-400 hover:bg-blue-500/10 transition-colors"
+            >
+              Email
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a
+              href={social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-4 py-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+            >
+              GitHub
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a
+              href={social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-4 py-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+            >
+              LinkedIn
+            </a>
+          </Magnetic>
         </motion.div>
 
         <motion.div

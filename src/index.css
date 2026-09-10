@@ -80,6 +80,14 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Lenis (see SmoothScroll.tsx) owns smooth scrolling now; native smooth
+     scrolling left on here fights it and causes visible stutter. */
+  scroll-behavior: auto;
   scrollbar-gutter: stable;
+}
+
+/* Custom cursor is active (see CustomCursor.tsx): hide the native one everywhere. */
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
 }

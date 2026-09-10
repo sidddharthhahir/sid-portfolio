@@ -4,6 +4,7 @@ import { StreetSection } from '@/components/city/StreetSection';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { TiltCard } from '@/components/TiltCard';
 import { ExternalLink, FlaskConical } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -26,6 +27,7 @@ export const ProjectsSection = () => {
             transition={{ duration: 0.75, ease: SNAP, delay: project.featured ? 0 : 0.1 + (i - 1) * 0.08 }}
             className={project.featured ? 'md:col-span-2' : ''}
           >
+            <TiltCard className="h-full">
             <Card
               className={`glass-hover group transition-all duration-500 h-full ${
                 project.featured
@@ -108,6 +110,7 @@ export const ProjectsSection = () => {
                 </AnimatePresence>
               </CardContent>
             </Card>
+            </TiltCard>
           </motion.div>
         ))}
       </div>
