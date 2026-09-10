@@ -157,7 +157,7 @@ Alongside an MSc in Data Science in Berlin, I keep building my own projects — 
       emoji: '🎬',
       featured: true,
       description: `A recommender that has to justify itself. Every suggestion arrives with a plain-language reason, written by a locally hosted LLM from the same evidence that drove the ranking — no external API, no data leaving the machine.`,
-      technologies: ['Python', 'LightFM', 'TF-IDF', 'Ollama', 'Streamlit'],
+      technologies: ['Python', 'Django', 'LightFM', 'SHAP', 'LIME', 'Ollama'],
       features: [
         'Hybrid collaborative + content ranking',
         'Explanations grounded in the ranking evidence',
