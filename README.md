@@ -71,4 +71,4 @@ Contributions are welcome. Please open an issue or submit a pull request with a 
 
 ## License / Contact
 
-This repository does not currently include a formal license file. For usage or collaboration inquiries, please contact the repository owner.
+Licensed under [MIT](LICENSE). For usage or collaboration inquiries, please contact the repository owner.
