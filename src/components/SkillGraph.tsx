@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { PORTFOLIO } from '@/config/portfolio';
 
+const SPIN_DUR = '22s'; // one full turn — slow and deliberate, not a spinner
+
 const COLOR_HEX: Record<string, string> = {
   red: '#f87171',
   emerald: '#34d399',
@@ -17,8 +19,8 @@ const CATEGORY_RADIUS = 175;
 const SKILL_RADIUS = 135;
 const FONT_SIZE = 9.5;
 const CHAR_WIDTH = FONT_SIZE * 0.82; // deliberately generous — better to over-space than let two labels touch
-const TIER_HEIGHT = 13;
-const LABEL_GAP = 12; // minimum breathing room required between two labels' estimated edges
+const TIER_HEIGHT = 19;
+const LABEL_GAP = 26; // minimum breathing room required between two labels' estimated edges
 
 interface Props {
   onSkillClick: (linkedProject: string | null) => void;
@@ -35,6 +37,7 @@ interface Props {
 export const SkillGraph = ({ onSkillClick }: Props) => {
   const { skills } = PORTFOLIO;
   const [hovered, setHovered] = useState<string | null>(null);
+  const [spinning, setSpinning] = useState(false);
 
   const { layout: categories, viewBox } = useMemo(() => {
     const categories = skills.map((cat, i) => {
@@ -51,25 +54,41 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
         const x = cx + SKILL_RADIUS * Math.cos(nodeRad);
         const y = cy + SKILL_RADIUS * Math.sin(nodeRad);
         const labelWidth = skill.name.length * CHAR_WIDTH;
-        return { ...skill, x, y, labelWidth, color: COLOR_HEX[cat.color] ?? COLOR_HEX.blue };
+        return { ...skill, x, y, labelWidth, tier: 0, color: COLOR_HEX[cat.color] ?? COLOR_HEX.blue };
       });
 
-      // Greedy interval-scheduling pass: sort left-to-right, and only bump
-      // a label to the next vertical tier when its estimated span would
-      // actually collide with the label immediately before it at that
-      // tier — guarantees no overlap regardless of category size or how
-      // tightly a fan of nodes ends up packed.
-      const byX = [...nodes].sort((a, b) => a.x - b.x);
-      const tierEnds: number[] = []; // right edge of the last label placed on each tier
-      byX.forEach(n => {
-        const half = n.labelWidth / 2;
-        let tier = tierEnds.findIndex(end => n.x - half > end + LABEL_GAP);
-        if (tier === -1) tier = tierEnds.length;
-        tierEnds[tier] = n.x + half;
-        (n as typeof n & { tier: number }).tier = tier;
-      });
+      return { ...cat, cx, cy, nodes, color: COLOR_HEX[cat.color] ?? COLOR_HEX.blue };
+    });
 
-      return { ...cat, cx, cy, nodes: nodes as (typeof nodes[number] & { tier: number })[], color: COLOR_HEX[cat.color] ?? COLOR_HEX.blue };
+    // Real rectangle-overlap placement over EVERY node across ALL categories
+    // at once. An earlier version compared nodes by tier *number*, assuming
+    // "same tier = same row" — false once nodes come from different
+    // categories: each category's nodes sit on their own arc with their own
+    // baseline y, so tier 0 from one category can land at a completely
+    // different absolute height than tier 0 from another (that's exactly
+    // how "Tailwind CSS" and "LLM Integration" — different categories —
+    // ended up nearly touching despite "different tiers"). This checks the
+    // actual rendered box of every label against every already-placed one,
+    // so it can't be fooled by that coincidence.
+    const labelBox = (n: (typeof categories)[number]['nodes'][number], tier: number) => {
+      const half = n.labelWidth / 2;
+      const labelY = n.y > CY ? n.y + 16 + tier * TIER_HEIGHT : n.y - 10 - tier * TIER_HEIGHT;
+      return { x1: n.x - half, x2: n.x + half, y1: labelY - FONT_SIZE, y2: labelY + 4 };
+    };
+    const boxesOverlap = (a: ReturnType<typeof labelBox>, b: ReturnType<typeof labelBox>) =>
+      a.x1 < b.x2 + LABEL_GAP && a.x2 + LABEL_GAP > b.x1 && a.y1 < b.y2 && a.y2 > b.y1;
+
+    const allNodes = categories.flatMap(cat => cat.nodes).sort((a, b) => a.x - b.x);
+    const placed: ReturnType<typeof labelBox>[] = [];
+    allNodes.forEach(n => {
+      let tier = 0;
+      let box = labelBox(n, tier);
+      while (placed.some(p => boxesOverlap(box, p)) && tier < 12) {
+        tier += 1;
+        box = labelBox(n, tier);
+      }
+      n.tier = tier;
+      placed.push(box);
     });
 
     // Fixed W/H×constants above were a guess — some fan angles (a 6-item
@@ -102,6 +121,17 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
   return (
     <div className="hidden lg:block w-full mb-6">
       <svg viewBox={viewBox} className="w-full h-auto" role="img" aria-hidden="true">
+      <g>
+        {spinning && (
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from={`0 ${CX} ${CY}`}
+            to={`360 ${CX} ${CY}`}
+            dur={SPIN_DUR}
+            repeatCount="indefinite"
+          />
+        )}
         {/* hub -> category lines */}
         {categories.map((cat, i) => (
           <line
@@ -169,22 +199,44 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
 
         {/* hub node — a heartbeat, not a static dot: two expanding rings
             plus a subtle breathing core, framing this as a live system
-            rather than a diagram of one. */}
-        <circle cx={CX} cy={CY} r={5} fill="none" stroke="#6fe0ff" strokeWidth={1.5} opacity={0.7}>
-          <animate attributeName="r" values="5;42" dur="2.6s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.7;0" dur="2.6s" repeatCount="indefinite" />
-        </circle>
-        <circle cx={CX} cy={CY} r={5} fill="none" stroke="#6fe0ff" strokeWidth={1.5} opacity={0.7}>
-          <animate attributeName="r" values="5;42" dur="2.6s" begin="1.3s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.7;0" dur="2.6s" begin="1.3s" repeatCount="indefinite" />
-        </circle>
-        <circle cx={CX} cy={CY} r={5} fill="#6fe0ff">
-          <animate attributeName="r" values="5;6.5;5" dur="1.8s" repeatCount="indefinite" />
-        </circle>
-        <circle cx={CX} cy={CY} r={11} fill="none" stroke="#6fe0ff" strokeOpacity={0.35} strokeWidth={1} />
-        <text x={CX} y={CY - 18} textAnchor="middle" className="fill-cyan-300" style={{ fontSize: 10, fontFamily: 'monospace', letterSpacing: '0.1em', opacity: 0.7 }}>
-          AI ENGINEER
-        </text>
+            rather than a diagram of one. Click it and the whole graph
+            spins slowly around it, like a chakra — labels counter-rotate
+            so they stay upright and readable while they orbit. */}
+        <g
+          onClick={() => setSpinning(s => !s)}
+          style={{ cursor: 'pointer' }}
+        >
+          <title>{spinning ? 'Click to stop spinning' : 'Click to spin the graph'}</title>
+          {/* generous invisible hit area — the visible hub is small */}
+          <circle cx={CX} cy={CY} r={26} fill="transparent" />
+          <circle cx={CX} cy={CY} r={5} fill="none" stroke="#6fe0ff" strokeWidth={1.5} opacity={0.7}>
+            <animate attributeName="r" values="5;42" dur="2.6s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;0" dur="2.6s" repeatCount="indefinite" />
+          </circle>
+          <circle cx={CX} cy={CY} r={5} fill="none" stroke="#6fe0ff" strokeWidth={1.5} opacity={0.7}>
+            <animate attributeName="r" values="5;42" dur="2.6s" begin="1.3s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;0" dur="2.6s" begin="1.3s" repeatCount="indefinite" />
+          </circle>
+          <circle cx={CX} cy={CY} r={5} fill="#6fe0ff">
+            <animate attributeName="r" values="5;6.5;5" dur="1.8s" repeatCount="indefinite" />
+          </circle>
+          <circle cx={CX} cy={CY} r={11} fill="none" stroke="#6fe0ff" strokeOpacity={0.35} strokeWidth={1} />
+          <g>
+            {spinning && (
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from={`0 ${CX} ${CY}`}
+                to={`-360 ${CX} ${CY}`}
+                dur={SPIN_DUR}
+                repeatCount="indefinite"
+              />
+            )}
+            <text x={CX} y={CY - 18} textAnchor="middle" className="fill-cyan-300" style={{ fontSize: 10, fontFamily: 'monospace', letterSpacing: '0.1em', opacity: 0.7 }}>
+              AI ENGINEER
+            </text>
+          </g>
+        </g>
 
         {/* category anchors */}
         {categories.map((cat, i) => (
@@ -221,7 +273,17 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
                   // this is the safety net that keeps any label legible even where
                   // two chips end up close, instead of raw text bleeding together.
                   return (
-                    <>
+                    <g>
+                      {spinning && (
+                        <animateTransform
+                          attributeName="transform"
+                          type="rotate"
+                          from={`0 ${n.x} ${labelY}`}
+                          to={`-360 ${n.x} ${labelY}`}
+                          dur={SPIN_DUR}
+                          repeatCount="indefinite"
+                        />
+                      )}
                       <rect
                         x={n.x - n.labelWidth / 2 - 4}
                         y={labelY - FONT_SIZE}
@@ -246,13 +308,14 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
                       >
                         {n.name}
                       </text>
-                    </>
+                    </g>
                   );
                 })()}
               </g>
             );
           })
         )}
+      </g>
       </svg>
     </div>
   );

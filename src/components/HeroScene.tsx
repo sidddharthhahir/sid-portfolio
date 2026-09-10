@@ -2,9 +2,9 @@ import { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const NODE_COUNT = 90;
-const CONNECT_DIST = 1.05;
-const RADIUS = 2.3;
+const NODE_COUNT = 170;
+const CONNECT_DIST = 1.55;
+const RADIUS = 3.5;
 const COLOR = '#6fe0ff';
 // Same category palette as the Skills graph, weighted toward the brand cyan
 // so it reads as "mostly cyan, with colorful accents" rather than a flat
@@ -127,7 +127,7 @@ export const HeroScene = () => {
       style={{ pointerEvents: 'none' }}
     >
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
+        camera={{ position: [0, 0, 6.5], fov: 50 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
       >
