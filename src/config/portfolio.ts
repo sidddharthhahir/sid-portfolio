@@ -11,8 +11,7 @@ export const PORTFOLIO = {
     title: 'AI Engineer',
     location: 'Berlin, Germany',
     email: 'sidahir25820@gmail.com',
-    phone: '+49 17657938787',
-    photo: '/__l5e/assets-v1/ad4f1d2a-f86a-4d84-869c-0da320ed0313/siddharth-photo.png',
+    photo: '/siddharth-photo.png',
 
     bio: `I build LLM systems end to end — the model calls, and the infrastructure that has to hold them up. For six months at Firmway that meant finding cost and performance problems in a production AI system before users or invoices found them.
 

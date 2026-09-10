@@ -61,6 +61,7 @@ This project presents a professional portfolio experience with animated sections
 src/
   components/    Reusable UI and feature components
   pages/         Route-level pages (main portfolio page)
+  config/        All portfolio content (bio, experience, projects, skills) in one file
   lib/           Shared utilities
 ```
 
