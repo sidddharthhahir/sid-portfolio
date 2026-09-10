@@ -79,6 +79,18 @@
   }
 }
 
+/* SkillGraph chakra spin: CSS transform, not SVG SMIL — GPU-accelerated
+   and genuinely smooth, unlike animateTransform once ~50 other small
+   animations are already running on the same graph. */
+@keyframes chakra-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes chakra-counter-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
 html {
   /* Lenis (see SmoothScroll.tsx) owns smooth scrolling now; native smooth
      scrolling left on here fights it and causes visible stutter. */

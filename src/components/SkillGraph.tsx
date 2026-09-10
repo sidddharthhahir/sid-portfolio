@@ -15,8 +15,8 @@ const W = 780;
 const H = 460;
 const CX = W / 2;
 const CY = H / 2;
-const CATEGORY_RADIUS = 175;
-const SKILL_RADIUS = 135;
+const CATEGORY_RADIUS = 155;
+const SKILL_RADIUS = 118;
 const FONT_SIZE = 9.5;
 const CHAR_WIDTH = FONT_SIZE * 0.82; // deliberately generous — better to over-space than let two labels touch
 const TIER_HEIGHT = 19;
@@ -91,29 +91,31 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
       placed.push(box);
     });
 
-    // Fixed W/H×constants above were a guess — some fan angles (a 6-item
-    // category pointed straight up, for instance) pushed nodes past that
-    // fixed box and off-canvas entirely. Compute the real bounding box from
-    // every label's actual extent (position + tier offset + text width)
-    // instead, so nothing can ever clip regardless of category size, fan
-    // direction, or how many tiers a crowded category needed.
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    const bound = (x: number, y: number) => {
-      minX = Math.min(minX, x); maxX = Math.max(maxX, x);
-      minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+    // The graph spins around (CX, CY) — every point sweeps a full circle at
+    // its own distance from the hub, so a viewBox fitted to the *static*
+    // layout clips corners once spinning starts (a point that was safely
+    // inside the box at its resting angle swings through angles the box
+    // was never sized for). Instead, find the single furthest extent any
+    // label corner reaches from the hub, and use that as a radius — a
+    // square viewBox of that radius contains the layout at every rotation.
+    let maxReach = 0;
+    const consider = (x: number, y: number) => {
+      maxReach = Math.max(maxReach, Math.hypot(x - CX, y - CY));
     };
-    bound(CX, CY - 18); // "AI ENGINEER" hub label
+    consider(CX, CY - 18 - FONT_SIZE); // "AI ENGINEER" hub label
     categories.forEach(cat => {
-      bound(cat.cx, cat.cy);
+      consider(cat.cx, cat.cy);
       cat.nodes.forEach(n => {
         const half = n.labelWidth / 2;
         const labelY = n.y > CY ? n.y + 16 + n.tier * TIER_HEIGHT : n.y - 10 - n.tier * TIER_HEIGHT;
-        bound(n.x - half, labelY);
-        bound(n.x + half, labelY);
+        // check both label corners — whichever is actually furthest from the hub
+        consider(n.x - half, labelY);
+        consider(n.x + half, labelY);
       });
     });
     const PAD = 14;
-    const viewBox = `${minX - PAD} ${minY - PAD} ${maxX - minX + PAD * 2} ${maxY - minY + PAD * 2}`;
+    const r = maxReach + PAD;
+    const viewBox = `${CX - r} ${CY - r} ${r * 2} ${r * 2}`;
 
     return { layout: categories, viewBox };
   }, [skills]);
@@ -121,17 +123,12 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
   return (
     <div className="hidden lg:block w-full mb-6">
       <svg viewBox={viewBox} className="w-full h-auto" role="img" aria-hidden="true">
-      <g>
-        {spinning && (
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from={`0 ${CX} ${CY}`}
-            to={`360 ${CX} ${CY}`}
-            dur={SPIN_DUR}
-            repeatCount="indefinite"
-          />
-        )}
+      <g
+        style={{
+          transformOrigin: `${CX}px ${CY}px`,
+          animation: spinning ? `chakra-spin ${SPIN_DUR} linear infinite` : 'none',
+        }}
+      >
         {/* hub -> category lines */}
         {categories.map((cat, i) => (
           <line
@@ -221,17 +218,12 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
             <animate attributeName="r" values="5;6.5;5" dur="1.8s" repeatCount="indefinite" />
           </circle>
           <circle cx={CX} cy={CY} r={11} fill="none" stroke="#6fe0ff" strokeOpacity={0.35} strokeWidth={1} />
-          <g>
-            {spinning && (
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from={`0 ${CX} ${CY}`}
-                to={`-360 ${CX} ${CY}`}
-                dur={SPIN_DUR}
-                repeatCount="indefinite"
-              />
-            )}
+          <g
+            style={{
+              transformOrigin: `${CX}px ${CY}px`,
+              animation: spinning ? `chakra-counter-spin ${SPIN_DUR} linear infinite` : 'none',
+            }}
+          >
             <text x={CX} y={CY - 18} textAnchor="middle" className="fill-cyan-300" style={{ fontSize: 10, fontFamily: 'monospace', letterSpacing: '0.1em', opacity: 0.7 }}>
               AI ENGINEER
             </text>
@@ -273,17 +265,12 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
                   // this is the safety net that keeps any label legible even where
                   // two chips end up close, instead of raw text bleeding together.
                   return (
-                    <g>
-                      {spinning && (
-                        <animateTransform
-                          attributeName="transform"
-                          type="rotate"
-                          from={`0 ${n.x} ${labelY}`}
-                          to={`-360 ${n.x} ${labelY}`}
-                          dur={SPIN_DUR}
-                          repeatCount="indefinite"
-                        />
-                      )}
+                    <g
+                      style={{
+                        transformOrigin: `${n.x}px ${labelY}px`,
+                        animation: spinning ? `chakra-counter-spin ${SPIN_DUR} linear infinite` : 'none',
+                      }}
+                    >
                       <rect
                         x={n.x - n.labelWidth / 2 - 4}
                         y={labelY - FONT_SIZE}
