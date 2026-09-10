@@ -1,19 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { PORTFOLIO } from '@/config/portfolio';
 import TypewriterText from '@/components/TypewriterText';
+
+// three.js + fiber + drei are ~300kB gzipped — load them only after the
+// critical hero content (name, bio, links) has already painted.
+const HeroScene = lazy(() => import('@/components/HeroScene').then(m => ({ default: m.HeroScene })));
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export const HeroSection = () => {
   const { personal, typewriterPhrases, social } = PORTFOLIO;
   const [imgFailed, setImgFailed] = useState(false);
+  // Only fetch the three.js chunk for viewers who'll actually see it move —
+  // skip the download entirely on reduced-motion or small screens.
+  const [want3D, setWant3D] = useState(false);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setWant3D(!reduceMotion && window.innerWidth >= 640);
+  }, []);
 
   const initials = personal.name.split(' ').map(n => n[0]).join('');
 
   return (
-    <section id="hero" className="relative min-h-[88vh] flex items-center justify-center py-24 px-6">
-      <div className="text-center max-w-2xl mx-auto">
+    <section id="hero" className="relative min-h-[88vh] flex items-center justify-center py-24 px-6 overflow-hidden">
+      {want3D && (
+        <Suspense fallback={null}>
+          <HeroScene />
+        </Suspense>
+      )}
+      <div className="relative text-center max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
