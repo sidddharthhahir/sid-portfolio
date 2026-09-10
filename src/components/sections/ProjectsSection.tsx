@@ -40,17 +40,23 @@ export const ProjectsSection = () => {
                   <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 text-xs">
                     <span aria-hidden="true">{project.emoji}</span> {project.subtitle}
                   </Badge>
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Open the ${project.title} GitHub repository in a new tab`}
-                      className="p-1.5 -m-1.5 rounded-md text-muted-foreground hover:text-cyan-400 focus-visible:text-cyan-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/50 transition-colors"
-                    >
-                      <ExternalLink aria-hidden="true" size={15} />
-                    </a>
-                  )}
+                  <div className="flex items-center gap-3">
+                    <span className="hidden sm:flex items-center gap-1.5 text-[9px] font-mono text-emerald-400/70 uppercase tracking-wider">
+                      <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      shipped
+                    </span>
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open the ${project.title} GitHub repository in a new tab`}
+                        className="p-1.5 -m-1.5 rounded-md text-muted-foreground hover:text-cyan-400 focus-visible:text-cyan-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/50 transition-colors"
+                      >
+                        <ExternalLink aria-hidden="true" size={15} />
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <CardTitle className={`${project.featured ? 'text-2xl' : 'text-lg'}`}>
                   {project.title}

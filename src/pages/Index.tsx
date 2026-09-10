@@ -1,8 +1,8 @@
 import { useScroll, useSpring, useReducedMotion, motion } from 'framer-motion';
 import { CityBackground } from '@/components/city/CityBackground';
-import { CityProgressBar } from '@/components/city/CityProgressBar';
 import { CommandPalette } from '@/components/city/CommandPalette';
-import { CustomCursor } from '@/components/CustomCursor';
+import { TraceRail } from '@/components/console/TraceRail';
+import { StatusBar } from '@/components/console/StatusBar';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { ExperienceSection } from '@/components/sections/ExperienceSection';
@@ -36,8 +36,8 @@ const Index = () => {
 
       <CityBackground />
       <CommandPalette />
-      <CityProgressBar />
-      <CustomCursor />
+      <StatusBar />
+      <TraceRail />
 
       <main id="main" className="relative z-10">
         <HeroSection />
