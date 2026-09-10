@@ -32,6 +32,9 @@ export const ExperienceSection = () => {
                     {job.date}
                   </Badge>
                 </div>
+                <p className="text-[9px] font-mono text-muted-foreground/30 uppercase tracking-wider mb-5 -mt-4">
+                  span: {job.company.toLowerCase().replace(/[^a-z0-9]+/g, '-')} · status: closed
+                </p>
                 <div className="space-y-4 mb-6">
                   {job.story.map((paragraph, j) => (
                     <motion.p key={j}

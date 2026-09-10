@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { PORTFOLIO } from '@/config/portfolio';
 import { StreetSection } from '@/components/city/StreetSection';
+import { SkillGraph } from '@/components/SkillGraph';
 import { motion } from 'framer-motion';
 
 const COLOR_MAP: Record<string, { dot: string; tag: string; border: string; label: string }> = {
@@ -35,6 +36,7 @@ export const SkillsSection = () => {
 
   return (
     <StreetSection id="skills" label="Skills">
+      <SkillGraph onSkillClick={handleSkillClick} />
       <div className="space-y-8">
         {skills.map((category, i) => {
           const c = COLOR_MAP[category.color] ?? COLOR_MAP.blue;

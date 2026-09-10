@@ -48,7 +48,9 @@ export const GoalsSection = () => {
                 </motion.div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[10px] font-mono text-cyan-400/60 uppercase tracking-wider">{chapter.year}</span>
+                    <span className="text-[10px] font-mono text-cyan-400/70 uppercase tracking-wider px-2 py-0.5 rounded border border-cyan-400/20 bg-cyan-500/5">
+                      {chapter.year}
+                    </span>
                     <span className="h-px flex-1 bg-cyan-400/8" />
                   </div>
                   <h4 className="text-sm font-bold text-foreground mb-2">{chapter.title}</h4>

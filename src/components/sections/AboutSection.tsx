@@ -32,9 +32,14 @@ export const AboutSection = () => {
           </div>
           
         </div>
-        <Card className="glass-hover glow-box h-fit">
+        <Card className="glass-hover glow-box h-fit overflow-hidden p-0">
+          <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5 bg-white/[0.02]">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
+            <span className="ml-3 text-[10px] font-mono text-muted-foreground/50">~/quick-info</span>
+          </div>
           <CardContent className="p-6 space-y-3">
-            <h4 className="text-[10px] uppercase tracking-[0.25em] text-blue-400 font-mono mb-4">Quick Info</h4>
             {quickLinks.map((item, i) => (
               item.href ? (
                 <a key={i} href={item.href}

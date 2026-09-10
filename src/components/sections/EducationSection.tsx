@@ -21,7 +21,13 @@ export const EducationSection = () => {
           <CardContent className="space-y-4">
             {education.map((edu, i) => (
               <div key={i} className="p-4 rounded-xl bg-muted/30 border border-amber-500/10 hover:border-amber-500/20 transition-all">
-                <h4 className="font-semibold text-foreground text-sm">{edu.degree}</h4>
+                <div className="flex items-start justify-between gap-3">
+                  <h4 className="font-semibold text-foreground text-sm">{edu.degree}</h4>
+                  <span className="flex-shrink-0 flex items-center gap-1.5 text-[9px] font-mono text-emerald-400/70 uppercase tracking-wider mt-0.5">
+                    <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    verified
+                  </span>
+                </div>
                 <p className="text-muted-foreground text-sm">{edu.school}</p>
                 <p className="text-muted-foreground text-xs">{edu.location}</p>
                 <p className="text-xs text-amber-400 font-medium mt-1">{edu.date}</p>
