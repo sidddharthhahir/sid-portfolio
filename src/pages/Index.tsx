@@ -3,6 +3,7 @@ import { CityBackground } from '@/components/city/CityBackground';
 import { CommandPalette } from '@/components/city/CommandPalette';
 import { TraceRail } from '@/components/console/TraceRail';
 import { StatusBar } from '@/components/console/StatusBar';
+import { Footer } from '@/components/console/Footer';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { ExperienceSection } from '@/components/sections/ExperienceSection';
@@ -47,7 +48,7 @@ const Index = () => {
         <ProjectsSection />
         <GoalsSection />
         <EducationSection />
-        <footer className="relative py-14 px-6 border-t border-white/5" aria-hidden="true" />
+        <Footer />
       </main>
     </div>
   );

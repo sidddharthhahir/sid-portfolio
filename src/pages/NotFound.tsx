@@ -12,12 +12,21 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
+    <div className="min-h-screen flex items-center justify-center bg-[#070b14] px-6">
+      <div className="text-center max-w-md">
+        <p className="font-mono text-xs text-cyan-400/60 uppercase tracking-[0.3em] mb-4">404 · span not found</p>
+        <h1 className="text-5xl font-black text-foreground mb-4">Dead link</h1>
+        <p className="font-mono text-sm text-muted-foreground/60 mb-2 break-all">
+          <span className="text-muted-foreground/30">GET</span> {location.pathname}
+        </p>
+        <p className="text-sm text-muted-foreground mb-8">
+          This route traces to nowhere. Every real one is on the home page.
+        </p>
+        <a
+          href="/"
+          className="inline-block px-5 py-2.5 rounded-full border border-cyan-400/30 text-cyan-400 hover:bg-cyan-500/10 transition-colors font-mono text-sm"
+        >
+          ← back to siddharth-ahir
         </a>
       </div>
     </div>

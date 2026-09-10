@@ -47,7 +47,7 @@ export const CommandPalette = () => {
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-label="Navigate the city"
+            aria-label="Jump to a section"
             initial={{ opacity: 0, y: -20, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10 }}
@@ -56,12 +56,12 @@ export const CommandPalette = () => {
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
-              <span aria-hidden="true" className="text-muted-foreground text-sm">🏙️</span>
+              <span aria-hidden="true" className="text-cyan-400/70 text-sm font-mono">$</span>
               <input
                 ref={inputRef}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="Navigate the city..."
+                placeholder="jump-to --section..."
                 aria-label="Search sections"
                 className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground font-mono"
               />
@@ -69,7 +69,7 @@ export const CommandPalette = () => {
             </div>
             <div className="py-2 max-h-64 overflow-y-auto" role="listbox">
               {filtered.length === 0 ? (
-                <p className="text-center text-muted-foreground text-sm py-6">No buildings found</p>
+                <p className="text-center text-muted-foreground text-sm py-6 font-mono">no matching spans</p>
               ) : filtered.map(({ id, label }) => (
                 <button
                   key={id}
