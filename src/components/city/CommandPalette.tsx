@@ -18,7 +18,16 @@ export const CommandPalette = () => {
       if (e.key === 'Escape') setOpen(false);
     };
     window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+
+    // Also openable via a plain click (StatusBar's ⌘K hint) for anyone
+    // without — or who doesn't know — the keyboard shortcut.
+    const toggle = () => { setOpen(prev => !prev); setQuery(''); };
+    window.addEventListener('toggle-command-palette', toggle);
+
+    return () => {
+      window.removeEventListener('keydown', handler);
+      window.removeEventListener('toggle-command-palette', toggle);
+    };
   }, []);
 
   useEffect(() => {
