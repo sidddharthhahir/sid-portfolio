@@ -124,7 +124,15 @@ export const HeroScene = () => {
     <div
       aria-hidden="true"
       className="absolute inset-0 -z-10 opacity-80"
-      style={{ pointerEvents: 'none' }}
+      style={{
+        pointerEvents: 'none',
+        // The point cloud has a hard edge (it's a finite sphere) that was
+        // reaching the canvas boundary and getting abruptly clipped at the
+        // top — this fades it out before it gets there instead, so it
+        // reads as the network trailing off, not a rectangle cutting it.
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+      }}
     >
       <Canvas
         camera={{ position: [0, 0, 6.5], fov: 50 }}

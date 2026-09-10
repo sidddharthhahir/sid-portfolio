@@ -36,18 +36,18 @@ export const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="relative w-28 h-28 mx-auto mb-8 rounded-full border border-border bg-muted overflow-hidden"
+          className="relative w-40 h-40 mx-auto mb-8 rounded-full border border-border bg-muted overflow-hidden"
         >
           {imgFailed ? (
-            <span className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+            <span className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-muted-foreground">
               {initials}
             </span>
           ) : (
             <img
               src={personal.photo}
               alt={`Portrait of ${personal.name}`}
-              width={112}
-              height={112}
+              width={160}
+              height={160}
               loading="eager"
               decoding="async"
               onError={() => setImgFailed(true)}

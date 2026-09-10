@@ -126,7 +126,12 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
       <g
         style={{
           transformOrigin: `${CX}px ${CY}px`,
-          animation: spinning ? `chakra-spin ${SPIN_DUR} linear infinite` : 'none',
+          // Always running, just paused at rest — switching animation on/off
+          // resets the transform instantly (a visible snap back to 0deg).
+          // Pausing freezes it at whatever angle it's already at, so stopping
+          // looks like settling in place, not cutting the motion off.
+          animation: `chakra-spin ${SPIN_DUR} linear infinite`,
+          animationPlayState: spinning ? 'running' : 'paused',
         }}
       >
         {/* hub -> category lines */}
@@ -221,7 +226,8 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
           <g
             style={{
               transformOrigin: `${CX}px ${CY}px`,
-              animation: spinning ? `chakra-counter-spin ${SPIN_DUR} linear infinite` : 'none',
+              animation: `chakra-counter-spin ${SPIN_DUR} linear infinite`,
+              animationPlayState: spinning ? 'running' : 'paused',
             }}
           >
             <text x={CX} y={CY - 18} textAnchor="middle" className="fill-cyan-300" style={{ fontSize: 10, fontFamily: 'monospace', letterSpacing: '0.1em', opacity: 0.7 }}>
@@ -268,7 +274,8 @@ export const SkillGraph = ({ onSkillClick }: Props) => {
                     <g
                       style={{
                         transformOrigin: `${n.x}px ${labelY}px`,
-                        animation: spinning ? `chakra-counter-spin ${SPIN_DUR} linear infinite` : 'none',
+                        animation: `chakra-counter-spin ${SPIN_DUR} linear infinite`,
+                        animationPlayState: spinning ? 'running' : 'paused',
                       }}
                     >
                       <rect
