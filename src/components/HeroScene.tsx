@@ -1,18 +1,51 @@
-import { useRef, useEffect, Suspense } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { MeshDistortMaterial, Float } from '@react-three/drei';
-import type { Mesh } from 'three';
+import { useRef, useMemo, useEffect } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
+
+const NODE_COUNT = 90;
+const CONNECT_DIST = 1.05;
+const RADIUS = 2.3;
+const COLOR = '#6fe0ff';
 
 /**
- * Slowly rotating distorted icosahedron, reacting to cursor position.
- * Runs only when the viewer hasn't asked for reduced motion, and is
- * purely decorative — pointer-events are disabled so it never blocks
- * clicks on the hero content in front of it.
+ * A sparse cloud of glowing nodes, connected to their near neighbours —
+ * reads as a small neural net / knowledge graph rather than a generic
+ * 3D primitive. Slowly rotates and drifts toward the cursor.
  */
-function Blob() {
-  const meshRef = useRef<Mesh>(null);
-  const { viewport } = useThree();
+function Constellation() {
+  const groupRef = useRef<THREE.Group>(null);
   const pointer = useRef({ x: 0, y: 0 });
+
+  const { nodePositions, linePositions } = useMemo(() => {
+    const pts: THREE.Vector3[] = [];
+    for (let i = 0; i < NODE_COUNT; i++) {
+      // sample roughly uniformly inside a sphere
+      const r = RADIUS * Math.cbrt(Math.random());
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      pts.push(
+        new THREE.Vector3(
+          r * Math.sin(phi) * Math.cos(theta),
+          r * Math.sin(phi) * Math.sin(theta),
+          r * Math.cos(phi)
+        )
+      );
+    }
+
+    const nodePositions = new Float32Array(pts.length * 3);
+    pts.forEach((p, i) => p.toArray(nodePositions, i * 3));
+
+    const lines: number[] = [];
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        if (pts[i].distanceTo(pts[j]) < CONNECT_DIST) {
+          lines.push(pts[i].x, pts[i].y, pts[i].z, pts[j].x, pts[j].y, pts[j].z);
+        }
+      }
+    }
+
+    return { nodePositions, linePositions: new Float32Array(lines) };
+  }, []);
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -24,33 +57,46 @@ function Blob() {
   }, []);
 
   useFrame((_, delta) => {
-    if (!meshRef.current) return;
-    meshRef.current.rotation.x += delta * 0.08;
-    meshRef.current.rotation.y += delta * 0.12;
-    // gently ease toward the pointer position rather than snapping to it
-    meshRef.current.rotation.x += (pointer.current.y * 0.3 - meshRef.current.rotation.x * 0.02) * delta;
-    meshRef.current.rotation.y += (pointer.current.x * 0.3 - meshRef.current.rotation.y * 0.02) * delta;
+    const g = groupRef.current;
+    if (!g) return;
+    g.rotation.y += delta * 0.05;
+    g.rotation.x += (pointer.current.y * 0.22 - g.rotation.x) * 1.2 * delta;
+    g.rotation.y += pointer.current.x * 0.08 * delta;
   });
 
-  const scale = Math.min(viewport.width, viewport.height) * 0.16;
-
   return (
-    <Float speed={1.4} rotationIntensity={0.3} floatIntensity={0.6}>
-      <mesh ref={meshRef} scale={scale}>
-        <icosahedronGeometry args={[1, 4]} />
-        <MeshDistortMaterial
-          color="#6fe0ff"
-          attach="material"
-          distort={0.35}
-          speed={1.5}
-          roughness={0.25}
-          metalness={0.4}
+    <group ref={groupRef}>
+      <lineSegments>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={linePositions.length / 3}
+            array={linePositions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial color={COLOR} transparent opacity={0.15} />
+      </lineSegments>
+      <points>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={nodePositions.length / 3}
+            array={nodePositions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          color={COLOR}
+          size={0.055}
+          sizeAttenuation
           transparent
-          opacity={0.5}
-          wireframe
+          opacity={0.9}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
-      </mesh>
-    </Float>
+      </points>
+    </group>
   );
 }
 
@@ -60,19 +106,15 @@ export const HeroScene = () => {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 -z-10 opacity-70"
+      className="absolute inset-0 -z-10 opacity-80"
       style={{ pointerEvents: 'none' }}
     >
       <Canvas
-        camera={{ position: [0, 0, 4], fov: 45 }}
+        camera={{ position: [0, 0, 5], fov: 45 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.6} />
-        <pointLight position={[3, 3, 3]} intensity={0.8} color="#6fe0ff" />
-        <Suspense fallback={null}>
-          <Blob />
-        </Suspense>
+        <Constellation />
       </Canvas>
     </div>
   );
