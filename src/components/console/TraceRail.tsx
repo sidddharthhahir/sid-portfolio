@@ -56,9 +56,9 @@ export const TraceRail = () => {
   return (
     <nav
       aria-label="Section navigation"
-      className="fixed right-5 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-2.5 w-36"
+      className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden xl:flex flex-col gap-2 w-32 rounded-xl border border-white/8 bg-[#070b14]/80 backdrop-blur-md px-3.5 py-4 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]"
     >
-      <span className="text-[9px] font-mono text-muted-foreground/35 uppercase tracking-[0.25em] pl-0.5 mb-0.5">
+      <span className="text-[9px] font-mono text-muted-foreground/35 uppercase tracking-[0.25em] mb-1">
         trace
       </span>
       {spans.map(({ id, label, progress, active }) => (
@@ -68,7 +68,7 @@ export const TraceRail = () => {
           onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })}
           aria-label={`Jump to ${label}`}
           aria-current={active ? 'true' : undefined}
-          className="group text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 rounded-sm"
+          className="group text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 rounded-sm py-0.5"
         >
           <div
             className={`text-[9px] font-mono mb-1 truncate transition-colors duration-200 ${
@@ -77,9 +77,9 @@ export const TraceRail = () => {
           >
             {label}
           </div>
-          <div className="h-[3px] w-full rounded-full bg-white/5 overflow-hidden">
+          <div className="h-[2px] w-full rounded-full bg-white/8 overflow-hidden">
             <div
-              className={`h-full rounded-full ${active ? 'bg-cyan-400' : 'bg-white/25'}`}
+              className={`h-full rounded-full ${active ? 'bg-cyan-400' : 'bg-white/20'}`}
               style={{ width: `${Math.round(progress * 100)}%`, transition: 'width 120ms linear, background-color 200ms' }}
             />
           </div>
