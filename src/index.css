@@ -91,6 +91,16 @@
   to { transform: rotate(-360deg); }
 }
 
+/* Goals timeline: a packet travelling down the roadmap line — same
+   "requests flowing through a live system" language as the hero
+   constellation and the SkillGraph's branch pulses, not a new device. */
+@keyframes trace-pulse-y {
+  0%   { top: 0%;   opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
 html {
   /* Lenis (see SmoothScroll.tsx) owns smooth scrolling now; native smooth
      scrolling left on here fights it and causes visible stutter. */

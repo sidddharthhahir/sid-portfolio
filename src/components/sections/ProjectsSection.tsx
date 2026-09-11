@@ -81,7 +81,7 @@ export const ProjectsSection = () => {
                   <span className="text-xs text-muted-foreground">{project.metrics}</span>
                   <Button variant="ghost" size="sm"
                     onClick={e => { e.stopPropagation(); setExpanded(expanded === i ? null : i); }}
-                    className="text-cyan-400 hover:text-blue-400 text-xs gap-1.5">
+                    className="text-cyan-400 hover:text-cyan-300 text-xs gap-1.5">
                     <FlaskConical size={13} />{expanded === i ? 'Hide' : 'Case Study'}
                   </Button>
                 </div>

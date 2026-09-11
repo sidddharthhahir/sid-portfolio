@@ -26,8 +26,14 @@ export const GoalsSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: SNAP, delay: 0.3 }}
             style={{ transformOrigin: 'top' }}
-            className="absolute left-5 top-4 bottom-4 w-px bg-gradient-to-b from-cyan-400/40 via-cyan-400/15 to-transparent hidden sm:block"
-          />
+            className="absolute left-5 top-4 bottom-4 w-px bg-gradient-to-b from-cyan-400/40 via-cyan-400/15 to-transparent hidden sm:block overflow-hidden"
+          >
+            <span
+              aria-hidden="true"
+              className="absolute left-1/2 w-1.5 h-1.5 -translate-x-1/2 rounded-full bg-cyan-300 shadow-[0_0_6px_2px_rgba(111,224,255,0.6)]"
+              style={{ animation: 'trace-pulse-y 4.5s ease-in-out infinite' }}
+            />
+          </motion.div>
           <div className="space-y-10">
             {goals.story.map((chapter, i) => (
               <motion.div key={i}

@@ -24,7 +24,14 @@ export const AboutSection = () => {
             <ul className="space-y-2">
               {howIWork.map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                  <span className="w-1.5 h-1.5 bg-blue-400/60 rounded-full mt-2 flex-shrink-0" />
+                  <span className="relative mt-2 flex-shrink-0 w-1.5 h-1.5">
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-full bg-cyan-400/70 animate-ping"
+                      style={{ animationDelay: `${i * 0.3}s`, animationDuration: '2.6s' }}
+                    />
+                    <span className="absolute inset-0 rounded-full bg-cyan-400/70" />
+                  </span>
                   {item}
                 </li>
               ))}
@@ -45,11 +52,11 @@ export const AboutSection = () => {
                 <a key={i} href={item.href}
                   target={item.href.startsWith('mailto') ? '_self' : '_blank'}
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border hover:border-blue-400/30 hover:bg-blue-500/5 transition-all group"
+                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border hover:border-cyan-400/30 hover:bg-cyan-500/5 transition-all group"
                 >
                   <span className="w-6 flex-shrink-0 text-sm">{item.label}</span>
-                  <span className="text-sm text-muted-foreground group-hover:text-blue-400 transition-colors truncate">{item.value}</span>
-                  <span className="ml-auto text-muted-foreground/30 group-hover:text-blue-400/50 text-xs">↗</span>
+                  <span className="text-sm text-muted-foreground group-hover:text-cyan-400 transition-colors truncate">{item.value}</span>
+                  <span className="ml-auto text-muted-foreground/30 group-hover:text-cyan-400/50 text-xs">↗</span>
                 </a>
               ) : (
                 <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border">
