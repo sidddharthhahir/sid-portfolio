@@ -43,17 +43,20 @@ export const HeroSection = () => {
               {initials}
             </span>
           ) : (
-            <img
-              src={personal.photo}
-              alt={`Portrait of ${personal.name}`}
-              width={160}
-              height={160}
-              loading="eager"
-              decoding="async"
-              onError={() => setImgFailed(true)}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center 25%' }}
-            />
+            <picture>
+              <source srcSet={personal.photo.replace(/\.png$/, '.webp')} type="image/webp" />
+              <img
+                src={personal.photo}
+                alt={`Portrait of ${personal.name}`}
+                width={160}
+                height={160}
+                loading="eager"
+                decoding="async"
+                onError={() => setImgFailed(true)}
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ objectPosition: 'center 25%' }}
+              />
+            </picture>
           )}
         </motion.div>
 

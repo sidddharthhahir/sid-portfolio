@@ -30,11 +30,11 @@ export const StatusBar = () => {
         <button
           type="button"
           onClick={() => window.dispatchEvent(new CustomEvent('toggle-command-palette'))}
-          aria-label="Open command palette to jump to a section"
+          aria-label="⌘K to navigate — opens the command palette to jump to a section"
           className="flex items-center gap-1.5 text-muted-foreground/50 hover:text-cyan-400 transition-colors focus-visible:outline-none focus-visible:text-cyan-400"
         >
           <kbd className="px-1.5 py-0.5 rounded border border-white/10 bg-white/5">⌘K</kbd>
-          <span className="hidden md:inline">to navigate</span>
+          <span className="hidden md:inline">{' '}to navigate</span>
         </button>
         <span aria-hidden="true">session {fmt(uptime)}</span>
       </span>

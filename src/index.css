@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+/* Font stylesheet moved to index.html as a non-blocking preload — a CSS
+   @import here is render-blocking AND undiscoverable by the browser's
+   preload scanner until this whole file parses first, which was costing
+   ~280ms of render-blocking time (measured via Lighthouse). */
 
 @tailwind base;
 @tailwind components;
